@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Глоссарий - CyberThreat Explorer</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/map.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CyberThreat<span>Explorer</span></h1>
+                <small>для начинающих</small>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
+                    <li><a href="glossary.html" class="active"><i class="fas fa-book"></i> Глоссарий</a></li>
+                    <li><a href="learn.html"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-book"></i> Глоссарий терминов</h1>
+            <p>Нажмите на термин для подробностей</p>
+        </div>
+        
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-th-large"></i> Все
+            </button>
+            <button class="category-btn" data-category="Атаки">
+                <i class="fas fa-bolt"></i> Атаки
+            </button>
+            <button class="category-btn" data-category="Защита">
+                <i class="fas fa-shield-alt"></i> Защита
+            </button>
+        </div>
+        
+        <div class="glossary-stats">
+            <div class="stat-card-animated">
+                <i class="fas fa-book"></i>
+                <span class="stat-number" data-count="total-terms">0</span>
+                <span class="stat-label">Всего терминов</span>
+            </div>
+            <div class="stat-card-animated">
+                <i class="fas fa-bolt" style="color: #ef4444;"></i>
+                <span class="stat-number" data-count="attack-terms">0</span>
+                <span class="stat-label">Атаки</span>
+            </div>
+            <div class="stat-card-animated">
+                <i class="fas fa-shield-alt" style="color: #10b981;"></i>
+                <span class="stat-number" data-count="protection-terms">0</span>
+                <span class="stat-label">Защита</span>
+            </div>
+        </div>
+        
+        <div class="glossary-grid"></div>
+    </main>
+
+    <div id="term-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon" id="modal-term-icon"><i class="fas fa-question-circle"></i></div>
+                <div class="modal-title-wrap">
+                    <h3 id="modal-term-title">Термин</h3>
+                    <span class="modal-category" id="modal-term-category">Категория</span>
+                </div>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-short-definition">
+                    <p id="modal-term-definition">Определение</p>
+                </div>
+                <div class="modal-example" id="modal-term-example">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Пример</span>
+                </div>
+                <div class="modal-article">
+                    <h4>Подробнее</h4>
+                    <div id="modal-full-article" class="article-content"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
+                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-book"></i> Ресурсы</h4>
+                    <p>Глоссарий терминов и обучающие уроки для начинающих</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-code"></i> Технологии</h4>
+                    <p>D3.js • JavaScript • HTML5 • CSS3</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 CyberThreat Explorer | Образовательный проект</p>
+                <p class="disclaimer">
+                    <i class="fas fa-graduation-cap"></i>
+                    Создано для обучения и практики веб-разработки
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/glossary.js"></script>
+    <script>
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const nav = document.querySelector('.main-nav');
+            nav.classList.toggle('active');
+        });
+        
+        // Надежное закрытие модального окна глоссария
+        const termModal = document.getElementById('term-modal');
+        const closeBtns = termModal.querySelectorAll('.modal-close');
+        
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                termModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Закрытие по клику вне окна
+        termModal.addEventListener('click', function(e) {
+            if (e.target === termModal) {
+                termModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Закрытие по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && termModal.classList.contains('active')) {
+                termModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>
+
