@@ -1,0 +1,59 @@
+<parameter name="content"><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта Кибератак - Fullscreen</title>
+    <link rel="stylesheet" href="assets/css/fullscreen-map.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Полноэкранный контейнер карты -->
+    <div class="map-fullscreen" id="map-container">
+        <!-- Контейнер карты -->
+        <div id="world-map"></div>
+        
+        <!-- Статистика -->
+        <div class="stats-overlay">
+            <h3>🛡️ Киберугрозы</h3>
+            <div class="stat-item">
+                <span class="stat-label">Всего атак:</span>
+                <span class="stat-value" id="total-attacks">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Активные:</span>
+                <span class="stat-value" id="active-attacks">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Топ источник:</span>
+                <span class="stat-value" id="top-country">--</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Тип атак:</span>
+                <span class="stat-value" id="top-type">--</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Обновлено:</span>
+                <span class="stat-value" id="update-time">--:--:--</span>
+            </div>
+        
+        <!-- Кнопки управления -->
+        <div class="map-controls">
+            <button id="zoom-in" title="Приблизить">+</button>
+            <button id="zoom-out" title="Отдалить">−</button>
+            <button id="reset-view" title="Сбросить вид">🏠</button>
+        </div>
+        
+        <!-- Кнопка закрытия -->
+        <button class="close-btn" onclick="window.close()">×</button>
+    </div>
+    
+    <!-- Подключение библиотек -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="assets/js/dataHandler.js"></script>
+    <script src="assets/js/mapRenderer.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+</parameter>

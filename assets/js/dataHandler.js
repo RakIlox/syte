@@ -213,8 +213,6 @@ class DataHandler {
                 active: Math.random() > 0.3 // 70% атак активны
             });
         }
-        
-        console.log('Сгенерировано атак:', this.attacks.length);
     }
 
     // Добавление новой атаки
@@ -360,7 +358,7 @@ class DataHandler {
                     detail: this.attacks[this.attacks.length - 1]
                 }));
             }
-        }, 15000); // Новая атака каждые 15 секунды
+        }, 20000); // Новая атака каждые 20 секунд
     }
 
     // Пауза/возобновление анимации

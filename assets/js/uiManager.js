@@ -7,17 +7,15 @@ class UIManager {
             severity: 'all',
             targetSector: 'all'
         };
-        
-        this.init();
     }
 
+    // Инициализация UI - вызывается после создания всех компонентов
     init() {
         this.bindEvents();
         this.updateStats();
         this.setupMobileMenu();
     }
 
-    // Привязка событий
     bindEvents() {
         // Кнопки фильтров (только если элементы существуют)
         const applyFiltersBtn = document.getElementById('apply-filters');
@@ -31,16 +29,35 @@ class UIManager {
             resetFiltersBtn.addEventListener('click', () => this.resetFilters());
         }
         
-        // Кнопки управления картой
-        document.getElementById('zoom-in').addEventListener('click', () => mapRenderer?.zoomIn());
-        document.getElementById('zoom-out').addEventListener('click', () => mapRenderer?.zoomOut());
-        document.getElementById('reset-view').addEventListener('click', () => mapRenderer?.resetView());
-        document.getElementById('play-pause').addEventListener('click', (e) => this.toggleAnimation(e));
+        // Кнопки управления картой (проверяем существование)
+        const zoomIn = document.getElementById('zoom-in');
+        const zoomOut = document.getElementById('zoom-out');
+        const resetView = document.getElementById('reset-view');
+        const playPause = document.getElementById('play-pause');
+        
+        if (zoomIn) {
+            zoomIn.addEventListener('click', () => window.mapRenderer?.zoomIn());
+        }
+        
+        if (zoomOut) {
+            zoomOut.addEventListener('click', () => window.mapRenderer?.zoomOut());
+        }
+        
+        if (resetView) {
+            resetView.addEventListener('click', () => window.mapRenderer?.resetView());
+        }
+        
+        if (playPause) {
+            playPause.addEventListener('click', (e) => this.toggleAnimation(e));
+        }
         
         // Модальное окно
-        document.querySelectorAll('.modal-close').forEach(btn => {
-            btn.addEventListener('click', () => this.closeModal());
-        });
+        const modalCloseBtns = document.querySelectorAll('.modal-close');
+        if (modalCloseBtns.length > 0) {
+            modalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', () => this.closeModal());
+            });
+        }
         
         const learnMoreBtn = document.getElementById('learn-more-btn');
         if (learnMoreBtn) {
@@ -95,19 +112,21 @@ class UIManager {
         }
     }
 
-     // Применение фильтров
+    // Применение фильтров
     applyFilters() {
-        this.currentFilters = {
-            attackType: document.getElementById('attack-type').value,
-            severity: document.getElementById('severity').value,
-            targetSector: document.getElementById('target-sector').value
-        };
+        const attackTypeEl = document.getElementById('attack-type');
+        const severityEl = document.getElementById('severity');
+        const targetSectorEl = document.getElementById('target-sector');
+        
+        if (attackTypeEl) this.currentFilters.attackType = attackTypeEl.value;
+        if (severityEl) this.currentFilters.severity = severityEl.value;
+        if (targetSectorEl) this.currentFilters.targetSector = targetSectorEl.value;
         
         const filteredAttacks = dataHandler.filterAttacks(this.currentFilters);
         
-        // Обновляем карту (добавлена проверка)
-        if (mapRenderer && mapRenderer.drawAttacks) {
-            mapRenderer.drawAttacks(filteredAttacks);
+        // Обновляем карту
+        if (window.mapRenderer && window.mapRenderer.drawAttacks) {
+            window.mapRenderer.drawAttacks(filteredAttacks);
         }
         
         // Обновляем статистику
@@ -117,11 +136,15 @@ class UIManager {
         this.showNotification(`Применены фильтры: ${filteredAttacks.length} атак`);
     }
 
-     // Сброс фильтров
+    // Сброс фильтров
     resetFilters() {
-        document.getElementById('attack-type').value = 'all';
-        document.getElementById('severity').value = 'all';
-        document.getElementById('target-sector').value = 'all';
+        const attackTypeEl = document.getElementById('attack-type');
+        const severityEl = document.getElementById('severity');
+        const targetSectorEl = document.getElementById('target-sector');
+        
+        if (attackTypeEl) attackTypeEl.value = 'all';
+        if (severityEl) severityEl.value = 'all';
+        if (targetSectorEl) targetSectorEl.value = 'all';
         
         this.currentFilters = {
             attackType: 'all',
@@ -130,9 +153,9 @@ class UIManager {
         };
         
         // Показываем все активные атаки
-        if (mapRenderer) {
+        if (window.mapRenderer) {
             const activeAttacks = dataHandler.filterAttacks(this.currentFilters);
-            mapRenderer.drawAttacks(activeAttacks);
+            window.mapRenderer.drawAttacks(activeAttacks);
         }
         
         this.updateStats();
@@ -141,12 +164,12 @@ class UIManager {
 
     // Обработка новой атаки
     handleNewAttack(attack) {
-        // Добавляем на карту (используем filterAttacks для проверки)
-        if (mapRenderer) {
+        // Добавляем на карту
+        if (window.mapRenderer) {
             const isVisible = dataHandler.filterAttacks(this.currentFilters)
                 .some(a => a.id === attack.id);
             if (isVisible) {
-                mapRenderer.addAttack(attack);
+                window.mapRenderer.addAttack(attack);
             }
         }
         
@@ -159,39 +182,59 @@ class UIManager {
         const details = dataHandler.getAttackDetails(attack);
         
         // Заполняем модальное окно
-        document.getElementById('modal-title').textContent = details.title;
-        document.getElementById('modal-source').textContent = details.source;
-        document.getElementById('modal-target').textContent = details.target;
-        document.getElementById('modal-sector').textContent = details.sector;
-        
+        const modalTitle = document.getElementById('modal-title');
+        const modalSource = document.getElementById('modal-source');
+        const modalTarget = document.getElementById('modal-target');
+        const modalSector = document.getElementById('modal-sector');
         const severityElement = document.getElementById('modal-severity');
-        severityElement.textContent = details.severity;
-        severityElement.className = details.severityClass;
+        const modalExplanation = document.getElementById('modal-explanation');
+        const modalTechnical = document.getElementById('modal-technical');
+        const learnMoreBtn = document.getElementById('learn-more-btn');
+        const attackModal = document.getElementById('attack-modal');
         
-        document.getElementById('modal-explanation').textContent = details.explanation;
-        document.getElementById('modal-technical').textContent = details.technical;
+        if (modalTitle) modalTitle.textContent = details.title;
+        if (modalSource) modalSource.textContent = details.source;
+        if (modalTarget) modalTarget.textContent = details.target;
+        if (modalSector) modalSector.textContent = details.sector;
+        
+        if (severityElement) {
+            severityElement.textContent = details.severity;
+            severityElement.className = details.severityClass;
+        }
+        
+        if (modalExplanation) modalExplanation.textContent = details.explanation;
+        if (modalTechnical) modalTechnical.textContent = details.technical;
         
         // Заполняем список защиты
         const protectionList = document.getElementById('modal-protection');
-        protectionList.innerHTML = '';
-        details.protection.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            protectionList.appendChild(li);
-        });
+        if (protectionList) {
+            protectionList.innerHTML = '';
+            details.protection.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                protectionList.appendChild(li);
+            });
+        }
         
         // Устанавливаем статью для кнопки "Узнать больше"
-        document.getElementById('learn-more-btn').dataset.article = details.article;
+        if (learnMoreBtn) {
+            learnMoreBtn.dataset.article = details.article;
+        }
         
         // Показываем модальное окно
-        document.getElementById('attack-modal').classList.add('active');
-        document.body.style.overflow = 'hidden';
+        if (attackModal) {
+            attackModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     // Закрыть модальное окно
     closeModal() {
-        document.getElementById('attack-modal').classList.remove('active');
-        document.body.style.overflow = '';
+        const attackModal = document.getElementById('attack-modal');
+        if (attackModal) {
+            attackModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 
     // Переключение анимации
@@ -199,12 +242,14 @@ class UIManager {
         const isPlaying = dataHandler.toggleAnimation();
         const icon = e.currentTarget.querySelector('i');
         
-        if (isPlaying) {
-            icon.className = 'fas fa-pause';
-            e.currentTarget.title = 'Пауза';
-        } else {
-            icon.className = 'fas fa-play';
-            e.currentTarget.title = 'Продолжить';
+        if (icon) {
+            if (isPlaying) {
+                icon.className = 'fas fa-pause';
+                e.currentTarget.title = 'Пауза';
+            } else {
+                icon.className = 'fas fa-play';
+                e.currentTarget.title = 'Продолжить';
+            }
         }
     }
 
@@ -213,11 +258,17 @@ class UIManager {
         const stats = dataHandler.getStats();
         const lastUpdate = dataHandler.updateLastUpdateTime();
         
-        document.getElementById('total-attacks').textContent = stats.total;
-        document.getElementById('active-now').textContent = stats.active;
-        document.getElementById('top-country').textContent = stats.topCountry;
-        document.getElementById('top-type').textContent = stats.topType;
-        document.getElementById('last-update').textContent = lastUpdate;
+        const totalEl = document.getElementById('total-attacks');
+        const activeEl = document.getElementById('active-now');
+        const topCountryEl = document.getElementById('top-country');
+        const topTypeEl = document.getElementById('top-type');
+        const timeEl = document.getElementById('last-update');
+        
+        if (totalEl) totalEl.textContent = stats.total;
+        if (activeEl) activeEl.textContent = stats.active;
+        if (topCountryEl) topCountryEl.textContent = stats.topCountry;
+        if (topTypeEl) topTypeEl.textContent = stats.topType;
+        if (timeEl) timeEl.textContent = lastUpdate;
     }
 
     // Показать уведомление
@@ -276,8 +327,5 @@ class UIManager {
             }
         }, 5000);
     }
-
 }
 
-// Создаем глобальный экземпляр
-let uiManager = null;

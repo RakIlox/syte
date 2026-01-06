@@ -212,12 +212,3 @@ class ProgressManager {
 // Создаём глобальный экземпляр
 const progressManager = new ProgressManager();
 
-// Функции для отладки в консоли
-window.debugProgress = {
-    get: () => progressManager.getAllData(),
-    resetChapter: (id) => progressManager.resetChapter(id),
-    resetAll: () => progressManager.resetAll(),
-    export: () => progressManager.export(),
-    import: (str) => progressManager.import(str)
-};
-

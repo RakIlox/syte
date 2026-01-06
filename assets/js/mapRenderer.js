@@ -1,4 +1,4 @@
-// mapRenderer.js - отрисовка карты и атак
+// mapRenderer.js - 2D карта мира с атаками
 
 class MapRenderer {
     constructor(containerId) {
@@ -6,7 +6,6 @@ class MapRenderer {
         this.width = 1200;
         this.height = 600;
         this.scale = 150;
-        this.rotation = [0, 0, 0];
         this.projection = null;
         this.path = null;
         this.svg = null;
@@ -40,39 +39,88 @@ class MapRenderer {
 
     // Инициализация карты
     async init() {
-        // Создаем SVG контейнер
-        this.svg = d3.select(`#${this.containerId}`)
-            .append('svg')
-            .attr('width', '100%')
-            .attr('height', '100%')
-            .attr('viewBox', `0 0 ${this.width} ${this.height}`);
+        const container = document.getElementById(this.containerId);
+        if (!container) {
+            console.error('Контейнер карты не найден:', this.containerId);
+            return;
+        }
         
-        // Основная группа для всей карты
-        this.g = this.svg.append('g');
+        // Принудительно устанавливаем размеры контейнера
+        container.style.width = '100%';
+        container.style.height = '600px';
+        container.style.minHeight = '600px';
+        container.style.display = 'block';
         
-        // Создаем проекцию
-        this.projection = d3.geoMercator()
-            .scale(this.scale)
-            .translate([this.width / 2, this.height / 2]);
+        // Получаем размеры
+        const rect = container.getBoundingClientRect();
+        this.width = Math.max(rect.width, 800);
+        this.height = Math.max(rect.height, 500);
         
-        this.path = d3.geoPath().projection(this.projection);
+        console.log('Размеры карты:', this.width, 'x', this.height);
         
-        // Добавляем зум
-        this.zoom = d3.zoom()
-            .scaleExtent([1, 8])
-            .on('zoom', (event) => {
-                this.g.attr('transform', event.transform);
-            });
+        // Создаём SVG вручную
+        this.createSVG(container);
         
-        this.svg.call(this.zoom);
+        // Создаём проекцию
+        this.setupProjection();
         
-        // Создаем tooltip
+        // Настраиваем зум
+        this.setupZoom();
+        
+        // Создаём tooltip
         this.createTooltip();
         
-        // Загружаем и отрисовываем карту мира
+        // Загружаем карту мира
         await this.loadWorldMap();
+    }
+
+    // Создание SVG элемента
+    createSVG(container) {
+        // Очищаем контейнер
+        container.innerHTML = '';
         
-        console.log('Карта инициализирована');
+        // Создаём SVG
+        this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        this.svg.setAttribute('width', '100%');
+        this.svg.setAttribute('height', '100%');
+        this.svg.setAttribute('viewBox', '0 0 ' + this.width + ' ' + this.height);
+        this.svg.style.display = 'block';
+        
+        // Создаём группу для карты
+        this.g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        this.g.setAttribute('class', 'map-group');
+        
+        // Добавляем в DOM
+        container.appendChild(this.svg);
+        this.svg.appendChild(this.g);
+        
+        console.log('SVG создан');
+    }
+
+    // Настройка проекции
+    setupProjection() {
+        this.projection = d3.geoMercator()
+            .scale(this.scale * (this.width / 1200))
+            .translate([this.width / 2, this.height / 1.6]);
+        
+        this.path = d3.geoPath().projection(this.projection);
+    }
+
+    // Настройка зума
+    setupZoom() {
+        if (!this.svg) return;
+        
+        var self = this;
+        this.zoom = d3.zoom()
+            .scaleExtent([0.8, 8])
+            .on('zoom', function(event) {
+                if (self.g) {
+                    self.g.setAttribute('transform', 
+                        'translate(' + event.transform.x + ',' + event.transform.y + ') scale(' + event.transform.k + ')');
+                }
+            });
+        
+        d3.select(this.svg).call(this.zoom);
     }
 
     // Создание tooltip
@@ -96,42 +144,32 @@ class MapRenderer {
 
     // Показать tooltip
     showTooltip(event, attack) {
-        const sourceName = dataHandler.countryCoordinates[attack.sourceCountry]?.name || attack.sourceCountry;
-        const targetName = dataHandler.countryCoordinates[attack.targetCountry]?.name || attack.targetCountry;
-        const attackTypeName = dataHandler.attackTypeNames[attack.attackType] || attack.attackType;
-        const severityName = dataHandler.severityNames[attack.severity] || attack.severity;
-        const sectorName = dataHandler.sectorNames[attack.sector] || attack.sector;
+        var sourceName = dataHandler.countryCoordinates[attack.sourceCountry] ? dataHandler.countryCoordinates[attack.sourceCountry].name : attack.sourceCountry;
+        var targetName = dataHandler.countryCoordinates[attack.targetCountry] ? dataHandler.countryCoordinates[attack.targetCountry].name : attack.targetCountry;
+        var attackTypeName = dataHandler.attackTypeNames[attack.attackType] || attack.attackType;
+        var severityName = dataHandler.severityNames[attack.severity] || attack.severity;
+        var sectorName = dataHandler.sectorNames[attack.sector] || attack.sector;
         
-        const icon = this.attackIcons[attack.attackType] || '⚠️';
-        const color = this.attackColors[attack.attackType] || '#ef4444';
+        var icon = this.attackIcons[attack.attackType] || '⚠️';
+        var color = this.attackColors[attack.attackType] || '#ef4444';
         
         this.tooltip
             .style('visibility', 'visible')
-            .html(`
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                    <span style="font-size: 24px;">${icon}</span>
-                    <span style="font-weight: 600; font-size: 16px; color: ${color};">${attackTypeName}</span>
-                </div>
-                <div style="margin-bottom: 8px;">
-                    <span style="color: #94a3b8; font-size: 12px;">🔴 Источник:</span><br>
-                    <strong>${sourceName}</strong>
-                </div>
-                <div style="margin-bottom: 8px;">
-                    <span style="color: #94a3b8; font-size: 12px;">🎯 Цель:</span><br>
-                    <strong>${targetName}</strong>
-                </div>
-                <div style="margin-bottom: 8px;">
-                    <span style="color: #94a3b8; font-size: 12px;">🏭 Сектор:</span><br>
-                    <strong>${sectorName}</strong>
-                </div>
-                <div>
-                    <span style="color: #94a3b8; font-size: 12px;">⚠️ Опасность:</span><br>
-                    <span style="background: ${color}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px;">${severityName}</span>
-                </div>
-                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: #94a3b8; text-align: center;">
-                    Кликните для подробностей
-                </div>
-            `)
+            .html(
+                '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">' +
+                '<span style="font-size: 24px;">' + icon + '</span>' +
+                '<span style="font-weight: 600; font-size: 16px; color: ' + color + ';">' + attackTypeName + '</span>' +
+                '</div>' +
+                '<div style="margin-bottom: 8px;">' +
+                '<span style="color: #94a3b8; font-size: 12px;">🔴 Источник:</span><br><strong>' + sourceName + '</strong></div>' +
+                '<div style="margin-bottom: 8px;">' +
+                '<span style="color: #94a3b8; font-size: 12px;">🎯 Цель:</span><br><strong>' + targetName + '</strong></div>' +
+                '<div style="margin-bottom: 8px;">' +
+                '<span style="color: #94a3b8; font-size: 12px;">🏭 Сектор:</span><br><strong>' + sectorName + '</strong></div>' +
+                '<div><span style="color: #94a3b8; font-size: 12px;">⚠️ Опасность:</span><br>' +
+                '<span style="background: ' + color + '; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px;">' + severityName + '</span></div>' +
+                '<div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: #94a3b8; text-align: center;">Кликните для подробностей</div>'
+            )
             .style('left', (event.pageX + 15) + 'px')
             .style('top', (event.pageY - 10) + 'px');
     }
@@ -141,206 +179,210 @@ class MapRenderer {
         this.tooltip.style('visibility', 'hidden');
     }
 
-    // Обновление позиции tooltip
-    moveTooltip(event) {
-        this.tooltip
-            .style('left', (event.pageX + 15) + 'px')
-            .style('top', (event.pageY - 10) + 'px');
-    }
-
-    // Загрузка карты мира
+    // Загрузка карты мира из файла
     async loadWorldMap() {
         try {
-            // Используем упрощенную карту мира
-            const world = await d3.json('https://unpkg.com/world-atlas@2/countries-110m.json');
+            var world = await d3.json('assets/data/world-map.json');
             
-            // Конвертируем TopoJSON в GeoJSON
-            const countries = topojson.feature(world, world.objects.countries);
+            if (!world || !world.objects) {
+                throw new Error('Неверный формат данных карты');
+            }
             
-            // Рисуем страны
-            this.g.selectAll('path.country')
-                .data(countries.features)
-                .enter()
-                .append('path')
-                .attr('class', 'country')
-                .attr('d', this.path)
-                .attr('fill', 'rgba(30, 41, 59, 0.8)')
-                .attr('stroke', 'rgba(255, 255, 255, 0.2)')
-                .attr('stroke-width', 0.5)
-                .on('mouseover', function() {
-                    d3.select(this).attr('fill', 'rgba(59, 130, 246, 0.3)');
-                })
-                .on('mouseout', function() {
-                    d3.select(this).attr('fill', 'rgba(30, 41, 59, 0.8)');
-                });
+            var countries = topojson.feature(world, world.objects.countries);
+            
+            this.drawCountries(countries.features);
+            
+            console.log('Карта мира загружена');
                 
         } catch (error) {
             console.error('Ошибка загрузки карты:', error);
-            // Рисуем простой фон если карта не загрузилась
-            this.g.append('rect')
-                .attr('width', this.width)
-                .attr('height', this.height)
-                .attr('fill', 'rgba(30, 41, 59, 0.8)');
+            this.drawBackground();
         }
+    }
+
+    // Рисование стран
+    drawCountries(countries) {
+        if (!this.g || !this.path) return;
+        
+        var self = this;
+        countries.forEach(function(feature) {
+            var pathData = self.path(feature);
+            if (pathData) {
+                var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', 'rgba(59, 130, 246, 0.3)');
+                path.setAttribute('stroke', 'rgba(255, 255, 255, 0.4)');
+                path.setAttribute('stroke-width', '0.5');
+                path.style.cursor = 'pointer';
+                
+                path.addEventListener('mouseenter', function() {
+                    path.setAttribute('fill', 'rgba(59, 130, 246, 0.5)');
+                    path.setAttribute('stroke', 'rgba(255, 255, 255, 0.6)');
+                });
+                
+                path.addEventListener('mouseleave', function() {
+                    path.setAttribute('fill', 'rgba(59, 130, 246, 0.3)');
+                    path.setAttribute('stroke', 'rgba(255, 255, 255, 0.4)');
+                });
+                
+                self.g.appendChild(path);
+            }
+        });
+    }
+
+    // Рисование фона
+    drawBackground() {
+        if (!this.g) return;
+        
+        var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('width', this.width);
+        rect.setAttribute('height', this.height);
+        rect.setAttribute('fill', 'rgba(15, 23, 42, 0.95)');
+        this.g.insertBefore(rect, this.g.firstChild);
     }
 
     // Отрисовка атаки
     drawAttack(attack) {
-        const source = dataHandler.getCountryCoordinates(attack.sourceCountry);
-        const target = dataHandler.getCountryCoordinates(attack.targetCountry);
+        var source = dataHandler.getCountryCoordinates(attack.sourceCountry);
+        var target = dataHandler.getCountryCoordinates(attack.targetCountry);
         
-        if (!source || !target) return null;
+        if (!source || !target || !this.projection) return null;
         
-        // Конвертируем координаты в пиксели
-        const [x1, y1] = this.projection([source.lon, source.lat]);
-        const [x2, y2] = this.projection([target.lon, target.lat]);
+        var coords1 = this.projection([source.lon, source.lat]);
+        var coords2 = this.projection([target.lon, target.lat]);
         
-        if (!x1 || !y1 || !x2 || !y2) return null;
+        if (coords1[0] === null || coords1[1] === null || coords2[0] === null || coords2[1] === null) return null;
         
-        // Создаем кривую Безье для красивой стрелки
-        const midX = (x1 + x2) / 2;
-        const midY = (y1 + y2) / 2;
+        var x1 = coords1[0], y1 = coords1[1];
+        var x2 = coords2[0], y2 = coords2[1];
+        var color = this.attackColors[attack.attackType] || '#ef4444';
         
-        // Смещение для кривизны
-        const dx = x2 - x1;
-        const dy = y2 - y1;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const offset = Math.min(distance / 4, 50);
+        var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        group.setAttribute('class', 'attack-group');
+        group.style.cursor = 'pointer';
         
-        // Перпендикулярное смещение
-        const perpX = -dy / distance * offset;
-        const perpY = dx / distance * offset;
+        var midX = (x1 + x2) / 2;
+        var midY = (y1 + y2) / 2;
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        var offset = Math.min(distance / 4, 50);
+        var perpX = -dy / distance * offset;
+        var perpY = dx / distance * offset;
         
-        const curveMidX = midX + perpX;
-        const curveMidY = midY + perpY;
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + (midX + perpX) + ',' + (midY + perpY) + ' ' + x2 + ',' + y2);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', color);
+        path.setAttribute('stroke-width', '2');
+        path.setAttribute('stroke-dasharray', '5,3');
+        path.setAttribute('opacity', '0.6');
         
-        // Рисуем кривую линию атаки
-        const line = d3.line()
-            .curve(d3.curveBasis);
+        var sourcePoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        sourcePoint.setAttribute('cx', x1);
+        sourcePoint.setAttribute('cy', y1);
+        sourcePoint.setAttribute('r', '4');
+        sourcePoint.setAttribute('fill', color);
+        sourcePoint.setAttribute('opacity', '0.8');
         
-        const pathData = line([[x1, y1], [curveMidX, curveMidY], [x2, y2]]);
+        var targetPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        targetPoint.setAttribute('cx', x2);
+        targetPoint.setAttribute('cy', y2);
+        targetPoint.setAttribute('r', '6');
+        targetPoint.setAttribute('fill', color);
+        targetPoint.setAttribute('opacity', '0.9');
         
-        // Создаем путь атаки
-        const attackPath = this.g.append('path')
-            .attr('class', 'attack-path')
-            .attr('data-id', attack.id)
-            .attr('d', pathData)
-            .attr('fill', 'none')
-            .attr('stroke', this.attackColors[attack.attackType] || '#ef4444')
-            .attr('stroke-width', 2)
-            .attr('stroke-dasharray', '5,3')
-            .attr('opacity', 0.8)
-            .style('cursor', 'pointer');
+        group.appendChild(path);
+        group.appendChild(sourcePoint);
+        group.appendChild(targetPoint);
         
-        // Добавляем анимацию движения
-        const pathLength = attackPath.node().getTotalLength();
+        var self = this;
         
-        attackPath
-            .attr('stroke-dasharray', pathLength + ' ' + pathLength)
-            .attr('stroke-dashoffset', pathLength)
-            .transition()
-            .duration(2000)
-            .ease(d3.easeLinear)
-            .attr('stroke-dashoffset', 0)
-            .on('end', () => {
-                // После анимации оставляем статичную линию
-                attackPath
-                    .attr('stroke-dasharray', 'none')
-                    .attr('opacity', 0.6);
-            });
+        group.addEventListener('mouseenter', function(e) {
+            path.setAttribute('stroke-width', '4');
+            path.setAttribute('opacity', '1');
+            sourcePoint.setAttribute('r', '6');
+            targetPoint.setAttribute('r', '8');
+            self.showTooltip(e, attack);
+        });
         
-        // Добавляем точку в начале (источник)
-        const sourcePoint = this.g.append('circle')
-            .attr('class', 'attack-source')
-            .attr('cx', x1)
-            .attr('cy', y1)
-            .attr('r', 4)
-            .attr('fill', this.attackColors[attack.attackType] || '#ef4444')
-            .attr('opacity', 0.8);
+        group.addEventListener('mousemove', function(e) {
+            self.tooltip.style('left', (e.pageX + 15) + 'px');
+            self.tooltip.style('top', (e.pageY - 10) + 'px');
+        });
         
-        // Добавляем точку в конце (цель)
-        const targetPoint = this.g.append('circle')
-            .attr('class', 'attack-target')
-            .attr('cx', x2)
-            .attr('cy', y2)
-            .attr('r', 6)
-            .attr('fill', this.attackColors[attack.attackType] || '#ef4444')
-            .attr('opacity', 0.9);
+        group.addEventListener('mouseleave', function() {
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('opacity', '0.6');
+            sourcePoint.setAttribute('r', '4');
+            targetPoint.setAttribute('r', '6');
+            self.hideTooltip();
+        });
         
-        // Создаем группу для hover эффектов
-        const group = this.g.append('g').attr('class', 'attack-group');
-        
-        // Добавляем элементы в группу
-        group.node().appendChild(attackPath.node());
-        group.node().appendChild(sourcePoint.node());
-        group.node().appendChild(targetPoint.node());
-        
-        // Обработчики событий для группы
-        group.on('click', () => {
+        group.addEventListener('click', function() {
             document.dispatchEvent(new CustomEvent('showAttackDetails', {
                 detail: attack
             }));
         });
         
-        group.on('mouseover', (event) => {
-            attackPath
-                .attr('stroke-width', 4)
-                .attr('opacity', 1);
-            sourcePoint.attr('r', 6);
-            targetPoint.attr('r', 8);
-            this.showTooltip(event, attack);
-        });
+        if (this.g) {
+            this.g.appendChild(group);
+        }
         
-        group.on('mousemove', (event) => {
-            this.moveTooltip(event);
-        });
-        
-        group.on('mouseout', () => {
-            attackPath
-                .attr('stroke-width', 2)
-                .attr('opacity', 0.6);
-            sourcePoint.attr('r', 4);
-            targetPoint.attr('r', 6);
-            this.hideTooltip();
-        });
-        
-        return attackPath;
+        return group;
     }
 
     // Очистка всех атак
     clearAttacks() {
-        this.g.selectAll('.attack-path, .attack-source, .attack-target, .attack-group').remove();
+        if (!this.g) return;
+        
+        var attacks = this.g.querySelectorAll('.attack-group');
+        attacks.forEach(function(el) { el.remove(); });
+    }
+
+    // Добавление одной атаки на карту
+    addAttack(attack) {
+        this.drawAttack(attack);
     }
 
     // Отрисовка всех атак
     drawAttacks(attacks) {
         this.clearAttacks();
         
-        attacks.forEach(attack => {
-            this.drawAttack(attack);
+        if (!attacks || !Array.isArray(attacks)) return;
+        
+        var self = this;
+        attacks.forEach(function(attack) {
+            self.drawAttack(attack);
         });
-    }
-
-    // Добавление одной атаки
-    addAttack(attack) {
-        return this.drawAttack(attack);
     }
 
     // Управление зумом
     zoomIn() {
-        this.svg.transition().call(this.zoom.scaleBy, 1.5);
+        if (!this.svg || !this.zoom) return;
+        d3.select(this.svg)
+            .transition()
+            .duration(300)
+            .call(this.zoom.scaleBy, 1.3);
     }
 
     zoomOut() {
-        this.svg.transition().call(this.zoom.scaleBy, 0.75);
+        if (!this.svg || !this.zoom) return;
+        d3.select(this.svg)
+            .transition()
+            .duration(300)
+            .call(this.zoom.scaleBy, 0.7);
     }
 
     resetView() {
-        this.svg.transition()
+        if (!this.svg || !this.zoom) return;
+        d3.select(this.svg)
+            .transition()
             .duration(750)
             .call(this.zoom.transform, d3.zoomIdentity);
     }
 }
 
 // Создаем глобальный экземпляр
-let mapRenderer = null;
+var mapRenderer = null;
+

@@ -3,10 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Глоссарий - CyberThreat Explorer</title>
+    
+    <!-- SEO метатеги -->
+    <title>Глоссарий кибербезопасности — термины и определения | CyberThreat Explorer</title>
+    <meta name="description" content="Глоссарий кибербезопасности с подробными определениями терминов: DDoS, фишинг, вирусы, VPN, шифрование и другие.">
+    <meta name="keywords" content="глоссарий, кибербезопасность, термины, определения, ddos, фишинг, вирус, vpn, шифрование, firewall">
+    <link rel="canonical" href="https://cosmic-muffin-c25b06.netlify.app/glossary.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cosmic-muffin-c25b06.netlify.app/glossary.html">
+    <meta property="og:title" content="Глоссарий кибербезопасности | CyberThreat Explorer">
+    <meta property="og:description" content="Словарь терминов по кибербезопасности с примерами и объяснениями для начинающих.">
+    <meta property="og:image" content="https://cosmic-muffin-c25b06.netlify.app/assets/img/logos/icon.svg">
+    <meta property="og:site_name" content="CyberThreat Explorer">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://cosmic-muffin-c25b06.netlify.app/glossary.html">
+    <meta name="twitter:title" content="Глоссарий кибербезопасности">
+    <meta name="twitter:description" content="Словарь терминов по кибербезопасности для начинающих">
+    <meta name="twitter:image" content="https://cosmic-muffin-c25b06.netlify.app/assets/img/logos/icon.svg">
+    
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/map.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome с веб-шрифтами -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css" crossorigin="anonymous">
+    <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
+    <style>
+        .glossary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card-animated { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 16px; padding: 25px; text-align: center; transition: all 0.3s; }
+        .stat-card-animated:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
+        .stat-card-animated i { font-size: 2.5rem; color: #3b82f6; margin-bottom: 15px; }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: #f8fafc; display: block; }
+        .stat-label { color: #94a3b8; font-size: 0.95rem; margin-top: 5px; }
+        .category-filter { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; }
+        .category-btn { padding: 10px 20px; background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 10px; color: #94a3b8; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px; min-height: 44px; }
+        .category-btn:hover, .category-btn.active { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; color: #60a5fa; }
+        .glossary-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+        }
+        
+        @media (max-width: 1200px) {
+            .glossary-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        @media (max-width: 900px) {
+            .glossary-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 600px) {
+            .glossary-grid { grid-template-columns: 1fr; gap: 12px; }
+        }
+        
+        @media (max-width: 480px) {
+            .glossary-stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .stat-number { font-size: 1.8rem; }
+            .stat-card-animated { padding: 16px; }
+            .category-btn { padding: 10px 14px; font-size: 0.9rem; }
+        }
+        
+@media (max-width: 360px) {
+            .glossary-stats { grid-template-columns: 1fr 1fr; }
+            .stat-card-animated { padding: 12px; }
+            .stat-number { font-size: 1.5rem; }
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box i {
+            color: #3b82f6;
+            font-size: 1.1rem;
+        }
+        
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #f8fafc;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-box input::placeholder {
+            color: #64748b;
+        }
+        
+        @media (max-width: 480px) {
+            .search-box {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+            .search-box input {
+                font-size: 0.9rem;
+            }
+        }
+        
+        .term-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+        .term-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+        .term-card.attack {
+            border-left: 4px solid #ef4444;
+        }
+        .term-card.protection {
+            border-left: 4px solid #10b981;
+        }
+        .term-card h3 {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .term-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .modal-content {
+            background: #1e293b;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            margin: 20px auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .modal-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        .modal-title-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+        .modal-title-wrap h3 {
+            color: #f8fafc;
+            font-size: 1.3rem;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .modal-category {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            color: #ef4444;
+        }
+        .modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .modal-short-definition {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .modal-short-definition p {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .modal-example {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #f59e0b;
+        }
+        .modal-example span {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .modal-article h4 {
+            color: #f8fafc;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .modal-article .article-content {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 480px) {
+            .modal { padding: 10px; }
+            .modal-content { margin: 10px auto; max-height: 95vh; border-radius: 12px; }
+            .modal-header { padding: 16px; }
+            .modal-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+            .modal-title-wrap h3 { font-size: 1.1rem; }
+            .modal-body { padding: 16px; }
+            .modal-footer { padding: 16px; }
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -16,7 +296,6 @@
                 <h1>CyberThreat<span>Explorer</span></h1>
                 <small>для начинающих</small>
             </div>
-            
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
@@ -25,52 +304,30 @@
                     <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
                 </ul>
             </nav>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
         </div>
     </header>
-
     <main class="container">
         <div class="page-header">
             <h1><i class="fas fa-book"></i> Глоссарий терминов</h1>
             <p>Нажмите на термин для подробностей</p>
         </div>
-        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Поиск терминов...">
+        </div>
         <div class="category-filter">
-            <button class="category-btn active" data-category="all">
-                <i class="fas fa-th-large"></i> Все
-            </button>
-            <button class="category-btn" data-category="Атаки">
-                <i class="fas fa-bolt"></i> Атаки
-            </button>
-            <button class="category-btn" data-category="Защита">
-                <i class="fas fa-shield-alt"></i> Защита
-            </button>
+            <button class="category-btn active" data-category="all"><i class="fas fa-th-large"></i> Все</button>
+            <button class="category-btn" data-category="Атаки"><i class="fas fa-bolt"></i> Атаки</button>
+            <button class="category-btn" data-category="Защита"><i class="fas fa-shield-alt"></i> Защита</button>
         </div>
-        
         <div class="glossary-stats">
-            <div class="stat-card-animated">
-                <i class="fas fa-book"></i>
-                <span class="stat-number" data-count="total-terms">0</span>
-                <span class="stat-label">Всего терминов</span>
-            </div>
-            <div class="stat-card-animated">
-                <i class="fas fa-bolt" style="color: #ef4444;"></i>
-                <span class="stat-number" data-count="attack-terms">0</span>
-                <span class="stat-label">Атаки</span>
-            </div>
-            <div class="stat-card-animated">
-                <i class="fas fa-shield-alt" style="color: #10b981;"></i>
-                <span class="stat-number" data-count="protection-terms">0</span>
-                <span class="stat-label">Защита</span>
-            </div>
+            <div class="stat-card-animated category-btn" data-category="all" role="button" tabindex="0"><i class="fas fa-book"></i><span class="stat-number" data-count="total-terms">0</span><span class="stat-label">Всего терминов</span></div>
+            <div class="stat-card-animated category-btn" data-category="Атаки" role="button" tabindex="0"><i class="fas fa-bolt" style="color:#ef4444;"></i><span class="stat-number" data-count="attack-terms">0</span><span class="stat-label">Атаки</span></div>
+            <div class="stat-card-animated category-btn" data-category="Защита" role="button" tabindex="0"><i class="fas fa-shield-alt" style="color:#10b981;"></i><span class="stat-number" data-count="protection-terms">0</span><span class="stat-label">Защита</span></div>
         </div>
-        
         <div class="glossary-grid"></div>
     </main>
-
     <div id="term-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,88 +339,31 @@
                 <button class="modal-close">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-short-definition">
-                    <p id="modal-term-definition">Определение</p>
-                </div>
-                <div class="modal-example" id="modal-term-example">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Пример</span>
-                </div>
-                <div class="modal-article">
-                    <h4>Подробнее</h4>
-                    <div id="modal-full-article" class="article-content"></div>
-                </div>
+                <div class="modal-short-definition"><p id="modal-term-definition">Определение</p></div>
+                <div class="modal-example"><i class="fas fa-lightbulb"></i><span>Пример</span></div>
+                <p id="modal-term-example" style="color:#cbd5e1;margin-bottom:20px;">Пример</p>
+                <div class="modal-article"><h4>Подробнее</h4><div id="modal-full-article" class="article-content"></div></div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary modal-close">Закрыть</button>
-            </div>
+            <div class="modal-footer"><button class="btn btn-secondary modal-close">Закрыть</button></div>
         </div>
     </div>
-
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
-                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> Ресурсы</h4>
-                    <p>Глоссарий терминов и обучающие уроки для начинающих</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-code"></i> Технологии</h4>
-                    <p>D3.js • JavaScript • HTML5 • CSS3</p>
-                </div>
+                <div class="footer-section"><h4><i class="fas fa-graduation-cap"></i> Обучение</h4><p>Изучай кибербезопасность с интерактивной картой атак</p></div>
+                <div class="footer-section"><h4><i class="fas fa-book"></i> Ресурсы</h4><p>Глоссарий терминов и обучающие уроки</p></div>
+                <div class="footer-section"><h4><i class="fas fa-code"></i> Технологии</h4><p>D3.js • JavaScript • HTML5 • CSS3</p></div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 CyberThreat Explorer | Образовательный проект</p>
-                <p class="disclaimer">
-                    <i class="fas fa-graduation-cap"></i>
-                    Создано для обучения и практики веб-разработки
-                </p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p></div>
         </div>
     </footer>
-
     <script src="assets/js/glossary.js"></script>
     <script>
-        // Мобильное меню
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            const nav = document.querySelector('.main-nav');
-            nav.classList.toggle('active');
-        });
-        
-        // Надежное закрытие модального окна глоссария
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() { document.querySelector('.main-nav').classList.toggle('active'); });
         const termModal = document.getElementById('term-modal');
-        const closeBtns = termModal.querySelectorAll('.modal-close');
-        
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                termModal.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-        
-        // Закрытие по клику вне окна
-        termModal.addEventListener('click', function(e) {
-            if (e.target === termModal) {
-                termModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-        
-        // Закрытие по Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && termModal.classList.contains('active')) {
-                termModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
+        termModal.querySelectorAll('.modal-close').forEach(btn => { btn.addEventListener('click', function() { termModal.classList.remove('active'); document.body.style.overflow = ''; }); });
+        termModal.addEventListener('click', function(e) { if (e.target === termModal) { termModal.classList.remove('active'); document.body.style.overflow = ''; } });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && termModal.classList.contains('active')) { termModal.classList.remove('active'); document.body.style.overflow = ''; } });
     </script>
 </body>
 </html>
-

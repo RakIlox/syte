@@ -3,881 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Учебник - CyberThreat Explorer</title>
+    <title>Учебник по кибербезопасности — онлайн курсы для всех уровней | CyberThreat Explorer</title>
+    <meta name="description" content="Бесплатный онлайн-учебник по кибербезопасности. 50 уроков + тесты. От основ до продвинутых техник: реверс-инжиниринг, форензика, red teaming, SecOps.">
+    <meta name="keywords" content="учебник, кибербезопасность, курсы, обучение, ddos, фишинг, защита, пароли">
+    <link rel="canonical" href="https://cosmic-muffin-c25b06.netlify.app/learn.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Учебник по кибербезопасности | CyberThreat Explorer">
+    <meta property="og:description" content="Бесплатный онлайн-курс по кибербезопасности для всех уровней. 50 уроков.">
+    <meta property="og:image" content="https://cosmic-muffin-c25b06.netlify.app/assets/img/logos/icon.svg">
+    <meta property="og:site_name" content="CyberThreat Explorer">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Учебник по кибербезопасности">
+    <meta name="twitter:description" content="Онлайн-курс по кибербезопасности для начинающих">
+    <meta name="twitter:image" content="https://cosmic-muffin-c25b06.netlify.app/assets/img/logos/icon.svg">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/map.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css" crossorigin="anonymous">
+    <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
     <style>
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-        .lesson-card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 12px;
-            padding: 25px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-            background: rgba(30, 41, 59, 0.9);
-        }
-        .lesson-card .card-icon {
-            font-size: 2.5rem;
-            color: #3b82f6;
-            margin-bottom: 15px;
-        }
-        .chapter-2 .lesson-card .card-icon {
-            color: #8b5cf6;
-        }
-        .lesson-card h3 {
-            font-size: 1rem;
-            color: #f8fafc;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-        .lesson-card .lesson-desc {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-bottom: 15px;
-        }
-        .lesson-card .read-btn {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .chapter-2 .lesson-card .read-btn {
-            background: rgba(139, 92, 246, 0.2);
-            color: #a78bfa;
-        }
-        .lesson-card:hover .read-btn {
-            background: #3b82f6;
-            color: white;
-        }
-        .chapter-2 .lesson-card:hover .read-btn {
-            background: #8b5cf6;
-        }
-        .chapter-3 .lesson-card .card-icon {
-            color: #10b981;
-        }
-        .chapter-3 .lesson-card .read-btn {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-        }
-        .chapter-3 .lesson-card:hover .read-btn {
-            background: #10b981;
-            color: white;
-        }
-        .chapter-3 .chapter-badge {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-        }
-        .chapter-3 .chapter-header i {
-            color: #10b981;
-        }
-        .chapter-section {
-            margin-bottom: 50px;
-        }
-        .chapter-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-        .chapter-header h2 {
-            font-size: 1.5rem;
-            color: #f8fafc;
-            margin: 0;
-        }
-        .chapter-header .chapter-badge {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .chapter-1 .chapter-badge {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-        .chapter-2 .chapter-badge {
-            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-            color: white;
-        }
-        .chapter-1 .chapter-header i {
-            color: #3b82f6;
-        }
-        .chapter-2 .chapter-header i {
-            color: #8b5cf6;
-        }
-        .chapter-stats {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-        .page-header {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .page-header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        .page-header p {
-            color: #94a3b8;
-        }
-        @media (max-width: 1400px) {
-            .lessons-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-        @media (max-width: 1100px) {
-            .lessons-grid { grid-template-columns: repeat(3, 1fr); }
-        }
+        .lessons-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 40px; }
+        
+        @media (max-width: 1100px) { .lessons-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .lessons-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        @media (max-width: 500px) { .lessons-grid { grid-template-columns: 1fr; gap: 10px; } }
+        @media (max-width: 360px) { .lessons-grid { gap: 8px; } }
+        
+        .lesson-card { background: rgba(30, 41, 59, 0.7); border-radius: 12px; padding: 25px 20px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; text-decoration: none; display: block; text-align: center; min-height: 140px; display: flex; flex-direction: column; }
+        
         @media (max-width: 768px) {
-            .lessons-grid { grid-template-columns: repeat(2, 1fr); }
+            .lesson-card { padding: 18px 15px; min-height: 130px; }
         }
-        @media (max-width: 480px) {
-            .lessons-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .lesson-card { padding: 15px 10px; }
-            .lesson-card .card-icon { font-size: 1.5rem; }
-            .lesson-card h3 { font-size: 0.85rem; }
+        
+        @media (max-width: 500px) {
+            .lesson-card { padding: 16px; min-height: auto; }
         }
-
-        /* Стили для новых разделов */
-        .coming-soon {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 12px;
-            margin-bottom: 40px;
+        
+        .lesson-card:hover { transform: translateY(-5px); border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
+        .lesson-card .card-icon { font-size: 2.5rem; color: #3b82f6; margin-bottom: 15px; }
+        .chapter-2 .lesson-card .card-icon { color: #8b5cf6; }
+        .chapter-3 .lesson-card .card-icon { color: #10b981; }
+        .chapter-4 .lesson-card .card-icon { color: #8b5cf6; }
+        .chapter-4 .chapter-header .chapter-badge { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .chapter-4 .chapter-header i { color: #8b5cf6; }
+        .chapter-5 .lesson-card .card-icon { color: #ef4444; }
+        .chapter-5 .chapter-header .chapter-badge { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .chapter-5 .chapter-header i { color: #ef4444; }
+        .chapter-6 .lesson-card .card-icon { color: #f59e0b; }
+        .chapter-6 .chapter-header .chapter-badge { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .chapter-6 .chapter-header i { color: #f59e0b; }
+        .chapter-7 .lesson-card .card-icon { color: #ec4899; }
+        .chapter-7 .chapter-header .chapter-badge { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .chapter-7 .chapter-header i { color: #ec4899; }
+        .lesson-card h3 { font-size: 1rem; color: #f8fafc; margin-bottom: 8px; }
+        .lesson-card .lesson-desc { font-size: 0.8rem; color: #94a3b8; margin-bottom: 15px; }
+        .lesson-card .read-btn { display: inline-block; padding: 8px 20px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; border-radius: 20px; font-size: 0.85rem; margin-top: auto; }
+        
+        @media (max-width: 500px) {
+            .lesson-card h3 { font-size: 0.95rem; }
+            .lesson-card .lesson-desc { font-size: 0.75rem; margin-bottom: 10px; }
+            .lesson-card .card-icon { font-size: 2rem; margin-bottom: 10px; }
+            .lesson-card .read-btn { padding: 6px 16px; font-size: 0.8rem; width: 100%; }
         }
-        .coming-soon h3 {
-            color: #f8fafc;
-            margin-bottom: 10px;
-        }
-        .coming-soon p {
-            color: #94a3b8;
-        }
-
-        .tips-section {
-            margin-bottom: 50px;
-        }
-        .tips-section h2 {
-            text-align: center;
-            color: #f8fafc;
-            margin-bottom: 30px;
-        }
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .tip-card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 12px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .tip-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-        }
-        .tip-card i {
-            font-size: 2.5rem;
-            color: #3b82f6;
-            margin-bottom: 15px;
-        }
-        .tip-card h4 {
-            color: #f8fafc;
-            margin-bottom: 10px;
-        }
-        .tip-card p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        .checklist-section {
-            margin-bottom: 50px;
-        }
-        .checklist-section h2 {
-            text-align: center;
-            color: #f8fafc;
-            margin-bottom: 30px;
-        }
-        .checklist {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .checklist-item:hover {
-            background: rgba(59, 130, 246, 0.1);
-            padding-left: 10px;
-        }
-        .checklist-item input[type="checkbox"] {
-            display: none;
-        }
-        .checkmark {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #3b82f6;
-            border-radius: 4px;
-            margin-right: 15px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .checklist-item input:checked + .checkmark {
-            background: #3b82f6;
-            border-color: #3b82f6;
-        }
-        .checklist-item input:checked + .checkmark::after {
-            content: '✓';
-            position: absolute;
-            top: -2px;
-            left: 2px;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .checklist-item .text {
-            color: #f8fafc;
-            font-size: 0.95rem;
-        }
-
-        .progress-section {
-            margin-bottom: 50px;
-        }
-        .progress-section h2 {
-            text-align: center;
-            color: #f8fafc;
-            margin-bottom: 30px;
-        }
-        .progress-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #3b82f6;
-            margin-bottom: 5px;
-        }
-        .stat-label {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        .progress-details h3 {
-            color: #f8fafc;
-            margin-bottom: 20px;
-        }
-        .chapters-progress {
-            display: grid;
-            gap: 15px;
-        }
-        .chapter-progress {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .chapter-name {
-            color: #f8fafc;
-        }
-        .chapter-count {
-            color: #3b82f6;
-            font-weight: 600;
-        }
-
-        .tests-section {
-            margin-bottom: 50px;
-        }
-        .tests-section h2 {
-            text-align: center;
-            color: #f8fafc;
-            margin-bottom: 10px;
-        }
-        .tests-section > p {
-            text-align: center;
-            color: #94a3b8;
-            margin-bottom: 30px;
-        }
-        .test-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .test-card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        .test-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-        }
-        .test-card i {
-            font-size: 2.5rem;
-            color: #3b82f6;
-            margin-bottom: 15px;
-        }
-        .test-card h3 {
-            color: #f8fafc;
-            margin-bottom: 10px;
-        }
-        .test-card p {
-            color: #94a3b8;
-            margin-bottom: 20px;
-        }
-        .test-btn {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .test-btn:hover {
-            background: #3b82f6;
-            color: white;
-        }
-
-        /* Стили для заблокированных уроков и тестов */
-        .lesson-card.locked {
-            opacity: 0.6;
-            pointer-events: none;
-            background: rgba(30, 41, 59, 0.4);
-            border-color: rgba(239, 68, 68, 0.3);
-        }
-        .lesson-card.locked .card-icon {
-            color: #94a3b8;
-        }
-        .lesson-card.locked h3,
-        .lesson-card.locked .lesson-desc {
-            color: #94a3b8;
-        }
-        .lesson-card.locked .read-btn {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-        }
-
-        .test-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-        .test-card .card-icon {
-            color: #10b981;
-        }
-        .test-card.passed {
-            border-color: rgba(16, 185, 129, 0.6);
-            background: rgba(16, 185, 129, 0.1);
-        }
-        .test-card.passed .card-icon {
-            color: #059669;
-        }
-        .test-card .test-btn {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .test-card .test-btn:hover {
-            background: #10b981;
-            color: white;
-        }
-        .locked-text {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
+        
+        .chapter-section { margin-bottom: 50px; }
+        .chapter-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; }
+        .chapter-header h2 { font-size: 1.5rem; color: #f8fafc; margin: 0; }
+        .chapter-header .chapter-badge { padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; }
+        .chapter-2 .chapter-header .chapter-badge { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .chapter-3 .chapter-header .chapter-badge { background: linear-gradient(135deg, #10b981, #059669); }
+        .chapter-1 .chapter-header i { color: #3b82f6; }
+        .chapter-2 .chapter-header i { color: #8b5cf6; }
+        .chapter-3 .chapter-header i { color: #10b981; }
+        .chapter-4 .chapter-header i { color: #ef4444; }
+        .chapter-5 .chapter-header i { color: #f59e0b; }
+        .chapter-stats { margin-left: auto; font-size: 0.85rem; color: #94a3b8; }
+        
         @media (max-width: 768px) {
-            .tips-grid { grid-template-columns: 1fr; }
-            .test-cards { grid-template-columns: 1fr; }
-            .progress-stats { grid-template-columns: repeat(3, 1fr); }
+            .chapter-header { gap: 10px; margin-bottom: 18px; padding-bottom: 12px; }
+            .chapter-header h2 { font-size: 1.2rem; }
+            .chapter-header .chapter-badge { padding: 4px 12px; font-size: 0.8rem; }
+            .chapter-stats { width: 100%; margin-top: 8px; font-size: 0.8rem; }
         }
+        
+        @media (max-width: 500px) {
+            .chapter-header h2 { font-size: 1.1rem; }
+            .chapter-stats { font-size: 0.75rem; }
+        }
+        .page-header { text-align: center; padding: 40px 20px; }
+        .page-header h1 { font-size: 2rem; margin-bottom: 10px; }
+        .page-header p { color: #94a3b8; }
+        .coming-soon { text-align: center; padding: 40px 20px; background: rgba(30, 41, 59, 0.5); border-radius: 12px; margin-bottom: 40px; }
+        .tips-section h2 { text-align: center; color: #f8fafc; margin-bottom: 30px; font-size: 1.5rem; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        @media (max-width: 768px) {
+            .tips-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .tips-section h2 { font-size: 1.3rem; margin-bottom: 24px; }
+        }
+        
+        @media (max-width: 500px) {
+            .tips-grid { grid-template-columns: 1fr; gap: 12px; }
+            .tips-section h2 { font-size: 1.15rem; margin-bottom: 20px; }
+        }
+        
+        @media (max-width: 360px) {
+            .tips-section h2 { font-size: 1.05rem; }
+        }
+        
+        .tip-card { background: rgba(30, 41, 59, 0.7); border-radius: 12px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .tip-card:hover { transform: translateY(-3px); border-color: rgba(59, 130, 246, 0.3); }
+        .tip-card i { font-size: 2.5rem; color: #3b82f6; margin-bottom: 15px; }
+        .tip-card h4 { color: #f8fafc; margin-bottom: 10px; font-size: 1.1rem; }
+        .tip-card p { color: #94a3b8; font-size: 0.9rem; }
+        
+        @media (max-width: 768px) {
+            .tip-card { padding: 20px; }
+            .tip-card i { font-size: 2rem; margin-bottom: 12px; }
+            .tip-card h4 { font-size: 1rem; margin-bottom: 8px; }
+            .tip-card p { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 500px) {
+            .tip-card { padding: 16px; border-radius: 10px; }
+            .tip-card i { font-size: 1.8rem; margin-bottom: 10px; }
+            .tip-card h4 { font-size: 0.95rem; }
+            .tip-card p { font-size: 0.8rem; }
+        }
+        
+        .knowledge-card { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 2px solid rgba(59, 130, 246, 0.5); border-radius: 20px; padding: 40px; margin: 40px 0; text-align: center; }
+        .knowledge-card h3 { color: #60a5fa; font-size: 1.8rem; margin-bottom: 15px; }
+        .knowledge-card p { color: #cbd5e1; font-size: 1.1rem; margin-bottom: 25px; }
+        .knowledge-card .start-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 35px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; min-height: 56px; }
+        .knowledge-card .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4); }
+        .knowledge-card .start-btn:active { transform: translateY(-1px); }
+        
+        @media (max-width: 768px) {
+            .knowledge-card { padding: 30px 20px; margin: 30px 0; border-radius: 16px; }
+            .knowledge-card h3 { font-size: 1.4rem; }
+            .knowledge-card p { font-size: 1rem; margin-bottom: 20px; }
+            .knowledge-card .start-btn { padding: 14px 28px; font-size: 1rem; }
+        }
+        
+        @media (max-width: 500px) {
+            .knowledge-card { padding: 24px 16px; margin: 24px 0; border-radius: 14px; }
+            .knowledge-card h3 { font-size: 1.2rem; margin-bottom: 12px; }
+            .knowledge-card p { font-size: 0.9rem; margin-bottom: 18px; }
+            .knowledge-card .start-btn { padding: 12px 24px; font-size: 0.95rem; min-height: 52px; width: 100%; justify-content: center; }
+        }
+        
+        .quiz-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: flex-start; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .quiz-modal.active { display: flex; }
+        .quiz-modal-content { background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid rgba(59, 130, 246, 0.5); border-radius: 20px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 35px; position: relative; animation: modalSlide 0.3s ease; flex-shrink: 0; }
+        @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .quiz-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0; }
+        .quiz-modal-header h3 { color: #60a5fa; font-size: 1.5rem; margin: 0; }
+        .quiz-close-btn { background: none; border: none; color: #94a3b8; font-size: 2rem; cursor: pointer; transition: color 0.3s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+        .quiz-close-btn:hover { color: #ef4444; }
+        .quiz-progress { color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; flex-shrink: 0; }
+        .quiz-question { margin-bottom: 25px; flex-shrink: 0; }
+        .quiz-question p { color: #f8fafc; font-weight: 500; font-size: 1.1rem; margin-bottom: 15px; }
+        .quiz-option { display: flex; align-items: center; padding: 14px 18px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s; min-height: 56px; }
+        .quiz-option:hover { border-color: rgba(59, 130, 246, 0.5); background: rgba(59, 130, 246, 0.1); }
+        .quiz-option.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.15); }
+        .quiz-option.incorrect { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); }
+        .quiz-option span { color: #e2e8f0; font-size: 1rem; }
+        .quiz-explanation { padding: 15px; border-radius: 10px; margin-top: 15px; display: none; font-size: 0.95rem; }
+        .quiz-explanation.show { display: block; }
+        .quiz-explanation.correct { background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #34d399; }
+        .quiz-explanation.incorrect { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #fca5a5; }
+        
+        @media (max-width: 768px) {
+            .quiz-modal { padding: 15px; }
+            .quiz-modal-content { padding: 25px; max-height: 85vh; }
+            .quiz-modal-header { margin-bottom: 18px; padding-bottom: 12px; }
+            .quiz-modal-header h3 { font-size: 1.2rem; }
+            .quiz-question p { font-size: 1rem; margin-bottom: 12px; }
+            .quiz-option { padding: 12px 14px; min-height: 50px; }
+            .quiz-option span { font-size: 0.95rem; }
+            .quiz-progress { font-size: 0.85rem; margin-bottom: 15px; }
+        }
+        
+        @media (max-width: 500px) {
+            .quiz-modal { padding: 10px; }
+            .quiz-modal-content { padding: 18px; border-radius: 16px; max-height: 90vh; }
+            .quiz-modal-header { margin-bottom: 15px; padding-bottom: 10px; }
+            .quiz-modal-header h3 { font-size: 1.1rem; }
+            .quiz-close-btn { font-size: 1.5rem; min-width: 40px; min-height: 40px; }
+            .quiz-question { margin-bottom: 18px; }
+            .quiz-question p { font-size: 0.95rem; }
+            .quiz-option { padding: 10px 12px; margin-bottom: 8px; min-height: 48px; }
+            .quiz-option span { font-size: 0.9rem; }
+            .quiz-explanation { padding: 12px; font-size: 0.9rem; }
+        }
+        
+        @media (max-width: 1100px) { .lessons-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .lessons-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px) { .lessons-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header class="main-header">
         <div class="container">
-            <div class="logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1>CyberThreat<span>Explorer</span></h1>
-                <small>для начинающих</small>
-            </div>
-            
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
-                    <li><a href="glossary.html"><i class="fas fa-book"></i> Глоссарий</a></li>
-                    <li><a href="learn.html" class="active"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
-                </ul>
-            </nav>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="logo"><i class="fas fa-shield-alt"></i><h1>CyberThreat<span>Explorer</span></h1><small>для начинающих</small></div>
+            <nav class="main-nav"><ul>
+                <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
+                <li><a href="glossary.html"><i class="fas fa-book"></i> Глоссарий</a></li>
+                <li><a href="learn.html" class="active"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
+            </ul></nav>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
         </div>
     </header>
-
     <main class="container">
         <div class="page-header">
             <h1><i class="fas fa-graduation-cap"></i> Учебник по кибербезопасности</h1>
-            <p>Нажмите на урок для подробностей</p>
+            <p>Нажмите на урок для подробностей и тестов</p>
         </div>
-        
-        <!-- Глава 1 -->
         <div class="chapter-section chapter-1">
             <div class="chapter-header">
                 <i class="fas fa-shield-alt fa-lg"></i>
                 <h2>Глава 1: Основы безопасности</h2>
                 <span class="chapter-badge">Глава 1</span>
-                <div class="chapter-stats">
-                    <span><i class="fas fa-book"></i> 11 уроков</span>
-                </div>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 10 уроков</span>
             </div>
             <div class="lessons-grid" id="chapter1-grid"></div>
         </div>
-        
-        <!-- Глава 2 -->
         <div class="chapter-section chapter-2">
             <div class="chapter-header">
                 <i class="fas fa-lock fa-lg"></i>
                 <h2>Глава 2: Продвинутая защита</h2>
                 <span class="chapter-badge">Глава 2</span>
-                <div class="chapter-stats">
-                    <span><i class="fas fa-book"></i> 11 уроков</span>
-                </div>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 10 уроков</span>
             </div>
             <div class="lessons-grid" id="chapter2-grid"></div>
         </div>
-        
-        <!-- Глава 3 -->
         <div class="chapter-section chapter-3">
             <div class="chapter-header">
                 <i class="fas fa-graduation-cap fa-lg"></i>
                 <h2>Глава 3: Теория информационной безопасности</h2>
                 <span class="chapter-badge">Глава 3</span>
-                <div class="chapter-stats">
-                    <span><i class="fas fa-book"></i> 11 уроков</span>
-                </div>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 11 уроков</span>
             </div>
             <div class="lessons-grid" id="chapter3-grid"></div>
         </div>
 
-        <!-- Раздел: Скоро появится -->
-        <div class="coming-soon">
-            <h3><i class="fas fa-tools"></i> Раздел постоянно дополняется</h3>
-            <p>Мы регулярно добавляем новые уроки и материалы по кибербезопасности. Следите за обновлениями!</p>
+         <!-- Тест 1: Главы 1-3 -->
+        <div class="knowledge-card">
+            <h3><i class="fas fa-shield-alt"></i> Тест: Основы безопасности (Главы 1-3)</h3>
+            <p>Проверьте свои знания по основам безопасности, продвинутой защите и теории ИБ!</p>
+            <button class="start-btn" onclick="openTest1()">
+                <i class="fas fa-play"></i> Пройти тест (30 вопросов)
+            </button>
         </div>
 
-        <!-- Раздел: Быстрые советы -->
+        <div class="chapter-section chapter-4">
+            <div class="chapter-header">
+                <i class="fas fa-shield-alt fa-lg" style="color: #8b5cf6;"></i>
+                <h2>Глава 4: Безопасность на практике</h2>
+                <span class="chapter-badge" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">Глава 4</span>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 9 уроков</span>
+            </div>
+            <div class="lessons-grid" id="chapter4-grid"></div>
+        </div>
+        <div class="chapter-section chapter-5">
+            <div class="chapter-header">
+                <i class="fas fa-search fa-lg" style="color: #ef4444;"></i>
+                <h2>Глава 5: Анализ и расследование</h2>
+                <span class="chapter-badge" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Глава 5</span>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 5 уроков</span>
+            </div>
+            <div class="lessons-grid" id="chapter5-grid"></div>
+        </div>
+        <div class="chapter-section chapter-6">
+            <div class="chapter-header">
+                <i class="fas fa-bug fa-lg" style="color: #f59e0b;"></i>
+                <h2>Глава 6: Тестирование и аудит</h2>
+                <span class="chapter-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Глава 6</span>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 5 уроков</span>
+            </div>
+            <div class="lessons-grid" id="chapter6-grid"></div>
+        </div>
+        <div class="chapter-section chapter-7">
+            <div class="chapter-header">
+                <i class="fas fa-user-secret fa-lg" style="color: #ec4899;"></i>
+                <h2>Глава 7: Этичный хакинг и пентестинг</h2>
+                <span class="chapter-badge" style="background: linear-gradient(135deg, #ec4899, #db2777);">Глава 7</span>
+                <span class="chapter-stats"><i class="fas fa-book"></i> 10 уроков</span>
+            </div>
+            <div class="lessons-grid" id="chapter7-grid"></div>
+
+        
+       
+        
+        <!-- Тест 2: Главы 4-7 -->
+        <div class="knowledge-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2)); border-color: rgba(139, 92, 246, 0.5);">
+            <h3><i class="fas fa-bug"></i> Тест: Продвинутые техники (Главы 4-7)</h3>
+            <p>Проверьте свои знания по безопасности на практике, анализу, тестированию и пентестингу!</p>
+            <button class="start-btn" onclick="openTest2()">
+                <i class="fas fa-play"></i> Пройти тест (35 вопросов)
+            </button>
+        </div>
+
+                </div>
+        <div class="coming-soon">
+            <h3><i class="fas fa-tools"></i> Раздел постоянно дополняется</h3>
+            <p>Мы регулярно добавляем новые уроки и материалы по кибербезопасности.</p>
+        </div>
+        
         <section class="tips-section">
             <h2><i class="fas fa-lightbulb"></i> Быстрые советы по безопасности</h2>
             <div class="tips-grid">
-                <div class="tip-card">
-                    <i class="fas fa-lock"></i>
-                    <h4>Пароли</h4>
-                    <p>Используйте разные пароли для каждого сайта. Минимум 12 символов с буквами, цифрами и символами.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h4>2FA</h4>
-                    <p>Включите двухфакторную аутентификацию везде, где это возможно. Это остановит 99% взломов.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-sync"></i>
-                    <h4>Обновления</h4>
-                    <p>Установите автоматические обновления для ОС и программ. Это закрывает дыры в безопасности.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-envelope"></i>
-                    <h4>Почта</h4>
-                    <p>Не открывайте вложения от незнакомцев и не переходите по подозрительным ссылкам.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-wifi"></i>
-                    <h4>Wi-Fi</h4>
-                    <p>Не вводите важные данные в публичных сетях. Используйте VPN для защиты.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-save"></i>
-                    <h4>Бэкап</h4>
-                    <p>Регулярно сохраняйте важные файлы в облако или на внешний диск.</p>
-                </div>
+                <div class="tip-card"><i class="fas fa-lock"></i><h4>Пароли</h4><p>Используйте разные пароли для каждого сайта. Минимум 12 символов.</p></div>
+                <div class="tip-card"><i class="fas fa-shield-alt"></i><h4>2FA</h4><p>Включите двухфакторную аутентификацию везде, где это возможно.</p></div>
+                <div class="tip-card"><i class="fas fa-sync"></i><h4>Обновления</h4><p>Установите автоматические обновления для ОС и программ.</p></div>
+                <div class="tip-card"><i class="fas fa-envelope"></i><h4>Почта</h4><p>Не открывайте вложения от незнакомцев и подозрительные ссылки.</p></div>
+                <div class="tip-card"><i class="fas fa-wifi"></i><h4>Wi-Fi</h4><p>Не вводите важные данные в публичных сетях. Используйте VPN.</p></div>
+                <div class="tip-card"><i class="fas fa-save"></i><h4>Бэкап</h4><p>Регулярно сохраняйте важные файлы в облако или на внешний диск.</p></div>
             </div>
         </section>
-
-        <!-- Раздел: Прогресс обучения -->
-        <section class="progress-section">
-            <h2><i class="fas fa-chart-line"></i> Ваш прогресс обучения</h2>
-            <div class="progress-stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="completed-lessons">0</div>
-                    <div class="stat-label">Пройдено уроков</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="total-lessons">31</div>
-                    <div class="stat-label">Всего уроков</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="progress-percent">0%</div>
-                    <div class="stat-label">Прогресс</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="current-streak">0</div>
-                    <div class="stat-label">Дней подряд</div>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-            <div class="progress-details">
-                <h3>Прогресс по главам</h3>
-                <div class="chapters-progress">
-                    <div class="chapter-progress">
-                        <span class="chapter-name">Глава 1: Основы безопасности</span>
-                        <span class="chapter-count" id="chapter1-count">0/10</span>
-                    </div>
-                    <div class="chapter-progress">
-                        <span class="chapter-name">Глава 2: Продвинутая защита</span>
-                        <span class="chapter-count" id="chapter2-count">0/10</span>
-                    </div>
-                    <div class="chapter-progress">
-                        <span class="chapter-name">Глава 3: Теория ИБ</span>
-                        <span class="chapter-count" id="chapter3-count">0/11</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
     </main>
-
+    
+    <div class="quiz-modal" id="quiz-modal">
+        <div class="quiz-modal-content">
+            <div class="quiz-modal-header">
+                <h3 id="quiz-modal-header-title"><i class="fas fa-clipboard-check"></i> Тест по кибербезопасности</h3>
+                <button class="quiz-close-btn" onclick="closeQuiz()">&times;</button>
+            </div>
+            <div class="quiz-progress" id="quiz-progress">Вопрос 1 из 15</div>
+            <div id="quiz-container"></div>
+        </div>
+    </div>
+    
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
-                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> Ресурсы</h4>
-                    <p>Глоссарий терминов и обучающие уроки для начинающих</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-code"></i> Технологии</h4>
-                    <p>D3.js • JavaScript • HTML5 • CSS3</p>
-                </div>
+                <div class="footer-section"><h4><i class="fas fa-graduation-cap"></i> Обучение</h4><p>Изучай кибербезопасность с интерактивной картой атак</p></div>
+                <div class="footer-section"><h4><i class="fas fa-book"></i> Ресурсы</h4><p>Глоссарий терминов и обучающие уроки</p></div>
+                <div class="footer-section"><h4><i class="fas fa-code"></i> Технологии</h4><p>D3.js • JavaScript • HTML5 • CSS3</p></div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 CyberThreat Explorer | Образовательный проект</p>
-                <p class="disclaimer">
-                    <i class="fas fa-graduation-cap"></i>
-                    Создано для обучения и практики веб-разработки
-                </p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p></div>
         </div>
     </footer>
-
     <script src="assets/js/progressManager.js"></script>
-    <script src="assets/js/testModal.js"></script>
+    <script src="assets/js/chapter-tests.js"></script>
     <script>
-        // Данные уроков
         const lessons = [
-            { id: 'what-is-ddos', title: 'Что такое DDoS?', chapter: 'chapter1', icon: 'server', desc: 'Как работают атаки на сайты' },
-            { id: 'what-is-phishing', title: 'Фишинг', chapter: 'chapter1', icon: 'fish', desc: 'Распознавание мошенников' },
-            { id: 'how-vpn-works', title: 'VPN', chapter: 'chapter1', icon: 'network-wired', desc: 'Защита соединения' },
-            { id: 'how-passwords-work', title: 'Пароли', chapter: 'chapter1', icon: 'key', desc: 'Надёжные пароли' },
-            { id: 'malware-guide', title: 'Вирусы', chapter: 'chapter1', icon: 'bug', desc: 'Вредоносное ПО' },
-            { id: 'social-engineering', title: 'Соц. инженерия', chapter: 'chapter1', icon: 'users', desc: 'Манипуляции и обман' },
-            { id: 'social-media-safety', title: 'Безопасность в соцсетях', chapter: 'chapter1', icon: 'share-alt', desc: 'Защита аккаунтов' },
-            { id: 'wifi-security', title: 'Wi-Fi', chapter: 'chapter1', icon: 'wifi', desc: 'Беспроводные сети' },
-            { id: 'email-security', title: 'Почта', chapter: 'chapter1', icon: 'envelope', desc: 'Защита почты' },
-            { id: 'updates-importance', title: 'Обновления', chapter: 'chapter1', icon: 'sync', desc: 'Важность обновлений' },
-            { id: 'encryption-basics', title: 'Шифрование', chapter: 'chapter2', icon: 'lock', desc: 'Защита данных' },
-            { id: 'mobile-security', title: 'Мобильная безопасность', chapter: 'chapter2', icon: 'mobile-alt', desc: 'Защита смартфонов' },
-            { id: 'two-factor-auth', title: '2FA', chapter: 'chapter2', icon: 'shield-alt', desc: 'Двухфакторная аутентификация' },
-            { id: 'phishing-attacks-deep-dive', title: 'Фишинг (продвинутый)', chapter: 'chapter2', icon: 'fish', desc: 'Все виды фишинга' },
-            { id: 'crypto-security', title: 'Криптовалюты', chapter: 'chapter2', icon: 'bitcoin', desc: 'Безопасность крипто' },
-            { id: 'iot-security', title: 'Умный дом', chapter: 'chapter2', icon: 'home', desc: 'IoT устройства' },
-            { id: 'gaming-security', title: 'Безопасность в играх', chapter: 'chapter2', icon: 'gamepad', desc: 'Игровые аккаунты' },
-            { id: 'child-safety', title: 'Безопасность детей', chapter: 'chapter2', icon: 'child', desc: 'Защита детей' },
-            { id: 'backup-guide', title: 'Бэкап', chapter: 'chapter2', icon: 'save', desc: 'Резервные копии' },
-            { id: 'online-anonymity', title: 'Анонимность', chapter: 'chapter2', icon: 'user-secret', desc: 'Приватность онлайн' },
-            // Глава 3 - ТИБ
-            { id: 'tib-intro', title: 'Введение в ТИБ', chapter: 'chapter3', icon: 'info', desc: 'Цели и понятия дисциплины' },
-            { id: 'tib-info-object', title: 'Информация как объект защиты', chapter: 'chapter3', icon: 'info', desc: 'Ценность и тайна информации' },
-            { id: 'tib-threats', title: 'Угрозы безопасности информации', chapter: 'chapter3', icon: 'warning', desc: 'Классификация угроз' },
-            { id: 'tib-vulnerabilities', title: 'Уязвимости систем', chapter: 'chapter3', icon: 'search', desc: 'Классификация уязвимостей' },
-            { id: 'tib-intruder-model', title: 'Моделирование нарушителя', chapter: 'chapter3', icon: 'user', desc: 'Классификация нарушителей' },
-            { id: 'tib-threat-modeling', title: 'Системный подход к угрозам', chapter: 'chapter3', icon: 'clipboard', desc: 'Моделирование угроз' },
-            { id: 'tib-security-policies', title: 'Политики безопасности', chapter: 'chapter3', icon: 'cogs', desc: 'Модели политик безопасности' },
-            { id: 'tib-discretionary', title: 'Модель Харрисона-Руззо-Ульмана', chapter: 'chapter3', icon: 'lock', desc: 'Дискреционная модель' },
-            { id: 'tib-mandatory', title: 'Модель Белла-Лападулы', chapter: 'chapter3', icon: 'shield', desc: 'Мандатная модель' },
-            { id: 'tib-integrity', title: 'Модели контроля целостности', chapter: 'chapter3', icon: 'lock', desc: 'Модели Биба и Кларка-Вильсона' },
-            { id: 'tib-nsd', title: 'Защита от НСД', chapter: 'chapter3', icon: 'unlock', desc: 'Теоретические основы НСД' },
-            { id: 'test-chapter1', title: 'Тест: Основы безопасности', chapter: 'chapter1', icon: 'brain', desc: 'Проверьте знания по первой главе', isTest: true },
-            { id: 'test-chapter2', title: 'Тест: Продвинутая защита', chapter: 'chapter2', icon: 'brain', desc: 'Проверьте знания по второй главе', isTest: true },
-            { id: 'test-chapter3', title: 'Тест: Теория ИБ', chapter: 'chapter3', icon: 'brain', desc: 'Проверьте знания по третьей главе', isTest: true }
+            {id: 'what-is-ddos', title: 'Что такое DDoS?', chapter: 'chapter1', icon: 'server', desc: 'Как работают атаки на сайты'},
+            {id: 'what-is-phishing', title: 'Фишинг', chapter: 'chapter1', icon: 'fish', desc: 'Распознавание мошенников'},
+            {id: 'how-vpn-works', title: 'VPN', chapter: 'chapter1', icon: 'network-wired', desc: 'Защита соединения'},
+            {id: 'how-passwords-work', title: 'Пароли', chapter: 'chapter1', icon: 'key', desc: 'Надёжные пароли'},
+            {id: 'malware-guide', title: 'Вирусы', chapter: 'chapter1', icon: 'bug', desc: 'Вредоносное ПО'},
+            {id: 'social-engineering', title: 'Соц. инженерия', chapter: 'chapter1', icon: 'users', desc: 'Манипуляции и обман'},
+            {id: 'social-media-safety', title: 'Безопасность в соцсетях', chapter: 'chapter1', icon: 'share-alt', desc: 'Защита аккаунтов'},
+            {id: 'wifi-security', title: 'Wi-Fi', chapter: 'chapter1', icon: 'wifi', desc: 'Беспроводные сети'},
+            {id: 'email-security', title: 'Почта', chapter: 'chapter1', icon: 'envelope', desc: 'Защита почты'},
+            {id: 'updates-importance', title: 'Обновления', chapter: 'chapter1', icon: 'sync', desc: 'Важность обновлений'},
+            {id: 'encryption-basics', title: 'Шифрование', chapter: 'chapter2', icon: 'lock', desc: 'Защита данных'},
+            {id: 'mobile-security', title: 'Мобильная безопасность', chapter: 'chapter2', icon: 'mobile-alt', desc: 'Защита смартфонов'},
+            {id: 'two-factor-auth', title: '2FA', chapter: 'chapter2', icon: 'shield-alt', desc: 'Двухфакторная аутентификация'},
+            {id: 'phishing-attacks-deep-dive', title: 'Фишинг (продвинутый)', chapter: 'chapter2', icon: 'fish', desc: 'Все виды фишинга'},
+            {id: 'crypto-security', title: 'Криптовалюты', chapter: 'chapter2', icon: 'bitcoin', desc: 'Безопасность крипто'},
+            {id: 'iot-security', title: 'Умный дом', chapter: 'chapter2', icon: 'home', desc: 'IoT устройства'},
+            {id: 'gaming-security', title: 'Безопасность в играх', chapter: 'chapter2', icon: 'gamepad', desc: 'Игровые аккаунты'},
+            {id: 'child-safety', title: 'Безопасность детей', chapter: 'chapter2', icon: 'child', desc: 'Защита детей'},
+            {id: 'backup-guide', title: 'Бэкап', chapter: 'chapter2', icon: 'save', desc: 'Резервные копии'},
+            {id: 'online-anonymity', title: 'Анонимность', chapter: 'chapter2', icon: 'user-secret', desc: 'Приватность онлайн'},
+            {id: 'tib-intro', title: 'Введение в ТИБ', chapter: 'chapter3', icon: 'info', desc: 'Цели и понятия дисциплины'},
+            {id: 'tib-info-object', title: 'Информация как объект защиты', chapter: 'chapter3', icon: 'info', desc: 'Ценность информации'},
+            {id: 'tib-threats', title: 'Угрозы безопасности', chapter: 'chapter3', icon: 'warning', desc: 'Классификация угроз'},
+            {id: 'tib-vulnerabilities', title: 'Уязвимости систем', chapter: 'chapter3', icon: 'search', desc: 'Классификация уязвимостей'},
+            {id: 'tib-intruder-model', title: 'Моделирование нарушителя', chapter: 'chapter3', icon: 'user', desc: 'Классификация нарушителей'},
+            {id: 'tib-threat-modeling', title: 'Системный подход к угрозам', chapter: 'chapter3', icon: 'clipboard', desc: 'Моделирование угроз'},
+            {id: 'tib-security-policies', title: 'Политики безопасности', chapter: 'chapter3', icon: 'cogs', desc: 'Модели политик'},
+            {id: 'tib-discretionary', title: 'Модель HRU', chapter: 'chapter3', icon: 'lock', desc: 'Дискреционная модель'},
+            {id: 'tib-mandatory', title: 'Модель Белла-Лападулы', chapter: 'chapter3', icon: 'shield', desc: 'Мандатная модель'},
+            {id: 'tib-integrity', title: 'Модели целостности', chapter: 'chapter3', icon: 'lock', desc: 'Модели Биба'},
+            {id: 'tib-nsd', title: 'Защита от НСД', chapter: 'chapter3', icon: 'unlock', desc: 'Теоретические основы'},
+            // Глава 4: Безопасность на практике
+            {id: 'security-architecture', title: 'Архитектура безопасности', chapter: 'chapter4', icon: 'building', desc: 'Проектирование защищённых систем'},
+            {id: 'cryptography-fundamentals', title: 'Криптография', chapter: 'chapter4', icon: 'lock', desc: 'Криптографические основы'},
+            {id: 'vulnerability-management', title: 'Управление уязвимостями', chapter: 'chapter4', icon: 'bug', desc: 'Сканирование и оценка рисков'},
+            {id: 'threat-modeling-practical', title: 'Моделирование угроз', chapter: 'chapter4', icon: 'clipboard', desc: 'Практический подход'},
+            {id: 'network-security-monitoring', title: 'Сетевой мониторинг', chapter: 'chapter4', icon: 'network-wired', desc: 'Анализ сетевого трафика'},
+            {id: 'endpoint-detection-response', title: 'EDR', chapter: 'chapter4', icon: 'desktop', desc: 'Обнаружение на хостах'},
+            {id: 'security-automation-orchestration', title: 'SOAR', chapter: 'chapter4', icon: 'robot', desc: 'Автоматизация SOC'},
+            {id: 'secops-fundamentals', title: 'SecOps', chapter: 'chapter4', icon: 'cogs', desc: 'Операционная безопасность'},
+            {id: 'security-auditing-compliance', title: 'Аудит и комплаенс', chapter: 'chapter4', icon: 'clipboard-check', desc: 'Проверка соответствия'},
+            // Глава 5: Анализ и расследование
+            {id: 'advanced-malware-analysis', title: 'Анализ вредоносного ПО', chapter: 'chapter5', icon: 'bug', desc: 'Статический и динамический анализ'},
+            {id: 'advanced-memory-forensics', title: 'Форензика памяти', chapter: 'chapter5', icon: 'memory', desc: 'Анализ дампов RAM'},
+            {id: 'advanced-threat-intelligence', title: 'Threat Intelligence', chapter: 'chapter5', icon: 'lightbulb', desc: 'Разведка угроз'},
+            {id: 'advanced-incident-response', title: 'Incident Response', chapter: 'chapter5', icon: 'exclamation-triangle', desc: 'Реагирование на инциденты'},
+            {id: 'advanced-reverse-engineering', title: 'Реверс-инжиниринг', chapter: 'chapter5', icon: 'search', desc: 'Анализ вредоносного ПО'},
+            // Глава 6: Тестирование и аудит
+            {id: 'advanced-red-teaming', title: 'Red Teaming', chapter: 'chapter6', icon: 'user-secret', desc: 'Комплексное тестирование'},
+            {id: 'advanced-web-testing', title: 'Web Security Testing', chapter: 'chapter6', icon: 'code', desc: 'Тестирование веб-приложений'},
+            {id: 'advanced-cloud-security', title: 'Cloud Security', chapter: 'chapter6', icon: 'cloud', desc: 'Безопасность облаков'},
+            {id: 'advanced-exploitation-techniques', title: 'Exploitation', chapter: 'chapter6', icon: 'terminal', desc: 'Техники эксплуатации'},
+            {id: 'advanced-ics-security', title: 'ICS Security', chapter: 'chapter6', icon: 'industry', desc: 'Промышленные системы'},
+            // Глава 7: Этичный хакинг и пентестинг
+            {id: 'ethical-hacking-intro', title: 'Введение в этичный хакинг', chapter: 'chapter7', icon: 'user-secret', desc: 'Основы и принципы этичного хакинга'},
+            {id: 'pentesting-methodology', title: 'Методология пентестинга', chapter: 'chapter7', icon: 'clipboard-list', desc: 'Структурированный подход к тестированию'},
+            {id: 'reconnaissance', title: 'Разведка и сбор информации', chapter: 'chapter7', icon: 'search', desc: 'OSINT и активная разведка'},
+            {id: 'scanning-enumeration', title: 'Сканирование и энумерация', chapter: 'chapter7', icon: 'crosshairs', desc: 'Анализ сетей и сервисов'},
+            {id: 'vulnerability-assessment', title: 'Оценка уязвимостей', chapter: 'chapter7', icon: 'bug', desc: 'Поиск и классификация уязвимостей'},
+            {id: 'exploitation-techniques', title: 'Техники эксплуатации', chapter: 'chapter7', icon: 'bomb', desc: 'Практическая эксплуатация уязвимостей'},
+            {id: 'post-exploitation', title: 'Пост-эксплуатация', chapter: 'chapter7', icon: 'network-wired', desc: 'Закрепление и продвижение по сети'},
+            {id: 'reporting-documentation', title: 'Отчётность и документация', chapter: 'chapter7', icon: 'file-alt', desc: 'Составление качественных отчётов'},
+            {id: 'legal-ethics', title: 'Правовые аспекты и этика', chapter: 'chapter7', icon: 'gavel', desc: 'Юридические рамки и этические нормы'},
+            {id: 'tools-frameworks', title: 'Инструменты и фреймворки', chapter: 'chapter7', icon: 'tools', desc: 'Обзор инструментов пентестинга'}
         ];
+        
+        const icons = {'server': 'fa-server', 'fish': 'fa-fish', 'network-wired': 'fa-network-wired', 'key': 'fa-key', 'bug': 'fa-bug', 'users': 'fa-users', 'share-alt': 'fa-share-alt', 'wifi': 'fa-wifi', 'envelope': 'fa-envelope', 'sync': 'fa-sync', 'lock': 'fa-lock', 'mobile-alt': 'fa-mobile-alt', 'shield-alt': 'fa-shield-alt', 'bitcoin': 'fa-bitcoin', 'home': 'fa-home', 'gamepad': 'fa-gamepad', 'child': 'fa-child', 'save': 'fa-save', 'user-secret': 'fa-user-secret', 'info': 'fa-info-circle', 'warning': 'fa-exclamation-triangle', 'search': 'fa-search', 'user': 'fa-user', 'clipboard': 'fa-clipboard-list', 'cogs': 'fa-cogs', 'shield': 'fa-shield-alt', 'unlock': 'fa-unlock-alt', 'memory': 'fa-memory', 'lightbulb': 'fa-lightbulb', 'code': 'fa-code', 'cloud': 'fa-cloud', 'terminal': 'fa-terminal', 'industry': 'fa-industry', 'building': 'fa-building', 'desktop': 'fa-desktop', 'robot': 'fa-robot', 'clipboard-check': 'fa-clipboard-check', 'clipboard-list': 'fa-clipboard-list', 'crosshairs': 'fa-crosshairs', 'bomb': 'fa-bomb', 'file-alt': 'fa-file-alt', 'gavel': 'fa-gavel', 'tools': 'fa-tools'};
 
-        // Иконки Font Awesome
-        const icons = {
-            'server': 'fa-server',
-            'fish': 'fa-fish',
-            'network-wired': 'fa-network-wired',
-            'key': 'fa-key',
-            'bug': 'fa-bug',
-            'users': 'fa-users',
-            'share-alt': 'fa-share-alt',
-            'wifi': 'fa-wifi',
-            'envelope': 'fa-envelope',
-            'sync': 'fa-sync',
-            'lock': 'fa-lock',
-            'mobile-alt': 'fa-mobile-alt',
-            'shield-alt': 'fa-shield-alt',
-            'bitcoin': 'fa-bitcoin',
-            'home': 'fa-home',
-            'gamepad': 'fa-gamepad',
-            'child': 'fa-child',
-            'save': 'fa-save',
-            'user-secret': 'fa-user-secret',
-            'info': 'fa-info-circle',
-            'warning': 'fa-exclamation-triangle',
-            'search': 'fa-search',
-            'code': 'fa-code',
-            'user': 'fa-user',
-            'clipboard': 'fa-clipboard-list',
-            'cogs': 'fa-cogs',
-            'shield': 'fa-shield-alt',
-            'key': 'fa-key',
-            'lock': 'fa-lock',
-            'book': 'fa-book',
-            'unlock': 'fa-unlock-alt'
-        };
-
-        // Отображение уроков
         function renderLessons() {
-            const chapter1Grid = document.getElementById('chapter1-grid');
-            const chapter2Grid = document.getElementById('chapter2-grid');
-            const chapter3Grid = document.getElementById('chapter3-grid');
-
-            const chapter1Lessons = lessons.filter(l => l.chapter === 'chapter1');
-            const chapter2Lessons = lessons.filter(l => l.chapter === 'chapter2');
-            const chapter3Lessons = lessons.filter(l => l.chapter === 'chapter3');
-
-            // Проверяем доступность глав
-            const chapter1Available = true; // Глава 1 всегда доступна
-            const chapter2Available = progressManager.isNextChapterAvailable('chapter2');
-            const chapter3Available = progressManager.isNextChapterAvailable('chapter3');
-
-            chapter1Grid.innerHTML = renderChapterLessons(chapter1Lessons, 'chapter1', chapter1Available);
-            chapter2Grid.innerHTML = renderChapterLessons(chapter2Lessons, 'chapter2', chapter2Available);
-            chapter3Grid.innerHTML = renderChapterLessons(chapter3Lessons, 'chapter3', chapter3Available);
+            ['chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'chapter6', 'chapter7'].forEach(chapterId => {
+                const grid = document.getElementById(chapterId + '-grid');
+                if (!grid) return;
+                const chapterLessons = lessons.filter(l => l.chapter === chapterId);
+                grid.innerHTML = chapterLessons.map(lesson => `<a href="article.html?id=${lesson.id}" class="lesson-card"><div class="card-icon"><i class="fas ${icons[lesson.icon] || 'fa-book'}"></i></div><h3>${lesson.title}</h3><p class="lesson-desc">${lesson.desc}</p><span class="read-btn">Читать</span></a>`).join('');
+            });
         }
 
-        // Рендеринг уроков главы
-        function renderChapterLessons(chapterLessons, chapterId, chapterAvailable) {
-            return chapterLessons.map((lesson) => {
-                const isTest = lesson.isTest;
-                const isViewed = progressManager.data.chapters[chapterId]?.lessonsViewed.includes(lesson.id);
-                const isPassed = progressManager.data.chapters[chapterId]?.testPassed;
-
-                // Глава доступна?
-                const isChapterAvailable = chapterAvailable;
-
-                if (isTest) {
-                    // Тесты всегда доступны (независимо от просмотра уроков)
-                    return `
-                        <div class="lesson-card test-card ${isPassed ? 'passed' : ''}"
-                             data-lesson-id="${lesson.id}"
-                             data-chapter-id="${chapterId}">
-                            <div class="card-icon">
-                                <i class="fas ${icons[lesson.icon] || 'fa-brain'}"></i>
-                            </div>
-                            <h3>${lesson.title}</h3>
-                            <p class="lesson-desc">${lesson.desc}</p>
-                            <button class="test-btn" onclick="openTest('${chapterId}')">
-                                ${isPassed ? 'Пройти заново' : 'Пройти тест'}
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    // Обычные уроки зависят от доступности главы
-                    return `
-                        <a href="${isChapterAvailable ? 'article.html?id=' + lesson.id : '#'}" class="lesson-card ${isChapterAvailable ? '' : 'locked'}"
-                           data-lesson-id="${lesson.id}"
-                           data-chapter-id="${chapterId}"
-                           ${isChapterAvailable ? '' : 'title="Сначала сдайте тест предыдущей главы"'}>
-                            <div class="card-icon">
-                                <i class="fas ${icons[lesson.icon] || 'fa-book'}"></i>
-                            </div>
-                            <h3>${lesson.title}</h3>
-                            <p class="lesson-desc">${lesson.desc}</p>
-                            <span class="read-btn">${isChapterAvailable ? 'Читать' : '<i class="fas fa-lock"></i>'}</span>
-                        </a>
-                    `;
-                }
-            }).join('');
+        function closeQuiz() {
+            document.getElementById('quiz-modal').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
-        // Мобильное меню
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.main-nav').classList.toggle('active');
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() { document.querySelector('.main-nav').classList.toggle('active'); });
+        
+        document.getElementById('quiz-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeQuiz();
         });
-
-        // Загрузка уроков
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeQuiz();
+        });
+        
         renderLessons();
-
-        // Инициализация прогресса
-        function initProgress() {
-            // Обновляем статистику
-            updateProgressStats();
-
-            // Добавляем обработчики кликов на уроки
-            document.querySelectorAll('.lesson-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const lessonId = this.dataset.lessonId;
-                    const chapterId = this.dataset.chapterId;
-
-                    // Отмечаем урок как просмотренный
-                    progressManager.markLessonViewed(lessonId, chapterId);
-
-                    // Обновляем UI
-                    updateProgressStats();
-                    updateLessonCard(this, lessonId, chapterId);
-                });
-            });
-        }
-
-        // Обновление статистики прогресса
-        function updateProgressStats() {
-            const totalLessons = lessons.length;
-            const completedLessons = progressManager.data.totalLessonsViewed;
-            const progressPercent = Math.round((completedLessons / totalLessons) * 100);
-
-            // Обновляем числа
-            document.getElementById('completed-lessons').textContent = completedLessons;
-            document.getElementById('total-lessons').textContent = totalLessons;
-            document.getElementById('progress-percent').textContent = progressPercent + '%';
-
-            // Обновляем прогресс-бар
-            document.getElementById('progress-fill').style.width = progressPercent + '%';
-
-            // Обновляем прогресс по главам
-            document.getElementById('chapter1-count').textContent =
-                progressManager.getLessonsViewedCount('chapter1') + '/10';
-            document.getElementById('chapter2-count').textContent =
-                progressManager.getLessonsViewedCount('chapter2') + '/10';
-            document.getElementById('chapter3-count').textContent =
-                progressManager.getLessonsViewedCount('chapter3') + '/11';
-
-            // Обновляем статус уроков
-            updateAllLessonCards();
-        }
-
-        // Обновление всех карточек уроков
-        function updateAllLessonCards() {
-            document.querySelectorAll('.lesson-card').forEach(card => {
-                const lessonId = card.dataset.lessonId;
-                const chapterId = card.dataset.chapterId;
-                updateLessonCard(card, lessonId, chapterId);
-            });
-        }
-
-        // Обновление одной карточки урока
-        function updateLessonCard(card, lessonId, chapterId) {
-            const isViewed = progressManager.data.chapters[chapterId]?.lessonsViewed.includes(lessonId);
-
-            if (isViewed) {
-                card.classList.add('viewed');
-                card.querySelector('.lesson-status').innerHTML = '<i class="fas fa-check-circle"></i>';
-            } else {
-                card.classList.remove('viewed');
-                card.querySelector('.lesson-status').innerHTML = '<i class="fas fa-circle"></i>';
-            }
-        }
-
-        // Инициализируем прогресс после загрузки страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            initProgress();
-        });
-
-        // Функция открытия теста (вызывается из карточек тестов)
-        function openTest(chapterId) {
-            testModal.open(chapterId);
-        }
     </script>
 </body>
 </html>
-

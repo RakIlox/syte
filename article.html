@@ -3,1582 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Статья - CyberThreat Explorer</title>
+    <title id="seo-title">Статья - CyberThreat Explorer</title>
+    <meta id="seo-description" name="description" content="Образовательная статья по кибербезопасности">
+    <link rel="canonical" href="https://cosmic-muffin-c25b06.netlify.app/article.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" id="og-title" content="Статья | CyberThreat Explorer">
+    <meta property="og:description" id="og-description" content="Образовательная статья">
+    <meta property="og:image" content="https://cosmic-muffin-c25b06.netlify.app/assets/img/logos/icon.svg">
+    <meta property="og:site_name" content="CyberThreat Explorer">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="Статья | CyberThreat Explorer">
+    <meta name="twitter:description" id="twitter-description" content="Образовательная статья">
+    <meta name="twitter:image" content="https://cosmic-muffin-c25b06.netlify.app/assets/img/logos/icon.svg">
+    <script type="application/ld+json" id="schema-article">{"@context":"https://schema.org","@type":"Article","headline":"Статья","publisher":{"@type":"Organization","name":"CyberThreat Explorer"}}</script>
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/map.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css" crossorigin="anonymous">
+    <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        .article-content {
-            background: rgba(30, 41, 59, 0.6);
-            border-radius: 16px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .article-content h2 {
-            color: #f8fafc;
-            font-size: 1.6rem;
-            margin: 30px 0 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .article-content h2:first-child {
-            margin-top: 0;
-        }
-        .article-content h2::before {
-            content: '';
-            width: 4px;
-            height: 28px;
-            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
-            border-radius: 2px;
-        }
-        .article-content h3 {
-            color: #f8fafc;
-            font-size: 1.3rem;
-            margin: 25px 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .article-content p {
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-        .article-content ul {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-        .article-content li {
-            color: #cbd5e1;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            padding: 12px 0 12px 35px;
-            position: relative;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .article-content li:last-child {
-            border-bottom: none;
-        }
-        .article-content li::before {
-            content: '▸';
-            position: absolute;
-            left: 10px;
-            color: #3b82f6;
-            font-size: 1.2rem;
-        }
-        .article-content li strong {
-            color: #60a5fa;
-        }
-        .article-content em {
-            color: #f59e0b;
-            font-style: italic;
-        }
-        .article-nav {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        .article-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .article-header { text-align: center; margin-bottom: 40px; padding: 30px; background: rgba(30, 41, 59, 0.5); border-radius: 16px; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .article-header h1 { font-size: 2rem; color: #f8fafc; margin-bottom: 15px; }
+        .article-header p { color: #94a3b8; font-size: 1.1rem; }
+        .article-content { background: rgba(30, 41, 59, 0.5); border-radius: 16px; padding: 40px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .article-content h2 { color: #3b82f6; font-size: 1.5rem; margin: 30px 0 15px; }
+        .article-content h3 { color: #60a5fa; font-size: 1.2rem; margin: 25px 0 10px; }
+        .article-content p { color: #cbd5e1; line-height: 1.8; margin-bottom: 15px; }
+        .article-content ul, .article-content ol { color: #cbd5e1; margin: 15px 0; padding-left: 25px; }
+        .article-content li { margin-bottom: 8px; }
+        .article-content code { background: rgba(15, 23, 42, 0.6); padding: 2px 8px; border-radius: 4px; font-family: 'Roboto Mono', monospace; }
+        .article-content pre { background: rgba(15, 23, 42, 0.8); padding: 20px; border-radius: 12px; overflow-x: auto; margin: 20px 0; }
+        .article-content pre code { background: none; padding: 0; }
+        .article-content strong { color: #60a5fa; }
+        .warning-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px; margin: 20px 0; }
+        .warning-box h4 { color: #ef4444; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .info-box { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 20px; margin: 20px 0; }
+        .info-box h4 { color: #3b82f6; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .success-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 20px; margin: 20px 0; }
+        .success-box h4 { color: #10b981; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .loading-spinner { display: flex; flex-direction: column; align-items: center; padding: 60px; color: #94a3b8; }
+        .loading-spinner i { font-size: 3rem; color: #3b82f6; margin-bottom: 20px; animation: spin 2s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: #3b82f6; text-decoration: none; margin-bottom: 20px; font-size: 0.95rem; transition: all 0.3s; }
+        .back-link:hover { color: #60a5fa; transform: translateX(-5px); }
+        .test-section { background: rgba(30, 41, 59, 0.7); border-radius: 16px; padding: 30px; margin: 40px 0; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .test-section h3 { color: #f8fafc; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .quiz-option { display: flex; padding: 14px 18px; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s; }
+        .quiz-option:hover { border-color: rgba(59, 130, 246, 0.5); background: rgba(59, 130, 246, 0.1); }
+        .quiz-option.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.15); }
+        .quiz-option.incorrect { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); }
+        .quiz-option label { cursor: pointer; width: 100%; color: #cbd5e1; }
+        .quiz-explanation { display: none; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .quiz-explanation.show { display: block; }
+        .quiz-explanation.correct { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #34d399; }
+        .quiz-explanation.incorrect { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #fca5a5; }
+        .lesson-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .lesson-nav a { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: rgba(30, 41, 59, 0.6); border-radius: 10px; color: #cbd5e1; text-decoration: none; transition: all 0.3s; }
+        .lesson-nav a:hover { background: rgba(59, 130, 246, 0.2); color: #f8fafc; }
+        .lesson-nav a.disabled { opacity: 0.5; pointer-events: none; }
         @media (max-width: 768px) {
-            .article-content {
-                padding: 25px 20px;
-            }
-            .article-content h2 {
-                font-size: 1.3rem;
-            }
-            .article-content p {
-                font-size: 1rem;
-            }
+            .article-content { padding: 24px; }
+            .article-content h2 { font-size: 1.3rem; }
+            .article-content h3 { font-size: 1.1rem; }
+            .lesson-nav { flex-direction: column; gap: 12px; }
+            .lesson-nav a { justify-content: center; }
         }
     </style>
 </head>
 <body>
     <header class="main-header">
         <div class="container">
-            <div class="logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1>CyberThreat<span>Explorer</span></h1>
-                <small>для начинающих</small>
-            </div>
-            
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
-                    <li><a href="glossary.html"><i class="fas fa-book"></i> Глоссарий</a></li>
-                    <li><a href="learn.html"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
-                </ul>
-            </nav>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="logo"><i class="fas fa-shield-alt"></i><h1>CyberThreat<span>Explorer</span></h1><small>для начинающих</small></div>
+            <nav class="main-nav"><ul>
+                <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
+                <li><a href="glossary.html"><i class="fas fa-book"></i> Глоссарий</a></li>
+                <li><a href="learn.html"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
+            </ul></nav>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
         </div>
     </header>
-
-    <main class="container">
-        <div class="page-header">
-            <h1 id="article-title"><i class="fas fa-file-alt"></i> Статья</h1>
-            <p id="article-description">Загрузка...</p>
+    <main class="container article-container">
+        <a href="learn.html" class="back-link"><i class="fas fa-arrow-left"></i> Вернуться к учебнику</a>
+        <div class="article-header">
+            <h1 id="article-title">Загрузка...</h1>
+            <p id="article-description"></p>
         </div>
-        
-        <div class="article-content" id="article-content">
-            <!-- Контент статьи загрузится сюда -->
+        <div id="article-content" class="article-content">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner"></i>
+                <p>Загрузка статьи...</p>
+            </div>
         </div>
-        
-        <div class="article-nav">
-            <a href="learn.html" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> К урокам
-            </a>
+        <div id="lesson-nav" class="lesson-nav" style="display: none;">
+            <a id="prev-lesson" href="#"><i class="fas fa-chevron-left"></i> Предыдущий урок</a>
+            <a id="next-lesson" href="#">Следующий урок <i class="fas fa-chevron-right"></i></a>
         </div>
     </main>
-
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
-                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> Ресурсы</h4>
-                    <p>Глоссарий терминов и обучающие уроки для начинающих</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-code"></i> Технологии</h4>
-                    <p>D3.js • JavaScript • HTML5 • CSS3</p>
-                </div>
+                <div class="footer-section"><h4><i class="fas fa-graduation-cap"></i> Обучение</h4><p>Изучай кибербезопасность с интерактивной картой атак</p></div>
+                <div class="footer-section"><h4><i class="fas fa-book"></i> Ресурсы</h4><p>Глоссарий терминов и обучающие уроки</p></div>
+                <div class="footer-section"><h4><i class="fas fa-code"></i> Технологии</h4><p>D3.js • JavaScript • HTML5 • CSS3</p></div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 CyberThreat Explorer | Образовательный проект</p>
-                <p class="disclaimer">
-                    <i class="fas fa-graduation-cap"></i>
-                    Создано для обучения и практики веб-разработки
-                </p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p></div>
         </div>
     </footer>
-
     <script src="assets/js/progressManager.js"></script>
     <script>
-        // Определение главы по ID урока
-        const chapterByLesson = {
-            'what-is-ddos': 'chapter1',
-            'what-is-phishing': 'chapter1',
-            'how-vpn-works': 'chapter1',
-            'how-passwords-work': 'chapter1',
-            'malware-guide': 'chapter1',
-            'social-engineering': 'chapter1',
-            'social-media-safety': 'chapter1',
-            'wifi-security': 'chapter1',
-            'email-security': 'chapter1',
-            'updates-importance': 'chapter1',
-            'encryption-basics': 'chapter2',
-            'mobile-security': 'chapter2',
-            'two-factor-auth': 'chapter2',
-            'phishing-attacks-deep-dive': 'chapter2',
-            'crypto-security': 'chapter2',
-            'iot-security': 'chapter2',
-            'gaming-security': 'chapter2',
-            'child-safety': 'chapter2',
-            'backup-guide': 'chapter2',
-            'online-anonymity': 'chapter2',
-            'tib-intro': 'chapter3',
-            'tib-info-object': 'chapter3',
-            'tib-threats': 'chapter3',
-            'tib-vulnerabilities': 'chapter3',
-            'tib-intruder-model': 'chapter3',
-            'tib-threat-modeling': 'chapter3',
-            'tib-security-policies': 'chapter3',
-            'tib-discretionary': 'chapter3',
-            'tib-mandatory': 'chapter3',
-            'tib-integrity': 'chapter3',
-            'tib-nsd': 'chapter3'
-        };
-        
-        // Отметить урок как просмотренный
-        function markLessonAsViewed(lessonId) {
-            const chapterId = chapterByLesson[lessonId];
-            if (chapterId) {
-                const isNew = progressManager.markLessonViewed(lessonId, chapterId);
-                console.log(`Урок "${lessonId}" отмечен как просмотренный (глава: ${chapterId}), новый: ${isNew}`);
-            } else {
-                console.warn(`Глава для урока "${lessonId}" не найдена`);
-            }
-        }
-        
-        // Встроенные статьи (уроки 1-20)
+        // Все доступные уроки (отсортированы по порядку в учебнике)
+        const allLessons = [
+            // Глава 1: Основы безопасности
+            'what-is-ddos', 'what-is-phishing', 'how-vpn-works', 'how-passwords-work', 'malware-guide',
+            'social-engineering', 'social-media-safety', 'wifi-security', 'email-security', 'updates-importance',
+            // Глава 2: Продвинутая защита
+            'encryption-basics', 'mobile-security', 'two-factor-auth', 'phishing-attacks-deep-dive', 'crypto-security',
+            'iot-security', 'gaming-security', 'child-safety', 'backup-guide', 'online-anonymity',
+            // Глава 3: Теория информационной безопасности
+            'tib-intro', 'tib-info-object', 'tib-threats', 'tib-vulnerabilities', 'tib-intruder-model',
+            'tib-threat-modeling', 'tib-security-policies', 'tib-discretionary', 'tib-mandatory', 'tib-integrity', 'tib-nsd',
+            // Глава 4: Безопасность на практике
+            'security-architecture', 'cryptography-fundamentals', 'vulnerability-management', 
+            'threat-modeling-practical', 'network-security-monitoring', 'endpoint-detection-response',
+            'security-automation-orchestration', 'secops-fundamentals', 'security-auditing-compliance',
+            // Глава 5: Анализ и расследование
+            'advanced-malware-analysis', 'advanced-memory-forensics', 'advanced-threat-intelligence', 
+            'advanced-incident-response', 'advanced-reverse-engineering',
+            // Глава 6: Тестирование и аудит
+            'advanced-red-teaming', 'advanced-web-testing', 'advanced-cloud-security', 
+            'advanced-exploitation-techniques', 'advanced-ics-security',
+            // Глава 7: Этичный хакинг и пентестинг
+            'ethical-hacking-intro', 'pentesting-methodology', 'reconnaissance', 
+            'scanning-enumeration', 'vulnerability-assessment', 'exploitation-techniques',
+            'post-exploitation', 'reporting-documentation', 'legal-ethics', 'tools-frameworks'
+        ];
+
         const builtInArticles = {
             'what-is-ddos': {
                 title: 'Что такое DDoS-атака?',
-                description: 'Узнайте, как работают массовые атаки на сайты',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>DDoS-атака — это когда тысячи компьютеров одновременно начинают «бомбить» один сайт или сервер своими запросами. Как если бы миллион человек одновременно попытались зайти в одну дверь небольшого магазина — нормальные покупатели просто не смогли бы пройти.</p>
-                    
-                    <h2>Как это работает?</h2>
-                    <p>Хакеры создают <strong>ботнет</strong> — сеть из тысяч заражённых компьютеров по всему миру. Эти компьютеры могут принадлежать ничего не подозревающим людям, чьи устройства были заражены вирусом.</p>
-                    <p>Когда хакер даёт команду, все эти компьютеры начинают слать запросы на целевой сервер. Сервер не выдерживает нагрузки и перестаёт работать.</p>
-                    
-                    <h2>Пример из жизни</h2>
-                    <p>Представьте футбольный стадион, где на один вход пытаются пройти 50 000 человек одновременно. Охранники просто не смогут всех проверить — образуется давка, и никто не может войти. Примерно так же работает DDoS-атака на сервер.</p>
-                    
-                    <h2>Как от этого защищаются?</h2>
-                    <ul>
-                        <li><strong>Брандмауэры</strong> — фильтруют подозрительный трафик</li>
-                        <li><strong>CDN</strong> — распределяют нагрузку по разным серверам</li>
-                        <li><strong>Прокси-серверы</strong> — принимают удар на себя</li>
-                        <li><strong>Системы обнаружения</strong> — замечают атаку и блокируют её</li>
-                    </ul>
-                    
-                    <h2>Как защитить себя?</h2>
-                    <p>Хоть вы и не можете остановить DDoS-атаку на сайт, вы можете не стать частью ботнета:</p>
-                    <ul>
-                        <li>Не открывайте подозрительные вложения в письмах</li>
-                        <li>Скачивайте программы только с официальных сайтов</li>
-                        <li>Регулярно обновляйте антивирус</li>
-                    </ul>
-                `
+                description: 'Подробное объяснение DDoS-атак, их видов и способов защиты.',
+                content: `<h2>Введение в DDoS-атаки</h2>
+                <p>DDoS-атака (Distributed Denial of Service) — это кибератака, при которой злоумышленник пытается сделать веб-сайт недоступным, перегружая его трафиком.</p>
+                <div class="info-box"><h4><i class="fas fa-info-circle"></i> Факт</h4><p>Самые мощные DDoS-атаки могут достигать нескольких терабит в секунду!</p></div>
+                <h2>Виды DDoS-атак</h2>
+                <h3>1. Объёмные атаки</h3>
+                <p>Злоумышленник заполняет канал связи жертвы огромным количеством данных.</p>
+                <h3>2. Протокольные атаки</h3>
+                <p>Атаки направлены на истощение ресурсов сервера через уязвимости в протоколах.</p>
+                <h3>3. Атаки на уровень приложений</h3>
+                <p>Злоумышленник имитирует поведение обычных пользователей в больших масштабах.</p>
+                <h2>Как защититься</h2>
+                <div class="success-box"><h4><i class="fas fa-check-circle"></i> Методы защиты</h4>
+                <ul>
+                    <li>Использование CDN</li>
+                    <li>Настройка firewall</li>
+                    <li>Мониторинг трафика</li>
+                    <li>Rate limiting</li>
+                </ul>
+                </div>`,
+                quiz: [
+                    {question: 'Что означает DDoS?', options: ['Digital Denial of Service', 'Distributed Denial of Service', 'Direct Denial of Service'], correct: 1, explanation: 'DDoS = Distributed Denial of Service.'},
+                    {question: 'Какой тип атак направлен на протоколы?', options: ['Volumetric', 'Protocol', 'Application'], correct: 1, explanation: 'Protocol Attacks используют уязвимости в протоколах.'}
+                ]
             },
             'what-is-phishing': {
-                title: 'Как распознать фишинг?',
-                description: 'Научитесь отличать настоящие письма от поддельных',
-                content: `
-                    <h2>Что такое фишинг?</h2>
-                    <p>Фишинг — это вид интернет-мошенничества, при котором злоумышленники пытаются получить ваши конфиденциальные данные: пароли, номера карт, личную информацию.</p>
-                    
-                    <h2>Основные методы фишинга</h2>
-                    
-                    <h3>Email-фишинг</h3>
-                    <p>Вы получаете письмо, которое выглядит как от банка, популярного сервиса или социальной сети. В письме просят перейти по ссылке и «подтвердить данные».</p>
-                    
-                    <h3>SMS-фишинг (Smishing)</h3>
-                    <p>Мошенники отправляют SMS с сообщением о выигрыше, блокировке карты или подозрительной активности.</p>
-                    
-                    <h3>Вишинг (Vishing)</h3>
-                    <p>Вам звонят якобы из банка, полиции или службы безопасности и просят сообщить данные или перевести деньги.</p>
-                    
-                    <h2>Как распознать фишинг?</h2>
-                    <ul>
-                        <li><strong>Проверьте адрес отправителя</strong> — он может отличаться на одну букву</li>
-                        <li><strong>Не торопитесь</strong> — мошенники создают срочность</li>
-                        <li><strong>Банк никогда не просит пароль</strong> по телефону или email</li>
-                        <li><strong>Наведите курсор на ссылку</strong> — посмотрите, куда она ведёт</li>
-                        <li><strong>Обратите внимание на орфографию</strong> — ошибки выдают мошенников</li>
-                    </ul>
-                    
-                    <h2>Что делать, если получили подозрительное письмо?</h2>
-                    <ul>
-                        <li>Не переходите по ссылкам</li>
-                        <li>Не сообщайте личные данные</li>
-                        <li>Удалите письмо</li>
-                        <li>Если сомневаетесь — свяжитесь с организацией напрямую</li>
-                    </ul>
-                `
-            },
-            'how-vpn-works': {
-                title: 'Как работает VPN?',
-                description: 'Узнайте, что такое VPN и зачем он нужен',
-                content: `
-                    <h2>Что такое VPN?</h2>
-                    <p>VPN (Virtual Private Network) — это технология, которая создаёт защищённое соединение между вашим устройством и интернетом. Ваш трафик идёт через специальный сервер, который шифрует все данные.</p>
-                    
-                    <h2>Как это работает?</h2>
-                    <p>Без VPN: Ваш компьютер → Иннет-провайдер → Сайт</p>
-                    <p>С VPN: Ваш компьютер → VPN-сервер (шифрование) → Интернет-провайдер → Сайт</p>
-                    
-                    <h2>Зачем нужен VPN?</h2>
-                    
-                    <h3>Конфиденциальность</h3>
-                    <p>Ваш интернет-провайдер видит только, что вы подключились к VPN-серверу, но не знает, какие сайты вы посещаете.</p>
-                    
-                    <h3>Безопасность в публичных сетях</h3>
-                    <p>В кафе, отеле или аэропорту хакеры могут перехватывать трафик в открытых Wi-Fi сетях. VPN шифрует ваши данные, делая их недоступными.</p>
-                    
-                    <h3>Обход блокировок</h3>
-                    <p>Некоторые сайты и сервисы недоступны в определённых странах. VPN позволяет выбрать сервер в другой стране.</p>
-                    
-                    <h2>Мифы о VPN</h2>
-                    <ul>
-                        <li><strong>VPN не делает вас анонимным на 100%</strong> — он защищает от перехвата трафика, но сервер VPN видит всё</li>
-                        <li><strong>Бесплатный VPN может продавать ваши данные</strong> — зарабатывать нужно как-то</li>
-                        <li><strong>VPN замедляет интернет</strong> — трафик идёт через дополнительный сервер</li>
-                    </ul>
-                    
-                    <h2>Как выбрать VPN?</h2>
-                    <ul>
-                        <li>Проверьте политику логирования — лучше, если они не хранят историю</li>
-                        <li>Обратите внимание на скорость и количество серверов</li>
-                        <li>Изучите отзывы и репутацию сервиса</li>
-                        <li>Популярные платные варианты: NordVPN, ExpressVPN, Mullvad</li>
-                    </ul>
-                `
-            },
-            'how-passwords-work': {
-                title: 'Пароли и защита аккаунтов',
-                description: 'Как создать надёжный пароль и защитить свои аккаунты от взлома',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Пароль — это секретное слово или фраза, которая доказывает, что вы это именно вы. Представьте пароль как ключ от дома: если у вас есть правильный ключ, дверь откроется.</p>
-                    
-                    <h2>Почему пароли могут украсть?</h2>
-                    
-                    <h3>1. Брутфорс (перебор паролей)</h3>
-                    <p>Хакеры используют программы, которые автоматически пробуют тысячи паролей в секунду. Если ваш пароль "123456", программа угадает его за 0.0001 секунды.</p>
-                    
-                    <h3>2. Фишинг</h3>
-                    <p>Вы сами вводите пароль на поддельном сайте. Получаете письмо от «Госуслуг» с просьбой войти. Переходите по ссылке, вводите пароль. Но это сайт мошенников!</p>
-                    
-                    <h3>3. Утечки данных</h3>
-                    <p>Хакеры взламывают серверы компаний и крадут базы с паролями. Крупные компании регулярно сообщают об утечках миллионов паролей.</p>
-                    
-                    <h2>Как создать надёжный пароль?</h2>
-                    <p><strong>Хороший пароль:</strong></p>
-                    <ul>
-                        <li>Минимум 12-16 символов</li>
-                        <li>Буквы (верхний и нижний регистр)</li>
-                        <li>Цифры</li>
-                        <li>Специальные символы (!@#$%^&*)</li>
-                    </ul>
-                    <p><strong>Плохие пароли:</strong></p>
-                    <ul>
-                        <li>Даты рождения</li>
-                        <li>Имена детей/животных</li>
-                        <li>Слова из словаря</li>
-                        <li>Последовательности (123456, qwerty)</li>
-                    </ul>
-                    
-                    <h2>Что такое двухфакторная аутентификация (2FA)?</h2>
-                    <p>Это когда нужно подтвердить личность двумя способами:</p>
-                    <ul>
-                        <li><strong>Что вы знаете</strong> — пароль</li>
-                        <li><strong>Что у вас есть</strong> — телефон, приложение, ключ</li>
-                    </ul>
-                    <p>Даже если хакер узнает ваш пароль, он не сможет войти без второго фактора!</p>
-                    
-                    <h2>Как менеджеры паролей помогают?</h2>
-                    <p>Менеджер паролей — это программа, которая:</p>
-                    <ul>
-                        <li>Генерирует сложные пароли</li>
-                        <li>Хранит их в зашифрованном виде</li>
-                        <li>Автоматически заполняет формы</li>
-                    </ul>
-                    
-                    <h2>Практические советы</h2>
-                    <ul>
-                        <li>Используйте разные пароли для разных сайтов</li>
-                        <li>Включите 2FA везде, где это возможно</li>
-                        <li>Используйте менеджер паролей</li>
-                        <li>Меняйте пароли раз в год</li>
-                        <li>Не сообщайте пароли никому</li>
-                    </ul>
-                `
-            },
-            'malware-guide': {
-                title: 'Вирусы и вредоносные программы',
-                description: 'Узнайте, какие бывают вирусы и как от них защититься',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Вредоносное ПО (malware) — это программы, которые хакеры создают, чтобы навредить вашему компьютеру или украсть ваши данные. Как простуда для человека: незаметно проникает и причиняет вред.</p>
-                    
-                    <h2>Какие бывают вирусы?</h2>
-                    
-                    <h3>1. Вирусы</h3>
-                    <p>Заражают другие файлы и распространяются по системе. Вы скачиваете игру с пиратского сайта. В ней вирус, который заражает все .exe файлы на компьютере.</p>
-                    
-                    <h3>2. Трояны</h3>
-                    <p>Маскируются под полезные программы. Скачиваете «новую версию фотошопа», а там троян. Он ворует ваши пароли и отправляет хакеру.</p>
-                    
-                    <h3>3. Вымогатели (Ransomware)</h3>
-                    <p>Шифруют файлы и требуют деньги. WannaCry в 2017 году заразил 200+ тысяч компьютеров в 150 странах.</p>
-                    
-                    <h2>Как вирусы попадают на компьютер?</h2>
-                    <ul>
-                        <li>Пиратское ПО — «бесплатные» программы и игры</li>
-                        <li>Вложения в письмах — документы .exe, .scr, .zip</li>
-                        <li>Скачанные файлы с подозрительных сайтов</li>
-                        <li>Заражённые USB-флешки</li>
-                        <li>Поддельные обновления — «обновите Flash Player»</li>
-                    </ul>
-                    
-                    <h2>Как понять, что компьютер заражён?</h2>
-                    <ul>
-                        <li>Компьютер стал медленно работать</li>
-                        <li>Странные звуки вентилятора</li>
-                        <li>Много рекламы в браузере</li>
-                        <li>Программы открываются сами</li>
-                        <li>Пароли перестали работать</li>
-                    </ul>
-                    
-                    <h2>Как защититься?</h2>
-                    <ul>
-                        <li><strong>Антивирус</strong> — Windows Defender (встроен) или платные альтернативы</li>
-                        <li><strong>Обновления</strong> — включите автоматические обновления ОС и программ</li>
-                        <li><strong>Бэкап</strong> — регулярно сохраняйте важные файлы в облако или на внешний диск</li>
-                        <li><strong>Осторожность</strong> — не скачивайте с подозрительных сайтов</li>
-                    </ul>
-                    
-                    <h2>Вымогатели — особый случай</h2>
-                    <p>Если вы стали жертвой:</p>
-                    <ul>
-                        <li>НЕ платите выкуп!</li>
-                        <li>НЕ выключайте компьютер!</li>
-                        <li>Восстановите файлы из бэкапа</li>
-                    </ul>
-                `
-            },
-            'social-engineering': {
-                title: 'Социальная инженерия',
-                description: 'Как хакеры манипулируют людьми для получения данных',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Социальная инженерия — это метод обмана, при котором хакеры не взламывают компьютеры, а «взламывают» людей. Они используют психологию, чтобы заставить вас самих отдать пароли, деньги или важную информацию.</p>
-                    
-                    <h2>Основные техники</h2>
-                    
-                    <h3>Pretexting (ложный предлог)</h3>
-                    <p>Хакер создаёт убедительную историю. «Звоню из банка, заметили подозрительную активность на вашем счёте».</p>
-                    
-                    <h3>Baiting (наживка)</h3>
-                    <p>Оставляют заражённые USB-флешки с надписью «Зарплаты 2025» на парковке офиса.</p>
-                    
-                    <h3>Quid Pro Quo</h3>
-                    <p>«Звонят из Microsoft» — ваш компьютер заражён, «бесплатно» удалим вирус. На самом деле установят троян.</p>
-                    
-                    <h2>Признаки социальной инженерии</h2>
-                    <ul>
-                        <li><strong>Срочность</strong> — «Сделайте немедленно!»</li>
-                        <li><strong>Страх</strong> — «Ваш аккаунт будет заблокирован!»</li>
-                        <li><strong>Просьба о деньгах</strong> — «Переведите на этот счёт»</li>
-                        <li><strong>Неожиданный контакт</strong> — письмо от «банка», которого вы не используете</li>
-                    </ul>
-                    
-                    <h2>Как защититься?</h2>
-                    <ul>
-                        <li>Не доверяйте — проверяйте</li>
-                        <li>Не торопитесь</li>
-                        <li>Никому не сообщайте пароли</li>
-                        <li>Настройте двухфакторную аутентификацию</li>
-                        <li>Обсуждайте с коллегами подозрительные запросы</li>
-                    </ul>
-                `
-            },
-            'social-media-safety': {
-                title: 'Безопасность в социальных сетях',
-                description: 'Как защитить свои аккаунты и личные данные в соцсетях',
-                content: `
-                    <h2>Почему это важно?</h2>
-                    <p>Социальные сети — это огромная база данных о вашей жизни, которую используют мошенники, рекламщики и киберпреступники.</p>
-                    
-                    <h2>Какие данные вы раскрываете?</h2>
-                    <ul>
-                        <li>Дату рождения → для взлома аккаунтов</li>
-                        <li>Адрес → для физической безопасности</li>
-                        <li>Место работы → для фишинга</li>
-                        <li>Фото детей → для кражи личности</li>
-                        <li>Геолокацию → для слежки</li>
-                    </ul>
-                    
-                    <h2>Основные угрозы</h2>
-                    
-                    <h3>Фишинг в социальных сетях</h3>
-                    <p>«Ваш аккаунт будет заблокирован! Перейдите по ссылке для подтверждения» — поддельная страница.</p>
-                    
-                    <h3>Кража личности</h3>
-                    <p>Кто-то создаёт аккаунт от вашего имени. «Привет, это Катя. Срочно нужны деньги!»</p>
-                    
-                    <h2>Настройки безопасности</h2>
-                    <ul>
-                        <li>Сделайте аккаунт приватным</li>
-                        <li>Ограничьте, кто может найти вас</li>
-                        <li>Скрывайте номер телефона</li>
-                        <li>Включите двухфакторную аутентификацию</li>
-                        <li>Не публикуйте геолокацию в реальном времени</li>
-                    </ul>
-                    
-                    <h2>Признаки взлома аккаунта</h2>
-                    <ul>
-                        <li>Друзья получают сообщения, которых вы не отправляли</li>
-                        <li>Появляются публикации, которых вы не делали</li>
-                        <li>Вы не можете войти в аккаунт</li>
-                    </ul>
-                `
-            },
-            'wifi-security': {
-                title: 'Безопасность Wi-Fi сетей',
-                description: 'Как защититься при использовании публичных и домашних сетей',
-                content: `
-                    <h2>Почему публичный Wi-Fi опасен?</h2>
-                    <p>В отличие от проводного кабеля, сигнал Wi-Fi распространяется по воздуху. Его может перехватить любой, кто находится поблизости.</p>
-                    
-                    <h2>Риски открытых сетей</h2>
-                    <ul>
-                        <li><strong>Перехват трафика</strong> — хакер видит все ваши действия</li>
-                        <li><strong>Атака «Человек посередине»</strong> — вы на поддельном сайте</li>
-                        <li><strong>Вредоносные точки доступа</strong> — «Free WiFi» от хакера</li>
-                    </ul>
-                    
-                    <h2>Как защититься в публичных сетях?</h2>
-                    
-                    <h3>1. Используйте VPN</h3>
-                    <p>VPN шифрует весь ваш трафик. Даже если хакер перехватит данные, он увидит только непонятный набор символов.</p>
-                    
-                    <h3>2. Не вводите важные данные</h3>
-                    <p>В публичных сетях не вводите пароли от банка, данные карты, важные пароли.</p>
-                    
-                    <h3>3. Проверяйте название сети</h3>
-                    <p>Официальная: «Starbucks_WiFi». Поддельная: «Sturbucks_WiFi».</p>
-                    
-                    <h2>Защита домашней сети</h2>
-                    <ul>
-                        <li>Смените пароль роутера по умолчанию</li>
-                        <li>Установите WPA3 или WPA2 шифрование</li>
-                        <li>Придумайте сложный пароль для Wi-Fi</li>
-                        <li>Отключите WPS</li>
-                        <li>Регулярно обновляйте прошивку роутера</li>
-                    </ul>
-                `
-            },
-            'email-security': {
-                title: 'Безопасность электронной почты',
-                description: 'Как защитить почту от взлома и фишинга',
-                content: `
-                    <h2>Почему почта — главная цель?</h2>
-                    <p>Электронная почта — это ключ к вашей цифровой жизни. Кто-то получил доступ к почте — может войти во все аккаунты, сбросив пароли.</p>
-                    
-                    <h2>Основные угрозы</h2>
-                    
-                    <h3>Фишинговые письма</h3>
-                    <p>Мошенники отправляют письма от банка, госуслуг с просьбой «подтвердить данные».</p>
-                    
-                    <h3>Вредоносные вложения</h3>
-                    <p>Письмо с вложением, которое заражает компьютер. Опасны: .exe, .scr, .bat, .zip.</p>
-                    
-                    <h2>Как создать надёжную почту?</h2>
-                    <ul>
-                        <li>Сложный пароль (минимум 12 символов)</li>
-                        <li>Двухфакторная аутентификация (2FA) — самое важное!</li>
-                        <li>Уникальный пароль для почты</li>
-                        <li>Секретные вопросы с придуманными ответами</li>
-                    </ul>
-                    
-                    <h2>Как распознать фишинг?</h2>
-                    <ul>
-                        <li>Проверьте адрес отправителя</li>
-                        <li>Наведите курсор на ссылку — куда ведёт?</li>
-                        <li>Есть ли срочность и страх в тексте?</li>
-                        <li>Просят деньги или данные?</li>
-                    </ul>
-                    
-                    <h2>Что делать, если почту взломали?</h2>
-                    <ol>
-                        <li>Срочно смените пароль</li>
-                        <li>Включите 2FA</li>
-                        <li>Проверьте активность и выйдите из всех сессий</li>
-                        <li>Проверьте настройки (переадресация)</li>
-                        <li>Предупредите контакты</li>
-                    </ol>
-                `
-            },
-            'updates-importance': {
-                title: 'Обновления программ: почему они важны?',
-                description: 'Зачем нужно обновлять операционную систему и программы',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Обновления — это «заплатки» для программ. Они исправляют ошибки, закрывают дыры в безопасности и добавляют новые функции.</p>
-                    
-                    <h2>Почему обновления важны?</h2>
-                    <p>Каждый день хакеры ищут уязвимости — «дыры» в программах. Найдя дыру, они могут взломать ваш компьютер, украсть пароли, установить вирус.</p>
-                    
-                    <h2>Что исправляют обновления?</h2>
-                    
-                    <h3>Уязвимости безопасности</h3>
-                    <p>Дыры, через которые могут проникнуть хакеры. WannaCry заразил 200 000+ компьютеров только потому, что люди не установили обновление.</p>
-                    
-                    <h3>Ошибки (баги)</h3>
-                    <p>Проблемы в работе программы. Обновление исправляет их.</p>
-                    
-                    <h3>Новые функции</h3>
-                    <p>Улучшения и новые возможности.</p>
-                    
-                    <h2>Типы обновлений</h2>
-                    <ul>
-                        <li><strong>Критические</strong> — срочные исправления безопасности, устанавливайте немедленно</li>
-                        <li><strong>Важные</strong> — новые функции, можно установить в течение недели</li>
-                        <li><strong>Незначительные</strong> — мелкие исправления</li>
-                    </ul>
-                    
-                    <h2>Мифы об обновлениях</h2>
-                    <ul>
-                        <li>❌ «Обновления замедляют компьютер» — ✅ Новые оптимизации обычно ускоряют систему</li>
-                        <li>❌ «Если всё работает — не трогай» — ✅ «Работает» не значит «безопасно»</li>
-                        <li>❌ «У меня есть антивирус» — ✅ Антивирус не защищает от всех уязвимостей</li>
-                    </ul>
-                    
-                    <h2>Как не пропустить обновления?</h2>
-                    <ul>
-                        <li>Включите автоматическое обновление в настройках системы</li>
-                        <li>Регулярно проверяйте наличие обновлений</li>
-                        <li>Перезагружайте компьютер, когда просят</li>
-                        <li>Используйте официальные источники для скачивания</li>
-                    </ul>
-                `
-            },
-            // Глава 2: Продвинутая защита
-            'encryption-basics': {
-                title: 'Шифрование данных',
-                description: 'Как работает шифрование и как защитить свои файлы',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Шифрование — это превращение информации в непонятный набор символов, который можно прочитать только с помощью специального «ключа».</p>
-                    
-                    <h2>Зачем нужно шифрование?</h2>
-                    <p>Без шифрования: «Пароль: 123456» — любой может прочитать.</p>
-                    <p>С шифрованием: «XJ9#mK2%pL8@nQ4» — только с ключом можно расшифровать.</p>
-                    
-                    <h2>Типы шифрования</h2>
-                    
-                    <h3>Симметричное шифрование</h3>
-                    <p>Один ключ для шифрования и расшифровки. Быстрое, но нужно безопасно передать ключ.</p>
-                    
-                    <h3>Асимметричное шифрование</h3>
-                    <p>Два ключа: публичный и приватный. Используется в SSL-сертификатах и криптовалютах.</p>
-                    
-                    <h2>Популярные инструменты</h2>
-                    <ul>
-                        <li><strong>VeraCrypt</strong> — шифрование дисков и контейнеров</li>
-                        <li><strong>BitLocker</strong> — встроенное шифрование диска в Windows</li>
-                        <li><strong>FileVault</strong> — встроенное шифрование в macOS</li>
-                        <li><strong>7-Zip</strong> — архивы с паролем и шифрованием</li>
-                        <li><strong>Signal</strong> — сквозное шифрование сообщений</li>
-                    </ul>
-                    
-                    <h2>Как зашифровать файлы?</h2>
-                    <ul>
-                        <li>Создайте зашифрованный контейнер VeraCrypt</li>
-                        <li>Используйте BitLocker для всего диска</li>
-                        <li>Архивируйте важные файлы с паролем в 7-Zip</li>
-                    </ul>
-                `
-            },
-            'mobile-security': {
-                title: 'Безопасность мобильных устройств',
-                description: 'Защита смартфонов от взлома и кражи данных',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Смартфон — это компьютер, который всегда с вами. В нём ваши фотографии, переписки, банковские приложения, местоположение.</p>
-                    
-                    <h2>Защита телефона паролём</h2>
-                    <ul>
-                        <li><strong>PIN-код (6+ цифр)</strong> — высокая безопасность</li>
-                        <li><strong>Пароль (буквы+цифры)</strong> — очень высокая безопасность</li>
-                        <li><strong>Отпечаток пальца</strong> — высокая безопасность + удобство</li>
-                        <li><strong>Face ID</strong> — высокая безопасность + удобство</li>
-                    </ul>
-                    
-                    <h2>Безопасность приложений</h2>
-                    <ul>
-                        <li>Скачивайте только из Google Play / App Store</li>
-                        <li>Читайте отзывы и проверяйте разрешения</li>
-                        <li>Не устанавливайте из неизвестных источников</li>
-                        <li>Удаляйте неиспользуемые приложения</li>
-                    </ul>
-                    
-                    <h2>Мобильный антивирус</h2>
-                    <p><strong>Android:</strong> Да, рекомендуется (Bitdefender, Kaspersky, Avast)</p>
-                    <p><strong>iOS:</strong> Обычно нет (песочница защищает)</p>
-                    
-                    <h2>Найти потерянный телефон</h2>
-                    <ul>
-                        <li><strong>Android:</strong> google.com/android/find</li>
-                        <li><strong>iOS:</strong> icloud.com/find</li>
-                    </ul>
-                `
-            },
-            'two-factor-auth': {
-                title: 'Двухфакторная аутентификация',
-                description: 'Полное руководство по 2FA: настройка и использование',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Двухфакторная аутентификация (2FA) — это как дверь с двумя замками. Сначала пароль, потом код с телефона.</p>
-                    
-                    <h2>Зачем нужна 2FA?</h2>
-                    <ul>
-                        <li><strong>80%</strong> утечек данных можно было предотвратить с 2FA</li>
-                        <li>Хакеры в первую очередь атакуют аккаунты БЕЗ 2FA</li>
-                    </ul>
-                    
-                    <h2>Типы 2FA</h2>
-                    
-                    <h3>SMS-код</h3>
-                    <p><strong>Плюсы:</strong> Просто настроить</p>
-                    <p><strong>Минусы:</strong> Можно перехватить (SIM-swap)</p>
-                    
-                    <h3>Приложение-аутентификатор</h3>
-                    <p><strong>Популярные:</strong> Google Authenticator, Microsoft Authenticator, Яндекс Ключ</p>
-                    <p><strong>Плюсы:</strong> Работает офлайн, безопаснее SMS</p>
-                    
-                    <h3>Аппаратные ключи</h3>
-                    <p><strong>Популярные:</strong> YubiKey, Google Titan</p>
-                    <p><strong>Плюсы:</strong> Максимальная безопасность</p>
-                    
-                    <h2>Резервные коды</h2>
-                    <p>Сохраните их в надёжном месте! (менеджер паролей, записанный список)</p>
-                `
-            },
-            'phishing-attacks-deep-dive': {
-                title: 'Фишинг — глубокое погружение',
-                description: 'Все виды фишинга и способы защиты от них',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Фишинг — это обман, при котором мошенники заставляют вас самих отдать пароли и деньги. Название от «fishing» — рыбалка.</p>
-                    
-                    <h2>Типы фишинга</h2>
-                    
-                    <h3>Email-фишинг</h3>
-                    <p>Массовые письма от «банка», «госуслуг», «налоговой».</p>
-                    
-                    <h3>Smishing (SMS)</h3>
-                    <p>«Ваша карта заблокирована. Позвоните 8-800...»</p>
-                    
-                    <h3>Вишинг (звонки)</h3>
-                    <p>Звонки от «банка», «полиции», «техподдержки».</p>
-                    
-                    <h3>Клонирование</h3>
-                    <p>Мошенники копируют реальное письмо и отправляют с изменённой ссылкой.</p>
-                    
-                    <h2>Как распознать?</h2>
-                    <ul>
-                        <li>Проверьте адрес отправителя</li>
-                        <li>Наведите курсор на ссылку — куда ведёт?</li>
-                        <li>Есть ли срочность и страх в тексте?</li>
-                    </ul>
-                    
-                    <h2>Проверка ссылок</h2>
-                    <p><strong>Плохо:</strong> abank.ru.security-check.com — это НЕ банк.ру</p>
-                    <p><strong>Хорошо:</strong> login.alfabank.ru — поддомен банка</p>
-                `
-            },
-            'crypto-security': {
-                title: 'Криптовалюты и безопасность',
-                description: 'Как защитить криптовалюту от кражи и мошенничества',
-                content: `
-                    <h2>Почему криптовалюта — лёгкая добыча?</h2>
-                    <p>Криптовалюту нельзя «вернуть» как украденные деньги в банке. Транзакции необратимы.</p>
-                    
-                    <h2>Типы кошельков</h2>
-                    
-                    <h3>Горячие кошельки</h3>
-                    <p>Подключены к интернету. Удобно, но менее безопасно.</p>
-                    
-                    <h3>Холодные кошельки</h3>
-                    <p>Не подключены к интернету. Максимальная безопасность.</p>
-                    
-                    <h3>Аппаратные</h3>
-                    <p>Физические устройства (Ledger, Trezor). Золотой стандарт.</p>
-                    
-                    <h2>Популярные аферы</h2>
-                    <ul>
-                        <li><strong>Фейковые биржи</strong> — требуют «верификацию» для вывода</li>
-                        <li><strong>Фишинг</strong> — поддельные сайты бирж</li>
-                        <li><strong>Раздачи (Airdrop)</strong> — требуют перевести для получения</li>
-                    </ul>
-                    
-                    <h2>Как защитить?</h2>
-                    <ul>
-                        <li>Используйте аппаратные кошельки</li>
-                        <li>Включите 2FA на биржах</li>
-                        <li>Никому не сообщайте сид-фразу (12-24 слова)</li>
-                        <li>Храните сид-фразу офлайн</li>
-                    </ul>
-                `
-            },
-            'iot-security': {
-                title: 'Умный дом и Интернет вещей',
-                description: 'Безопасность IoT-устройств и защита умного дома',
-                content: `
-                    <h2>Что такое IoT?</h2>
-                    <p>Internet of Things — умные устройства: камеры, лампы, замки, холодильники, подключённые к интернету.</p>
-                    
-                    <h2>Почему IoT опасен?</h2>
-                    <p>Большинство IoT-устройств имеют слабую безопасность. Хакеры массово взламывают камеры, умные замки, игрушки.</p>
-                    
-                    <h2>Популярные атаки</h2>
-                    <ul>
-                        <li><strong>Взлом камер</strong> — подглядывание, шантаж</li>
-                        <li><strong>Умные замки</strong> — проникновение в дом</li>
-                        <li><strong>Ботнеты</strong> — устройства в ботнете для DDoS</li>
-                    </ul>
-                    
-                    <h2>Как защитить умный дом?</h2>
-                    <ul>
-                        <li>Смените пароль по умолчанию на всех устройствах!</li>
-                        <li>Обновляйте прошивку устройств</li>
-                        <li>Создайте отдельную сеть для IoT-устройств</li>
-                        <li>Отключите неиспользуемые функции</li>
-                        <li>Покупайте устройства от известных производителей</li>
-                    </ul>
-                `
-            },
-            'gaming-security': {
-                title: 'Безопасность в играх',
-                description: 'Как защитить игровые аккаунты от взлома',
-                content: `
-                    <h2>Почему игровые аккаунты — цель?</h2>
-                    <p>В играх есть ценные предметы, валюта, скины. Аккаунты продаются за тысячи долларов.</p>
-                    
-                    <h2>Основные угрозы</h2>
-                    <ul>
-                        <li><strong>Фишинг</strong> — поддельные сайты игр, генераторы валюты</li>
-                        <li><strong>Кейлоггеры</strong> — записывают нажатия клавиш</li>
-                        <li><strong>Читы</strong> — заражённые программы</li>
-                    </ul>
-                    
-                    <h2>Как защитить аккаунт?</h2>
-                    <ul>
-                        <li>Используйте сложный пароль и 2FA</li>
-                        <li>Не скачивайте читы и генераторы — они заражены вирусами</li>
-                        <li>Покупайте игры в официальных магазинах</li>
-                        <li>Включите Steam Guard / аналогичную защиту</li>
-                        <li>Не переходите по ссылкам в чатах игр</li>
-                    </ul>
-                    
-                    <h2>Если аккаунт украли?</h2>
-                    <ol>
-                        <li>Обратитесь в поддержку игры</li>
-                        <li>Сохраните доказательства покупки</li>
-                        <li>Смените пароль на почте</li>
-                        <li>Включите 2FA</li>
-                    </ol>
-                `
-            },
-            'child-safety': {
-                title: 'Безопасность детей в интернете',
-                description: 'Как защитить детей от опасностей онлайн-мира',
-                content: `
-                    <h2>Какие опасности?</h2>
-                    <ul>
-                        <li><strong>Кибербуллинг</strong> — травля в соцсетях и играх</li>
-                        <li><strong>Груминг</strong> — взрослые, которые втираются в доверие</li>
-                        <li><strong>Неприличный контент</strong> — порно, насилие</li>
-                        <li><strong>Онлайн-зависимость</strong> — игры, соцсети, TikTok</li>
-                    </ul>
-                    
-                    <h2>Как защитить ребёнка?</h2>
-                    
-                    <h3>Технические средства</h3>
-                    <ul>
-                        <li>Родительский контроль (Google Family Link, Screen Time)</li>
-                        <li>Семейные аккаунты YouTube, SafeSearch</li>
-                        <li>Ограничение времени использования устройств</li>
-                    </ul>
-                    
-                    <h3>Разговор с ребёнком</h3>
-                    <ul>
-                        <li>Объясните про фишинг и незнакомцев в интернете</li>
-                        <li>Скажите, что он может рассказать вам о любой ситуации</li>
-                        <li>Расскажите о груминге без запугивания</li>
-                    </ul>
-                    
-                    <h2>Признаки проблем</h2>
-                    <ul>
-                        <li>Нервничает при использовании телефона</li>
-                        <li>Получает подарки от незнакомцев</li>
-                        <li>Резкие перепады настроения после гаджетов</li>
-                    </ul>
-                `
-            },
-            'backup-guide': {
-                title: 'Бэкап и восстановление данных',
-                description: 'Как создавать резервные копии и восстанавливать данные',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Бэкап — это копия важных файлов в другом месте. Если с оригиналами что-то случится, у вас есть резерв.</p>
-                    
-                    <h2>Зачем нужен бэкап?</h2>
-                    <ul>
-                        <li>Защита от вирусов-вымогателей</li>
-                        <li>Защита от поломки компьютера</li>
-                        <li>Защита от случайного удаления</li>
-                        <li>Защита от кражи устройства</li>
-                    </ul>
-                    
-                    <h2>Правило 3-2-1</h2>
-                    <ul>
-                        <li><strong>3</strong> — минимум 3 копии данных</li>
-                        <li><strong>2</strong> — на 2 разных носителях</li>
-                        <li><strong>1</strong> — 1 копия в другом месте</li>
-                    </ul>
-                    
-                    <h2>Где хранить бэкапы?</h2>
-                    
-                    <h3>Облачные хранилища</h3>
-                    <ul>
-                        <li>Google Drive / OneDrive / iCloud</li>
-                        <li>Backblaze / Carbonite</li>
-                    </ul>
-                    
-                    <h3>Физические носители</h3>
-                    <ul>
-                        <li>Внешний жёсткий диск</li>
-                        <li>USB-флешка</li>
-                        <li>NAS — домашнее облако</li>
-                    </ul>
-                    
-                    <h2>Как часто?</h2>
-                    <ul>
-                        <li>Каждый день — для рабочих файлов</li>
-                        <li>Раз в неделю — для личных файлов</li>
-                    </ul>
-                `
-            },
-            'online-anonymity': {
-                title: 'Анонимность в интернете',
-                description: 'Как защитить свою приватность и цифровой след',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Анонимность — это когда вас нельзя идентифицировать в интернете. Полная анонимность сложна, но защитить приватность можно.</p>
-                    
-                    <h2>Что отслеживают?</h2>
-                    <ul>
-                        <li><strong>Сайты</strong> — какие страницы вы посещаете</li>
-                        <li><strong>Рекламные сети</strong> — ваши интересы</li>
-                        <li><strong>Интернет-провайдер</strong> — весь ваш трафик</li>
-                        <li><strong>Приложения</strong> — местоположение, контакты</li>
-                    </ul>
-                    
-                    <h2>Что такое цифровой след?</h2>
-                    <p>Это всё, что о вас знают в интернете: посты, комментарии, лайки, фото, покупки, поисковые запросы.</p>
-                    
-                    <h2>Как защитить приватность?</h2>
-                    <ul>
-                        <li>Используйте VPN для шифрования трафика</li>
-                        <li>Приватный режим в браузере</li>
-                        <li>Блокируйте трекеры и рекламу</li>
-                        <li>Не используйте один пароль везде</li>
-                        <li>Двухфакторная аутентификация</li>
-                    </ul>
-                    
-                    <h2>Приватные браузеры</h2>
-                    <ul>
-                        <li><strong>Tor Browser</strong> — максимальная анонимность</li>
-                        <li><strong>DuckDuckGo</strong> — приватный поиск</li>
-                        <li><strong>Brave</strong> — встроенная защита от трекинга</li>
-                    </ul>
-                `
-            },
-            // Глава 3: Теория информационной безопасности
-            'tib-intro': {
-                title: 'Введение в ТИБ',
-                description: 'Основные понятия и цели дисциплины',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Теория информационной безопасности (ТИБ) — это наука о том, как защитить информацию от угроз. Как наука о замках и сейфах, только для цифровых данных.</p>
-                    
-                    <h2>Что такое информационная безопасность?</h2>
-                    <p>Информационная безопасность — это защита информации от:</p>
-                    <ul>
-                        <li><strong>Утечки</strong> — данные попали к посторонним</li>
-                        <li><strong>Нарушения целостности</strong> — данные изменили без разрешения</li>
-                        <li><strong>Нарушения доступности</strong> — нельзя получить доступ к данным</li>
-                    </ul>
-                    
-                    <h2>Три главных свойства безопасности (триада CIA)</h2>
-                    
-                    <h3>Конфиденциальность</h3>
-                    <p>Информация доступна только тем, кто имеет право.</p>
-                    
-                    <h3>Целостность</h3>
-                    <p>Информация верна и не была изменена.</p>
-                    
-                    <h3>Доступность</h3>
-                    <p>Информация доступна когда нужно.</p>
-                    
-                    <h2>Цели защиты информации</h2>
-                    <ul>
-                        <li>Обеспечить безопасность данных</li>
-                        <li>Предотвратить утечки и взломы</li>
-                        <li>Гарантировать работу систем</li>
-                        <li>Соблюдать законы и стандарты</li>
-                    </ul>
-                `
-            },
-            'tib-info-object': {
-                title: 'Информация как объект защиты',
-                description: 'Ценность и свойства информации',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Информация — это самый ценный актив в современном мире. Данные о клиентах, финансы, технологии — всё это стоит денег и привлекает злоумышленников.</p>
-                    
-                    <h2>Свойства информации</h2>
-                    
-                    <h3>Ценность</h3>
-                    <p>Не вся информация одинаково важна. Персональные данные, коммерческая тайна, государственная тайна — имеют разные уровни защиты.</p>
-                    
-                    <h3>Конфиденциальность</h3>
-                    <p>Способность скрывать информацию от посторонних.</p>
-                    
-                    <h3>Целостность</h3>
-                    <p>Актуальность и достоверность данных.</p>
-                    
-                    <h3>Доступность</h3>
-                    <p>Возможность получить информацию когда нужно.</p>
-                    
-                    <h2>Классификация информации по секретности</h2>
-                    <ul>
-                        <li><strong>Открытая</strong> — может быть публичной</li>
-                        <li><strong>Для служебного пользования</strong> — ограниченный доступ</li>
-                        <li><strong>Конфиденциально</strong> — только для конкретных лиц</li>
-                        <li><strong>Секретно</strong> — высокий уровень защиты</li>
-                        <li><strong>Совершенно секретно</strong> — максимальная защита</li>
-                    </ul>
-                    
-                    <h2>Что защищаем?</h2>
-                    <ul>
-                        <li>Персональные данные</li>
-                        <li>Коммерческую тайну</li>
-                        <li>Государственную тайну</li>
-                        <li>Интеллектуальную собственность</li>
-                    </ul>
-                `
-            },
-            'tib-threats': {
-                title: 'Угрозы безопасности информации',
-                description: 'Классификация и виды угроз',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Угроза — это всё, что может навредить вашей информации. Хакеры, вирусы, стихийные бедствия, ошибки сотрудников — всё это угрозы.</p>
-                    
-                    <h2>Классификация угроз</h2>
-                    
-                    <h3>По происхождению</h3>
-                    <ul>
-                        <li><strong>Естественные</strong> — пожар, наводнение, землетрясение</li>
-                        <li><strong>Искусственные</strong> — действия людей</li>
-                    </ul>
-                    
-                    <h3>По виду воздействия</h3>
-                    <ul>
-                        <li><strong>Пассивные</strong> — только наблюдают (прослушка)</li>
-                        <li><strong>Активные</strong> — изменяют данные (вирус)</li>
-                    </ul>
-                    
-                    <h3>По источнику</h3>
-                    <ul>
-                        <li><strong>Внешние</strong> — извне организации</li>
-                        <li><strong>Внутренние</strong> — от сотрудников</li>
-                    </ul>
-                    
-                    <h2>Основные виды угроз</h2>
-                    
-                    <h3>Технические</h3>
-                    <ul>
-                        <li>Вредоносное ПО</li>
-                        <li>Сетевые атаки</li>
-                        <li>Взлом систем</li>
-                    </ul>
-                    
-                    <h3>Человеческие</h3>
-                    <ul>
-                        <li>Социальная инженерия</li>
-                        <li>Ошибки персонала</li>
-                        <li>Умышленные действия</li>
-                    </ul>
-                    
-                    <h3>Природные</h3>
-                    <ul>
-                        <li>Стихийные бедствия</li>
-                        <li>Климатические условия</li>
-                    </ul>
-                `
-            },
-            'tib-vulnerabilities': {
-                title: 'Уязвимости систем',
-                description: 'Что такое уязвимости и как их закрывать',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Уязвимость — это слабость в системе, которую можно использовать для атаки. Как дырка в заборе, через которую вор может проникнуть.</p>
-                    
-                    <h2>Что такое уязвимость?</h2>
-                    <p>Уязвимость — это недостаток в системе, который может быть использован для нарушения безопасности.</p>
-                    
-                    <h2>Причины возникновения</h2>
-                    
-                    <h3>1. Ошибки программирования</h3>
-                    <ul>
-                        <li>Переполнение буфера</li>
-                        <li>SQL-инъекция</li>
-                        <li>XSS</li>
-                    </ul>
-                    
-                    <h3>2. Неправильная конфигурация</h3>
-                    <ul>
-                        <li>Стандартные пароли не изменены</li>
-                        <li>Отладочный режим включён</li>
-                        <li>Лишние сервисы работают</li>
-                    </ul>
-                    
-                    <h3>3. Человеческий фактор</h3>
-                    <ul>
-                        <li>Слабые пароли</li>
-                        <li>Ошибки в настройке</li>
-                        <li>Социальная инженерия</li>
-                    </ul>
-                    
-                    <h2>Классификация уязвимостей (CWE)</h2>
-                    <ul>
-                        <li>Небезопасная десериализация</li>
-                        <li>SQL-инъекция</li>
-                        <li>Межсайтовый скриптинг (XSS)</li>
-                        <li>Неограниченная загрузка файлов</li>
-                        <li>Отсутствие аутентификации</li>
-                    </ul>
-                    
-                    <h2>Шкала опасности (CVSS)</h2>
-                    <ul>
-                        <li><strong>9.0-10.0</strong> — Критический</li>
-                        <li><strong>7.0-8.9</strong> — Высокий</li>
-                        <li><strong>4.0-6.9</strong> — Средний</li>
-                        <li><strong>0.1-3.9</strong> — Низкий</li>
-                    </ul>
-                `
-            },
-            'tib-intruder-model': {
-                title: 'Моделирование нарушителя',
-                description: 'Классификация и профили нарушителей',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Чтобы защититься от врага, нужно его понять. Модель нарушителя — это описание того, кто может атаковать и как.</p>
-                    
-                    <h2>Кто такой нарушитель?</h2>
-                    <p>Нарушитель — это лицо, предпринявшее попытку реализации угрозы.</p>
-                    
-                    <h2>Типы нарушителей по доступу</h2>
-                    <ul>
-                        <li><strong>Внешний</strong> — без прав доступа</li>
-                        <li><strong>Внутренний</strong> — с правами доступа</li>
-                        <li><strong>Администратор</strong> — с расширенными полномочиями</li>
-                    </ul>
-                    
-                    <h2>По уровню квалификации</h2>
-                    
-                    <h3>Любитель</h3>
-                    <ul>
-                        <li>Использует готовые инструменты</li>
-                        <li>Случайные цели</li>
-                    </ul>
-                    
-                    <h3>Профессионал</h3>
-                    <ul>
-                        <li>Глубокие технические знания</li>
-                        <li>Целенаправленные атаки</li>
-                    </ul>
-                    
-                    <h3>Спецслужбы</h3>
-                    <ul>
-                        <li>Государственный уровень</li>
-                        <li>Неограниченные ресурсы</li>
-                    </ul>
-                    
-                    <h2>По мотивации</h2>
-                    <ul>
-                        <li>Финансы</li>
-                        <li>Шпионаж</li>
-                        <li>Хактивизм</li>
-                        <li>Месть</li>
-                    </ul>
-                `
-            },
-            'tib-threat-modeling': {
-                title: 'Системный подход к угрозам',
-                description: 'Моделирование и оценка угроз',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Моделирование угроз — это как карта сокровищ, только наоборот. Мы ищем дыры в защите, через которые злодей может пробраться.</p>
-                    
-                    <h2>Что такое моделирование угроз?</h2>
-                    <p>Процесс идентификации и оценки потенциальных угроз безопасности информации.</p>
-                    
-                    <h2>Этапы моделирования</h2>
-                    
-                    <h3>Этап 1: Подготовка</h3>
-                    <ul>
-                        <li>Определяем границы системы</li>
-                        <li>Идентифицируем активы</li>
-                        <li>Собираем документацию</li>
-                    </ul>
-                    
-                    <h3>Этап 2: Анализ</h3>
-                    <ul>
-                        <li>Идентифицируем угрозы</li>
-                        <li>Анализируем уязвимости</li>
-                        <li>Оцениваем вероятность</li>
-                    </ul>
-                    
-                    <h3>Этап 3: Документирование</h3>
-                    <ul>
-                        <li>Составляем модель угроз</li>
-                        <li>Приоритизируем риски</li>
-                        <li>Разрабатываем рекомендации</li>
-                    </ul>
-                    
-                    <h2>Метод STRIDE</h2>
-                    <ul>
-                        <li><strong>S</strong> — Spoofing (Подделка)</li>
-                        <li><strong>T</strong> — Tampering (Изменение)</li>
-                        <li><strong>R</strong> — Repudiation (Отказ)</li>
-                        <li><strong>I</strong> — Information Disclosure (Утечка)</li>
-                        <li><strong>D</strong> — Denial of Service (DoS)</li>
-                        <li><strong>E</strong> — Elevation of Privilege (Эскалация)</li>
-                    </ul>
-                `
-            },
-            'tib-security-policies': {
-                title: 'Политики безопасности',
-                description: 'Модели и виды политик безопасности',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Политика безопасности — это свод правил, по которым живёт защита информации. Как устав или правила дорожного движения.</p>
-                    
-                    <h2>Что такое политика безопасности?</h2>
-                    <p>Совокупность правил и принципов, определяющих порядок защиты информации.</p>
-                    
-                    <h2>Классификация политик</h2>
-                    
-                    <h3>По уровню</h3>
-                    <ul>
-                        <li><strong>Верхний</strong> — общая политика</li>
-                        <li><strong>Средний</strong> — политики доменов</li>
-                        <li><strong>Нижний</strong> — локальные политики</li>
-                    </ul>
-                    
-                    <h3>По области применения</h3>
-                    <ul>
-                        <li>Политика управления доступом</li>
-                        <li>Политика паролей</li>
-                        <li>Политика использования ресурсов</li>
-                        <li>Политика инцидентов</li>
-                    </ul>
-                    
-                    <h2>Модели политик безопасности</h2>
-                    
-                    <h3>Матрица доступа</h3>
-                    <p>Таблица, определяющая права доступа субъектов к объектам.</p>
-                    
-                    <h3>Модель Белла-Лападулы</h3>
-                    <p>Мандатная модель с правилами:</p>
-                    <ul>
-                        <li>Простое свойство — чтение сверху вниз</li>
-                        <li>*-свойство — запись снизу вверх</li>
-                    </ul>
-                    
-                    <h3>Модель Биба</h3>
-                    <p>Модель контроля целостности — зеркало Белла-Лападулы.</p>
-                `
-            },
-            'tib-discretionary': {
-                title: 'Модель Харрисона-Руззо-Ульмана',
-                description: 'Дискреционная модель управления доступом',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Модель HRU — это способ управления доступом, где владелец сам решает, кто может войти в его "комнату".</p>
-                    
-                    <h2>Что такое дискреционная модель?</h2>
-                    <p>Права доступа определяются владельцем объекта.</p>
-                    
-                    <h2>Формальное определение</h2>
-                    <p>Система определяется как (S, O, M):</p>
-                    <ul>
-                        <li><strong>S</strong> — множество субъектов</li>
-                        <li><strong>O</strong> — множество объектов</li>
-                        <li><strong>M</strong> — матрица прав доступа</li>
-                    </ul>
-                    
-                    <h2>Операции модели HRU</h2>
-                    <ul>
-                        <li><strong>enter</strong> — добавление права</li>
-                        <li><strong>delete</strong> — удаление права</li>
-                        <li><strong>create</strong> — создание субъекта</li>
-                        <li><strong>destroy</strong> — удаление субъекта</li>
-                    </ul>
-                    
-                    <h2>Свойства модели</h2>
-                    <ul>
-                        <li>✅ Простота реализации</li>
-                        <li>✅ Гибкость</li>
-                        <li>❌ Утечки прав</li>
-                        <li>❌ Зависимость от владельца</li>
-                    </ul>
-                `
-            },
-            'tib-mandatory': {
-                title: 'Модель Белла-Лападулы',
-                description: 'Мандатная модель контроля доступа',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Модель Белла-Лападулы — это строгий контроль доступа, как в секретных учреждениях. Уровень допуска определяет, что можно читать и куда писать.</p>
-                    
-                    <h2>Что такое мандатная модель?</h2>
-                    <p>Система, а не пользователь, решает, кто что может делать.</p>
-                    
-                    <h2>Уровни секретности</h2>
-                    <ul>
-                        <li>Особой важности (Top Secret)</li>
-                        <li>Секретно (Secret)</li>
-                        <li>Конфиденциально (Confidential)</li>
-                        <li>Несекретно (Unclassified)</li>
-                    </ul>
-                    
-                    <h2>Правила модели</h2>
-                    
-                    <h3>Простое свойство (ss-property)</h3>
-                    <p>Субъект читает только объекты с ≤ уровнем секретности.</p>
-                    
-                    <h3>*-свойство (*-property)</h3>
-                    <p>Субъект записывает только объекты с ≥ уровнем секретности.</p>
-                    
-                    <h2>Преимущества и недостатки</h2>
-                    <ul>
-                        <li>✅ Строгая формализация</li>
-                        <li>✅ Гарантия конфиденциальности</li>
-                        <li>❌ Сложность реализации</li>
-                    </ul>
-                `
-            },
-            'tib-integrity': {
-                title: 'Модели контроля целостности',
-                description: 'Модели Биба и Кларка-Вильсона',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Модели целостности защищают данные от изменения "не тем, не в том месте, не тогда".</p>
-                    
-                    <h2>Зачем нужна целостность?</h2>
-                    <p>Целостность — это когда данные верны и не были изменены без разрешения.</p>
-                    
-                    <h2>Модель Биба</h2>
-                    <p>Мандатная модель контроля целостности.</p>
-                    
-                    <h3>Уровни целостности</h3>
-                    <ul>
-                        <li>Very High</li>
-                        <li>High</li>
-                        <li>Medium</li>
-                        <li>Low</li>
-                    </ul>
-                    
-                    <h3>Правила</h3>
-                    <ul>
-                        <li>Читать можно только объекты с ≥ целостностью</li>
-                        <li>Записывать можно только объекты с ≤ целостностью</li>
-                    </ul>
-                    
-                    <h2>Модель Кларка-Вильсона</h2>
-                    <p>Ориентирована на бизнес-процессы и транзакции.</p>
-                    
-                    <h3>Концепции</h3>
-                    <ul>
-                        <li><strong>Well-Formed Transactions</strong> — правильные транзакции</li>
-                        <li><strong>Separation of Duties</strong> — разделение обязанностей</li>
-                    </ul>
-                    
-                    <h3>Компоненты</h3>
-                    <ul>
-                        <li><strong>CDI</strong> — данные критической целостности</li>
-                        <li><strong>IVP</strong> — процедуры проверки целостности</li>
-                        <li><strong>TP</strong> — процедуры трансформации</li>
-                    </ul>
-                `
-            },
-            'tib-nsd': {
-                title: 'Защита от несанкционированного доступа',
-                description: 'Методы и средства защиты от НСД',
-                content: `
-                    <h2>Простыми словами</h2>
-                    <p>Несанкционированный доступ (НСД) — это когда кто-то попадает туда, куда не должен. Защита — это замки и правила, которые не пускают чужаков.</p>
-                    
-                    <h2>Что такое НСД?</h2>
-                    <p>Доступ к информации в нарушение установленных правил.</p>
-                    
-                    <h2>Методы защиты от НСД</h2>
-                    
-                    <h3>1. Идентификация и аутентификация</h3>
-                    <ul>
-                        <li><strong>Идентификация</strong> — кто вы?</li>
-                        <li><strong>Аутентификация</strong> — докажите это</li>
-                    </ul>
-                    
-                    <h3>2. Управление доступом</h3>
-                    <ul>
-                        <li>Дискреционное — владелец определяет права</li>
-                        <li>Мандатное — система определяет по уровням</li>
-                        <li>Ролевое — по ролям</li>
-                    </ul>
-                    
-                    <h3>3. Криптографическая защита</h3>
-                    <ul>
-                        <li>Шифрование данных</li>
-                        <li>Электронная подпись</li>
-                        <li>Хеширование</li>
-                    </ul>
-                    
-                    <h3>4. Аудит и мониторинг</h3>
-                    <ul>
-                        <li>Логирование событий</li>
-                        <li>Системы IDS/IPS</li>
-                        <li>SIEM-системы</li>
-                    </ul>
-                    
-                    <h2>Средства защиты</h2>
-                    <ul>
-                        <li>Межсетевой экран (Firewall)</li>
-                        <li>Антивирус</li>
-                        <li>VPN</li>
-                        <li>DLP-системы</li>
-                    </ul>
-                `
+                title: 'Фишинг: как распознать и защититься',
+                description: 'Узнайте о фишинговых атаках и способах защиты.',
+                content: `<h2>Что такое фишинг?</h2>
+                <p>Фишинг — это вид интернет-мошенничества, при котором злоумышленники получают конфиденциальные данные, маскируясь под надёжные источники.</p>
+                <div class="info-box"><h4><i class="fas fa-info-circle"></i> Этимология</h4><p>Слово "фишинг" от английского "fishing" — рыбалка.</p></div>
+                <h2>Виды фишинга</h2>
+                <ul>
+                    <li><strong>Email фишинг</strong> — массовые письма от банков и сервисов</li>
+                    <li><strong>Вишинг</strong> — через телефонные звонки</li>
+                    <li><strong>Смишинг</strong> — через SMS</li>
+                </ul>
+                <h2>Как распознать</h2>
+                <div class="warning-box"><h4><i class="fas fa-exclamation-triangle"></i> Признаки мошенничества</h4>
+                <ul>
+                    <li>Срочность и давление</li>
+                    <li>Ссылка на подозрительный домен</li>
+                    <li>Грамматические ошибки</li>
+                </ul>
+                </div>
+                <h2>Как защититься</h2>
+                <div class="success-box"><h4><i class="fas fa-check-circle"></i> Правила</h4>
+                <ul>
+                    <li>Не переходите по подозрительным ссылкам</li>
+                    <li>Проверяйте адрес сайта</li>
+                    <li>Включите 2FA</li>
+                </ul>
+                </div>`,
+                quiz: [
+                    {question: 'Что такое вишинг?', options: ['Фишинг через email', 'Фишинг через звонки', 'Фишинг через SMS'], correct: 1, explanation: 'Вишинг — это звонки от мошенников.'}
+                ]
             }
         };
-        
-        // Загрузка статьи
-        const params = new URLSearchParams(window.location.search);
-        const articleId = params.get('id');
-        
-        // Конвертер Markdown в HTML
-        function markdownToHtml(text) {
-            let html = text;
-            
-            // Заголовки
-            html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
-            html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
-            html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
-            
-            // Жирный и курсив
-            html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-            
-            // Таблицы (простой формат)
-            html = html.replace(/\|(.+)\|/g, function(match) {
-                if (match.includes('---')) return '';
-                return '<td>' + match.replace(/\|/g, '</td><td>') + '</td>';
-            });
-            
-            // Списки
-            html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
-            
-            // Параграфы
-            html = html.replace(/\n\n/g, '</p><p>');
-            html = '<p>' + html + '</p>';
-            
-            // Очистка
-            html = html.replace(/<p>\s*<\/p>/g, '');
-            html = html.replace(/<p>(<h[2-4]>)/g, '$1');
-            html = html.replace(/(<\/h[2-4]>)<\/p>/g, '$1');
-            html = html.replace(/<ul>\s*<\/ul>/g, '');
-            html = html.replace(/<td>\s*<\/td>/g, '');
-            
-            return html;
+
+        // Тесты для уроков Главы 7
+        const chapter7Quizzes = {
+            // Тест после урока 3 (Разведка и сбор информации)
+            'after-lesson-3': {
+                title: 'Тест по теме: Разведка и сбор информации',
+                description: 'Проверьте свои знания по методам сбора информации о цели',
+                questions: [
+                    {question: 'Какой тип разведки не требует прямого контакта с целью?', options: ['Активная разведка', 'Пассивная разведка', 'Социальная инженерия', 'Физическая разведка'], correct: 1, explanation: 'Пассивная разведка использует только открытые источники и не взаимодействует напрямую с целью.'},
+                    {question: 'Какой инструмент используется для поиска поддоменов?', options: ['Nmap', 'theHarvester', 'Metasploit', 'Burp Suite'], correct: 1, explanation: 'theHarvester используется для сбора email и поддоменов из открытых источников.'},
+                    {question: 'Что такое OSINT?', options: ['Open Source Intelligence', 'Operating System Intelligence', 'Online Security Investigation', 'Open System Interface'], correct: 0, explanation: 'OSINT — это сбор информации из открытых публичных источников.'},
+                    {question: 'Какой командой в Nmap можно определить версии сервисов?', options: ['nmap -sS', 'nmap -sV', 'nmap -O', 'nmap -A'], correct: 1, explanation: 'Опция -sV (service version) определяет версии запущенных сервисов.'},
+                    {question: 'Что показывает команда Whois?', options: ['Открытые порты', 'Информацию о домене и владельце', 'Сетевой маршрут', 'Содержимое файлов'], correct: 1, explanation: 'Whois предоставляет регистрационную информацию о домене.'}
+                ]
+            },
+            // Комбинированный тест после урока 7 (уроки 4, 5, 6, 7)
+            'after-lesson-7': {
+                title: 'Комплексный тест: Сканирование, Оценка уязвимостей, Эксплуатация, Пост-эксплуатация',
+                description: 'Проверьте знания по 4 урокам: Сканирование, Уязвимости, Эксплуатация, Пост-эксплуатация',
+                questions: [
+                    // Урок 4: Сканирование и энумерация
+                    {question: 'Какой тип сканирования Nmap является наиболее скрытным?', options: ['TCP Connect (-sT)', 'SYN Scan (-sS)', 'UDP Scan (-sU)', 'ACK Scan (-sA)'], correct: 1, explanation: 'SYN scan (-sS) отправляет только SYN пакет и не устанавливает полное соединение, что делает его более скрытным.'},
+                    {question: 'Что такое энумерация?', options: ['Сканирование портов', 'Процесс обнаружения и идентификации сетевых ресурсов и сервисов', 'Шифрование данных', 'Монтирование дисков'], correct: 1, explanation: 'Энумерация — это систематический процесс обнаружения и идентификации ресурсов в сети.'},
+                    {question: 'Какой порт по умолчанию использует SSH?', options: ['21', '22', '80', '443'], correct: 1, explanation: 'SSH по умолчанию работает на порту 22.'},
+                    {question: 'Какой инструмент лучше подходит для сканирования веб-приложений?', options: ['Nmap', 'OWASP ZAP', 'Ping', 'Tracert'], correct: 1, explanation: 'OWASP ZAP — специализированный инструмент для тестирования веб-приложений.'},
+                    // Урок 5: Оценка уязвимостей
+                    {question: 'Что означает аббревиатура CVSS?', options: ['Common Vulnerability Scoring System', 'Computer Virus Security Standard', 'Cyber Attack Vulnerability Score', 'Computer Vulnerability Status System'], correct: 0, explanation: 'CVSS — это стандартная система оценки критичности уязвимостей.'},
+                    {question: 'Какой уровень критичности имеет CVSS score 9.0?', options: ['Средний', 'Высокий', 'Критический', 'Низкий'], correct: 2, explanation: 'CVSS 9.0-10.0 классифицируется как Critical (Критический).'},
+                    {question: 'Какой тип уязвимости позволяет внедрять SQL-запросы?', options: ['XSS', 'CSRF', 'SQL Injection', 'RCE'], correct: 2, explanation: 'SQL Injection позволяет внедрять произвольные SQL-запросы в базу данных.'},
+                    {question: 'Какой инструмент используется для автоматической эксплуатации SQL-инъекций?', options: ['Metasploit', 'SQLMap', 'Nmap', 'Nikto'], correct: 1, explanation: 'SQLMap — специализированный инструмент для эксплуатации SQL-инъекций.'},
+                    // Урок 6: Техники эксплуатации
+                    {question: 'Что такое RCE?', options: ['Remote Code Execution', 'Remote Computer Endpoint', 'Reduced Code Efficiency', 'Random Code Execution'], correct: 0, explanation: 'RCE — это возможность удалённого выполнения кода на целевой системе.'},
+                    {question: 'Какой тип SQL-инъекции использует оператор UNION?', options: ['Error-based', 'Union-based', 'Boolean-based', 'Time-based'], correct: 1, explanation: 'Union-based SQLi использует оператор UNION для извлечения данных из других таблиц.'},
+                    {question: 'Какой эксплойт использовался для уязвимости EternalBlue?', options: ['Apache', 'SMB', 'SSH', 'DNS'], correct: 1, explanation: 'EternalBlue — это эксплойт для уязвимости в протоколе SMB (CVE-2017-0144).'},
+                    {question: 'Что такое LPE?', options: ['Local Program Execution', 'Low Priority Error', 'Local Privilege Escalation', 'Log Password Extraction'], correct: 2, explanation: 'LPE — это повышение привилегий до уровня локального администратора или root.'},
+                    // Урок 7: Пост-эксплуатация
+                    {question: 'Что такое пост-эксплуатация?', options: ['Первичный взлом системы', 'Этап после получения первоначального доступа для закрепления и продвижения', 'Восстановление системы', 'Установка антивируса'], correct: 1, explanation: 'Пост-эксплуатация включает действия после успешного проникновения: закрепление, повышение привилегий, продвижение по сети.'},
+                    {question: 'Какой файл в Linux хранит хешированные пароли?', options: ['/etc/passwd', '/etc/shadow', '/etc/hosts', '/etc/groups'], correct: 1, explanation: '/etc/shadow содержит хешированные пароли и может быть прочитан только с правами root.'},
+                    {question: 'Что такое persistence (закрепление)?', options: ['Увеличение скорости системы', 'Сохранение доступа к системе после перезагрузки', 'Очистка логов', 'Резервное копирование'], correct: 1, explanation: 'Закрепление (persistence) — это механизмы для сохранения доступа к системе после перезагрузки.'},
+                    {question: 'Какой инструмент используется для анализа Active Directory?', options: ['Mimikatz', 'BloodHound', 'SQLMap', 'Nmap'], correct: 1, explanation: 'BloodHound используется для визуализации и анализа связей в Active Directory.'}
+                ]
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id') || 'what-is-ddos';
+
+        function updateSEO(article) {
+            const fullTitle = article.title + ' — CyberThreat Explorer';
+            document.title = fullTitle;
+            document.getElementById('seo-title').textContent = fullTitle;
+            document.getElementById('og-title').setAttribute('content', fullTitle);
+            document.getElementById('twitter-title').setAttribute('content', fullTitle);
+            document.getElementById('seo-description').setAttribute('content', article.description);
+            document.getElementById('og-description').setAttribute('content', article.description);
+            document.getElementById('twitter-description').setAttribute('content', article.description);
+            const schema = {"@context":"https://schema.org","@type":"Article","headline":article.title,"description":article.description,"publisher":{"@type":"Organization","name":"CyberThreat Explorer"}};
+            document.getElementById('schema-article').textContent = JSON.stringify(schema);
         }
-        
-        function loadArticle() {
-            if (!articleId) {
-                document.getElementById('article-content').innerHTML = '<p>Статья не найдена.</p>';
-                return;
+
+        function updateLessonNav(currentIndex) {
+            const nav = document.getElementById('lesson-nav');
+            const prevLink = document.getElementById('prev-lesson');
+            const nextLink = document.getElementById('next-lesson');
+            
+            if (currentIndex > 0) {
+                prevLink.href = 'article.html?id=' + allLessons[currentIndex - 1];
+                prevLink.classList.remove('disabled');
+            } else {
+                prevLink.classList.add('disabled');
             }
             
-            // Отмечаем урок как просмотренный при загрузке
-            markLessonAsViewed(articleId);
+            if (currentIndex < allLessons.length - 1) {
+                nextLink.href = 'article.html?id=' + allLessons[currentIndex + 1];
+                nextLink.classList.remove('disabled');
+            } else {
+                nextLink.classList.add('disabled');
+            }
             
-            // Сначала проверяем встроенные статьи (уроки 1-10)
+            nav.style.display = 'flex';
+        }
+
+        async function loadMarkdownArticle(id) {
+            const cacheKey = 'article_' + id;
+            const cached = localStorage.getItem(cacheKey);
+            
+            if (cached) {
+                try {
+                    const data = JSON.parse(cached);
+                    // Проверяем, не устарел ли кэш (7 дней)
+                    if (Date.now() - data.timestamp < 7 * 24 * 60 * 60 * 1000) {
+                        console.log('Загружено из кэша:', id);
+                        return data;
+                    }
+                } catch(e) {}
+            }
+            
+            console.log('Попытка загрузить статью:', 'articles/' + id + '.md');
+            
+            try {
+                const response = await fetch('articles/' + id + '.md');
+                console.log('Ответ fetch:', response.status, response.statusText);
+                
+                if (!response.ok) throw new Error('Article not found: ' + response.status);
+                
+                const markdown = await response.text();
+                console.log('Markdown загружен, длина:', markdown.length);
+                
+                // Извлекаем заголовок из markdown
+                const titleMatch = markdown.match(/^# (.+)$/m);
+                const title = titleMatch ? titleMatch[1] : id;
+                console.log('Заголовок статьи:', title);
+                
+                // Конвертируем markdown в HTML
+                const htmlContent = marked.parse(markdown);
+                console.log('HTML сгенерирован, длина:', htmlContent.length);
+                
+                const data = {
+                    title: title,
+                    description: 'Урок по кибербезопасности: ' + title,
+                    content: htmlContent,
+                    timestamp: Date.now()
+                };
+                
+                // Кэшируем
+                localStorage.setItem(cacheKey, JSON.stringify(data));
+                console.log('Статья закэширована');
+                
+                return data;
+            } catch (error) {
+                console.error('Error loading article:', error);
+                return null;
+            }
+        }
+
+        async function loadArticle() {
+            console.log('=== НАЧАЛО ЗАГРУЗКИ СТАТЬИ ===');
+            console.log('Запрошенная статья:', articleId);
+            
+            const currentIndex = allLessons.indexOf(articleId);
+            console.log('Индекс в списке уроков:', currentIndex);
+            
+            // Проверяем, загружена ли библиотека marked
+            if (typeof marked === 'undefined') {
+                console.error('Библиотека marked.js не загружена!');
+                document.getElementById('article-content').innerHTML = '<div class="warning-box"><h4>Ошибка</h4><p>Не удалось загрузить библиотеку marked.js. Проверьте подключение к интернету.</p></div>';
+                return;
+            }
+            console.log('Библиотека marked.js загружена:', typeof marked);
+            
+            // Сначала пробуем загрузить встроенные статьи
             if (builtInArticles[articleId]) {
+                console.log('Найдена встроенная статья');
                 const article = builtInArticles[articleId];
+                updateSEO(article);
                 document.getElementById('article-title').textContent = article.title;
                 document.getElementById('article-description').textContent = article.description;
                 document.getElementById('article-content').innerHTML = article.content;
+                if (article.quiz) renderQuiz(article.quiz);
+                markLessonAsViewed(articleId);
+                if (currentIndex >= 0) updateLessonNav(currentIndex);
                 return;
             }
             
-            // Пытаемся загрузить из файла .md
-            fetch('articles/' + articleId + '.md')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Статья не найдена');
-                    }
-                    return response.text();
-                })
-                .then(markdown => {
-                    // Разбираем YAML-подобный формат из начала файла
-                    const titleMatch = markdown.match(/^# (.+)$/m);
-                    const title = titleMatch ? titleMatch[1] : articleId;
-                    
-                    // Показываем загрузку
-                    document.getElementById('article-title').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
-                    document.getElementById('article-description').textContent = '';
-                    
-                    // Конвертируем Markdown в HTML
-                    const htmlContent = markdownToHtml(markdown);
-                    
-                    document.getElementById('article-title').textContent = title;
-                    document.getElementById('article-description').textContent = 'Загружено из файла';
-                    document.getElementById('article-content').innerHTML = htmlContent;
-                })
-                .catch(error => {
-                    document.getElementById('article-content').innerHTML = `
-                        <p style="text-align: center; padding: 40px;">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #dc2626; margin-bottom: 20px;"></i><br>
-                            Статья не найдена.<br><br>
-                            <a href="learn.html" class="btn btn-primary">Вернуться к урокам</a>
-                        </p>
-                    `;
+            // Пробуем загрузить из markdown файлов
+            console.log('Попытка загрузить из markdown файла...');
+            const article = await loadMarkdownArticle(articleId);
+            
+            if (article) {
+                console.log('Статья успешно загружена!');
+                updateSEO(article);
+                document.getElementById('article-title').textContent = article.title;
+                document.getElementById('article-description').textContent = article.description;
+                document.getElementById('article-content').innerHTML = article.content;
+                markLessonAsViewed(articleId);
+                if (currentIndex >= 0) updateLessonNav(currentIndex);
+                console.log('Статья отображена на странице');
+            } else {
+                console.error('Не удалось загрузить статью:', articleId);
+                document.getElementById('article-title').textContent = 'Статья не найдена';
+                document.getElementById('article-content').innerHTML = `
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Ошибка</h4>
+                        <p>Статья "${articleId}" не найдена.</p>
+                        <p>Проверьте консоль браузера для получения дополнительной информации.</p>
+                    </div>
+                    <p style="text-align: center; margin-top: 30px;">
+                        <a href="learn.html" class="btn btn-primary">
+                            <i class="fas fa-graduation-cap"></i> Вернуться к учебнику
+                        </a>
+                    </p>
+                `;
+            }
+            console.log('=== КОНЕЦ ЗАГРУЗКИ СТАТЬИ ===');
+        }
+
+        function renderQuiz(quizQuestions) {
+            const html = '<div class="test-section"><h3><i class="fas fa-clipboard-check"></i> Проверьте свои знания</h3>' +
+                quizQuestions.map((q, i) => '<div class="quiz-question" data-index="' + i + '"><p>' + (i+1) + '. ' + q.question + '</p>' +
+                q.options.map((opt, j) => '<div class="quiz-option" data-answer="' + j + '"><label>' + opt + '</label></div>').join('') +
+                '<div class="quiz-explanation" id="exp' + i + '"></div></div>').join('') + '</div>';
+            document.getElementById('article-content').insertAdjacentHTML('beforeend', html);
+            
+            quizQuestions.forEach((q, i) => {
+                document.querySelectorAll('.quiz-question[data-index="' + i + '"] .quiz-option').forEach(opt => {
+                    opt.addEventListener('click', function() {
+                        const selected = parseInt(this.dataset.answer);
+                        const exp = document.getElementById('exp' + i);
+                        this.parentNode.querySelectorAll('.quiz-option').forEach(o => { o.classList.remove('correct', 'incorrect'); });
+                        if (selected === q.correct) {
+                            this.classList.add('correct');
+                            exp.className = 'quiz-explanation show correct';
+                            exp.innerHTML = '<i class="fas fa-check-circle"></i> Правильно! ' + q.explanation;
+                        } else {
+                            this.classList.add('incorrect');
+                            this.parentNode.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+                            exp.className = 'quiz-explanation show incorrect';
+                            exp.innerHTML = '<i class="fas fa-times-circle"></i> Неправильно. ' + q.explanation;
+                        }
+                    });
                 });
+            });
         }
-        
-        // Простой конвертер Markdown в HTML
-        function markdownToHtml(text) {
-            let html = text;
-            
-            // Заголовки
-            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-            
-            // Жирный и курсив
-            html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-            
-            // Списки
-            html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
-            
-            // Параграфы
-            html = html.replace(/\n\n/g, '</p><p>');
-            html = '<p>' + html + '</p>';
-            
-            // Убираем пустые параграфы и заголовки в параграфах
-            html = html.replace(/<p>\s*<\/p>/g, '');
-            html = html.replace(/<p>(<h[1-6]>)/g, '$1');
-            html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
-            
-            return html;
+
+        function markLessonAsViewed(lessonId) {
+            try {
+                const viewed = JSON.parse(localStorage.getItem('viewedLessons') || '[]');
+                if (!viewed.includes(lessonId)) {
+                    viewed.push(lessonId);
+                    localStorage.setItem('viewedLessons', JSON.stringify(viewed));
+                    // Обновляем прогресс
+                    if (typeof updateProgress === 'function') {
+                        updateProgress();
+                    }
+                }
+            } catch(e) {}
         }
-        
-        // Мобильное меню
+
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.querySelector('.main-nav').classList.toggle('active');
-            this.innerHTML = document.querySelector('.main-nav').classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
         });
-        
-        // Загружаем статью
+
         loadArticle();
     </script>
 </body>
