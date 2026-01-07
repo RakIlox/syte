@@ -1,4 +1,36 @@
 /**
+ * Fisher-Yates shuffle algorithm for randomizing arrays
+ */
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+/**
+ * Shuffle answers while tracking correct index
+ */
+function shuffleAnswers(question) {
+    const answers = question.a.map((text, index) => ({
+        text,
+        isCorrect: index === question.c
+    }));
+    const shuffledAnswers = shuffleArray(answers);
+    
+    // Find new correct index
+    const newCorrectIndex = shuffledAnswers.findIndex(a => a.isCorrect);
+    
+    return {
+        ...question,
+        shuffledAnswers,
+        correctIndex: newCorrectIndex
+    };
+}
+
+/**
  * Глава 1-3: Основы безопасности (30 вопросов)
  */
 const test1Questions = [
@@ -88,58 +120,153 @@ const test2Questions = [
 ];
 
 let currentTestQuestions = [];
-let currentTestNum = 0;
+let currentQuestionIndex = 0;
+let correctAnswers = 0;
+let answered = false;
 
 function openTest1() {
-    currentTestQuestions = test1Questions;
-    currentTestNum = 1;
+    // Shuffle questions
+    const shuffledQuestions = shuffleArray(test1Questions);
+    // Shuffle answers and track correct index
+    currentTestQuestions = shuffledQuestions.map(shuffleAnswers);
+    currentQuestionIndex = 0;
+    correctAnswers = 0;
+    answered = false;
+    
     document.getElementById('quiz-modal-header-title').innerHTML = '<i class="fas fa-shield-alt"></i> Тест: Основы безопасности (Главы 1-3)';
     document.getElementById('quiz-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
-    renderTest(currentTestQuestions);
+    renderCurrentQuestion();
 }
 
 function openTest2() {
-    currentTestQuestions = test2Questions;
-    currentTestNum = 2;
+    // Shuffle questions
+    const shuffledQuestions = shuffleArray(test2Questions);
+    // Shuffle answers and track correct index
+    currentTestQuestions = shuffledQuestions.map(shuffleAnswers);
+    currentQuestionIndex = 0;
+    correctAnswers = 0;
+    answered = false;
+    
     document.getElementById('quiz-modal-header-title').innerHTML = '<i class="fas fa-bug"></i> Тест: Продвинутые техники (Главы 4-7)';
     document.getElementById('quiz-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
-    renderTest(currentTestQuestions);
+    renderCurrentQuestion();
 }
 
-function renderTest(questions) {
+function renderCurrentQuestion() {
     const container = document.getElementById('quiz-container');
     const progress = document.getElementById('quiz-progress');
     
-    // Генерируем HTML с уникальными ID для каждого объяснения
-    container.innerHTML = questions.map((q, i) => 
-        `<div class="quiz-question" id="question-${i}">
-            <p>${i+1}. ${q.q}</p>
-            ${q.a.map((opt, j) => 
-                `<div class="quiz-option" data-question="${i}" data-answer="${j}">
-                    <span>${opt}</span>
+    // Check if test is complete
+    if (currentQuestionIndex >= currentTestQuestions.length) {
+        showCompletion();
+        return;
+    }
+    
+    const question = currentTestQuestions[currentQuestionIndex];
+    const total = currentTestQuestions.length;
+    
+    progress.textContent = `Вопрос ${currentQuestionIndex + 1} из ${total}`;
+    
+    container.innerHTML = `
+        <div class="quiz-question" id="question-${currentQuestionIndex}">
+            <p>${currentQuestionIndex + 1}. ${question.q}</p>
+            ${question.shuffledAnswers.map((opt, j) => 
+                `<div class="quiz-option" data-question="${currentQuestionIndex}" data-answer="${j}">
+                    <span>${opt.text}</span>
                 </div>`
             ).join('')}
-            <div class="quiz-explanation" id="explanation-${i}"></div>
-        </div>`
-    ).join('');
+            <div class="quiz-explanation" id="explanation-${currentQuestionIndex}"></div>
+            <button class="next-question-btn" id="next-btn" style="display: none;" onclick="nextQuestion()">
+                Следующий вопрос <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    `;
+}
+
+function showCompletion() {
+    const container = document.getElementById('quiz-container');
+    const progress = document.getElementById('quiz-progress');
+    const total = currentTestQuestions.length;
+    const percentage = Math.round((correctAnswers / total) * 100);
     
-    progress.textContent = `Вопрос 1 из ${questions.length}`;
+    progress.textContent = '';
+    
+    let resultClass = '';
+    let resultText = '';
+    let resultIcon = '';
+    
+    if (percentage >= 80) {
+        resultClass = 'excellent';
+        resultText = 'Отлично!';
+        resultIcon = 'fa-trophy';
+    } else if (percentage >= 60) {
+        resultClass = 'good';
+        resultText = 'Хорошо!';
+        resultIcon = 'fa-thumbs-up';
+    } else if (percentage >= 40) {
+        resultClass = 'average';
+        resultText = 'Неплохо!';
+        resultIcon = 'fa-minus-circle';
+    } else {
+        resultClass = 'needs-work';
+        resultText = 'Нужно ещё поучиться';
+        resultIcon = 'fa-book';
+    }
+    
+    container.innerHTML = `
+        <div class="quiz-completion">
+            <div class="completion-icon ${resultClass}">
+                <i class="fas ${resultIcon}"></i>
+            </div>
+            <h3>Тест завершён!</h3>
+            <div class="completion-score">
+                <span class="score-number">${correctAnswers}</span>
+                <span class="score-divider">/</span>
+                <span class="score-total">${total}</span>
+            </div>
+            <p class="score-percentage">${percentage}%</p>
+            <p class="result-text ${resultClass}">${resultText}</p>
+            <button class="restart-btn" onclick="restartTest()">
+                <i class="fas fa-redo"></i> Пройти заново
+            </button>
+            <button class="close-btn" onclick="closeQuiz()">
+                Закрыть
+            </button>
+        </div>
+    `;
+}
+
+function restartTest() {
+    if (document.getElementById('quiz-modal-header-title').innerHTML.includes('Основы безопасности')) {
+        openTest1();
+    } else {
+        openTest2();
+    }
+}
+
+function nextQuestion() {
+    answered = false;
+    currentQuestionIndex++;
+    renderCurrentQuestion();
 }
 
 // Делегирование событий - один обработчик для всех вопросов
 document.getElementById('quiz-container').addEventListener('click', function(e) {
     const option = e.target.closest('.quiz-option');
-    if (!option) return;
+    if (!option || answered) return;
     
     const questionIndex = parseInt(option.dataset.question);
     const selectedAnswer = parseInt(option.dataset.answer);
     const questionData = currentTestQuestions[questionIndex];
     
+    answered = true;
+    
     // Находим элементы этого вопроса
     const questionEl = document.getElementById('question-' + questionIndex);
     const explanationEl = document.getElementById('explanation-' + questionIndex);
+    const nextBtn = document.getElementById('next-btn');
     
     // Сбрасываем стили всех опций этого вопроса
     questionEl.querySelectorAll('.quiz-option').forEach(o => {
@@ -147,14 +274,24 @@ document.getElementById('quiz-container').addEventListener('click', function(e) 
     });
     
     // Подсвечиваем выбранный ответ
-    if (selectedAnswer === questionData.c) {
+    if (selectedAnswer === questionData.correctIndex) {
         option.classList.add('correct');
         explanationEl.className = 'quiz-explanation show correct';
         explanationEl.innerHTML = '✓ Правильно! ' + questionData.e;
+        correctAnswers++;
+        
+        // Автоматический переход к следующему вопросу через 1.5 секунды
+        setTimeout(() => {
+            nextQuestion();
+        }, 1500);
     } else {
         option.classList.add('incorrect');
-        questionEl.querySelectorAll('.quiz-option')[questionData.c].classList.add('correct');
+        questionEl.querySelectorAll('.quiz-option')[questionData.correctIndex].classList.add('correct');
         explanationEl.className = 'quiz-explanation show incorrect';
         explanationEl.innerHTML = '✗ Неправильно. ' + questionData.e;
+        
+        // Показываем кнопку "Следующий вопрос"
+        nextBtn.style.display = 'inline-flex';
     }
 });
+
