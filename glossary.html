@@ -291,11 +291,12 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <div class="logo">
+            <a href="index.html" class="logo">
                 <i class="fas fa-shield-alt"></i>
                 <h1>CyberThreat<span>Explorer</span></h1>
                 <small>для начинающих</small>
-            </div>
+            </a>
+            
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
@@ -304,14 +305,19 @@
                     <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
                 </ul>
             </nav>
-            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
-    <main class="container">
-        <div class="page-header">
+
+    <main class="container main-content">
+        <!-- Page Header -->
+        <header class="page-header">
             <h1><i class="fas fa-book"></i> Глоссарий терминов</h1>
             <p>Нажмите на термин для подробностей</p>
-        </div>
+        </header>
         <div class="search-box">
             <i class="fas fa-search"></i>
             <input type="text" id="search-input" placeholder="Поиск терминов...">

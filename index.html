@@ -66,11 +66,11 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <div class="logo">
+            <a href="index.html" class="logo">
                 <i class="fas fa-shield-alt"></i>
                 <h1>CyberThreat<span>Explorer</span></h1>
                 <small>для начинающих</small>
-            </div>
+            </a>
             
             <nav class="main-nav">
                 <ul>
@@ -141,41 +141,6 @@
             </div>
             
             <div id="world-map"></div>
-            
-            <div class="map-legend">
-                <div class="legend-item">
-                    <div class="legend-color ddos" style="background: #ef4444;"></div>
-                    <span>DDoS</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color phishing" style="background: #f59e0b;"></div>
-                    <span>Фишинг</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color malware" style="background: #8b5cf6;"></div>
-                    <span>Вредоносное ПО</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color scanning" style="background: #10b981;"></div>
-                    <span>Сканирование</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color bruteforce" style="background: #ec4899;"></div>
-                    <span>Подбор паролей</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color sql" style="background: #06b6d4;"></div>
-                    <span>SQL-инъекция</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color xss" style="background: #f97316;"></div>
-                    <span>XSS</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color mitm" style="background: #84cc16;"></div>
-                    <span>MitM</span>
-                </div>
-            </div>
         </section>
 
         <!-- Советы -->
@@ -228,49 +193,114 @@
         </section>
     </main>
 
-    <div id="attack-modal" class="modal">
+    <div id="attack-modal" class="modal attack-modal">
+        <div class="modal-backdrop"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modal-title">⚡ DDoS-атака из Китая в США</h3>
+                <div class="modal-title-wrapper">
+                    <span id="modal-icon" style="font-size: 28px;">⚡</span>
+                    <div class="modal-title-text">
+                        <h3 id="modal-title">DDoS-атака</h3>
+                        <span id="modal-short-desc" class="modal-short-desc">Отказ в обслуживании</span>
+                    </div>
+                </div>
                 <button class="modal-close">&times;</button>
             </div>
+            
             <div class="modal-body">
-                <div class="attack-meta">
-                    <div class="meta-item">
+                <!-- Основная информация -->
+                <div class="attack-meta-grid">
+                    <div class="meta-card source-card">
                         <i class="fas fa-map-marker-alt"></i>
-                        <strong>Откуда:</strong> <span id="modal-source">Китай</span>
+                        <div>
+                            <span class="meta-label">Источник</span>
+                            <span id="modal-source" class="meta-value">🇨🇳 Китай</span>
+                        </div>
                     </div>
-                    <div class="meta-item">
+                    <div class="meta-card target-card">
                         <i class="fas fa-bullseye"></i>
-                        <strong>Куда:</strong> <span id="modal-target">США</span>
+                        <div>
+                            <span class="meta-label">Цель</span>
+                            <span id="modal-target" class="meta-value">🇺🇸 США</span>
+                        </div>
                     </div>
-                    <div class="meta-item">
+                    <div class="meta-card sector-card">
                         <i class="fas fa-industry"></i>
-                        <strong>Сектор:</strong> <span id="modal-sector">Финансы</span>
+                        <div>
+                            <span class="meta-label">Сектор</span>
+                            <span id="modal-sector" class="meta-value">💰 Финансы</span>
+                        </div>
                     </div>
-                    <div class="meta-item">
+                    <div class="meta-card severity-card">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <strong>Уровень:</strong> <span id="modal-severity" class="severity-high">Высокий</span>
+                        <div>
+                            <span class="meta-label">Опасность</span>
+                            <span id="modal-severity" class="severity-badge">🔴 Высокий</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="explanation">
-                    <h4><i class="fas fa-question-circle"></i> Что это значит?</h4>
-                    <p id="modal-explanation">Злоумышленники пытаются «обрушить» сайты банков, перегружая их ложными запросами.</p>
+                <!-- Разделы информации -->
+                <div class="info-sections">
+                    <!-- Что это такое -->
+                    <div class="info-section">
+                        <h4><i class="fas fa-question-circle"></i> Что это такое?</h4>
+                        <p id="modal-explanation" class="info-text">
+                            Злоумышленники пытаются «обрушить» сайты или сервисы, перегружая их огромным количеством ложных запросов.
+                        </p>
+                    </div>
                     
-                    <h4><i class="fas fa-cogs"></i> Как это работает?</h4>
-                    <p id="modal-technical">Атака ведется с помощью «ботнета» — сети зараженных компьютеров.</p>
+                    <!-- Как это работает -->
+                    <div class="info-section">
+                        <h4><i class="fas fa-cogs"></i> Как это работает?</h4>
+                        <p id="modal-technical" class="info-text">
+                            Атака ведется с помощью «ботнета» — сети зараженных компьютеров по всему миру.
+                        </p>
+                    </div>
                     
-                    <h4><i class="fas fa-shield-alt"></i> Как защититься?</h4>
-                    <div id="modal-protection">
-                        <ul>
-                            <li>Не кликайте на подозрительные ссылки</li>
-                            <li>Используйте антивирус</li>
-                            <li>Обновляйте программы</li>
+                    <!-- Как распознать -->
+                    <div class="info-section highlight-section">
+                        <h4><i class="fas fa-eye"></i> Как распознать атаку?</h4>
+                        <ul id="modal-how-to-recognize" class="recognition-list">
+                            <li><span style="color: #ef4444;">●</span> Сайт медленно загружается или не открывается</li>
+                            <li><span style="color: #ef4444;">●</span> Множественные ошибки подключения</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Статистика -->
+                    <div class="info-section statistics-section">
+                        <p id="modal-statistics">
+                            <span style="font-size: 20px; margin-right: 8px;">📊</span>
+                            DDoS-атаки составляют около 25% всех кибератак. Средняя длительность — 4 часа.
+                        </p>
+                    </div>
+                    
+                    <!-- Реальные примеры -->
+                    <div class="info-section">
+                        <h4><i class="fas fa-history"></i> Реальные примеры</h4>
+                        <div id="modal-real-examples" class="examples-list">
+                            <div>
+                                <span style="color: #ef4444; font-weight: bold; margin-right: 8px;">1.</span>
+                                Атака на Twitter в 2016 году — крупнейшая в истории (1.2 Тб/с)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Защита -->
+                    <div class="info-section protection-section">
+                        <h4><i class="fas fa-shield-alt"></i> Как защититься?</h4>
+                        <ul id="modal-protection" class="protection-list">
+                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
+                                🔒 Не кликайте на подозрительные ссылки
+                            </li>
+                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
+                                🛡️ Используйте антивирус и регулярно обновляйте программы
+                            </li>
                         </ul>
                     </div>
                 </div>
                 
+                <!-- Кнопки -->
                 <div class="modal-footer">
                     <button id="learn-more-btn" class="btn btn-primary">
                         <i class="fas fa-book-open"></i> Узнать больше
