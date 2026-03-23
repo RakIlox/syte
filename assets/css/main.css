@@ -1962,6 +1962,8 @@ body {
 .legend-color.xss { background: #f97316; }
 .legend-color.mitm { background: #84cc16; }
 .legend-color.bruteforce { background: #ec4899; }
+
+/* Font Awesome fallback удален по просьбе пользователя - используй CDN если работает */
 .search-box {
     display: flex;
     align-items: center;
