@@ -1,0 +1,248 @@
+/* ===== РАСШИРЕННАЯ СТАТИСТИКА КИБЕРУГРОЗ ===== */
+.extended-stats {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+}
+
+.extended-stats h2 {
+    color: #f8fafc;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.extended-stats h2 i {
+    color: #ef4444;
+    font-size: 1.5rem;
+}
+
+/* Dynamic counter */
+.realtime-counter {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.counter-intro {
+    font-size: 1.25rem;
+    color: #f8fafc;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.counter-value {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ef4444;
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.counter-note {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* Extended stats grid */
+.ext-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.ext-stat-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    gap: 18px;
+    transition: all 0.3s ease;
+}
+
+.ext-stat-card:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.15);
+}
+
+.ext-stat-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(139, 92, 246, 0.2));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ext-stat-icon i {
+    font-size: 1.5rem;
+    color: #ef4444;
+}
+
+.ext-stat-icon.target-icon {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(245, 158, 11, 0.2));
+}
+
+.ext-stat-icon.target-icon i {
+    color: #f59e0b;
+}
+
+.ext-stat-icon.source-icon {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2));
+}
+
+.ext-stat-icon.source-icon i {
+    color: #06b6d4;
+}
+
+.ext-stat-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ext-stat-content h4 {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ext-stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.ext-stat-content p {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.ext-cta {
+    text-align: center;
+    padding-top: 8px;
+}
+
+.ext-cta .btn {
+    padding: 16px 32px;
+    font-size: 1.05rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    border-radius: 12px;
+}
+
+.ext-cta .btn:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+    border-color: rgba(59, 130, 246, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .ext-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .ext-stat-card {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .extended-stats {
+        padding: 20px;
+    }
+    
+    .extended-stats h2 {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+    }
+    
+    .realtime-counter {
+        padding: 20px;
+    }
+    
+    .counter-intro {
+        font-size: 1.1rem;
+    }
+    
+    .counter-value {
+        font-size: 1.6rem;
+    }
+    
+    .counter-note {
+        font-size: 0.9rem;
+    }
+    
+    .ext-stat-card {
+        padding: 18px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .ext-stat-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .ext-stat-icon i {
+        font-size: 1.3rem;
+    }
+    
+    .ext-stat-value {
+        font-size: 1.4rem;
+    }
+    
+    .ext-stat-content p {
+        font-size: 0.85rem;
+    }
+    
+    .ext-cta .btn {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .extended-stats {
+        padding: 16px;
+    }
+    
+    .realtime-counter {
+        padding: 16px;
+    }
+    
+    .counter-intro {
+        font-size: 1rem;
+    }
+    
+    .counter-value {
+        font-size: 1.4rem;
+    }
+    
+    .ext-stat-card {
+        padding: 16px;
+    }
+}
+

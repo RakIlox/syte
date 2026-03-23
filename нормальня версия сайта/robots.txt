@@ -1,0 +1,21 @@
+# robots.txt для CyberThreat Explorer
+User-agent: *
+Allow: /
+
+# Disallow административные и технические директории
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /assets/img/
+Disallow: /assets/data/
+
+# Disallow служебные файлы
+Disallow: /.git/
+Disallow: /README.md
+
+# Карта сайта
+Sitemap: https://ваш-сайт.ru/sitemap.xml
+
+# дополнительные директивы
+Host: https://ваш-сайт.ru
+Crawl-delay: 10
+
