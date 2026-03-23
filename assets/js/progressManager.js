@@ -1,214 +1,193 @@
-/**
- * ProgressManager - Управление прогрессом обучения
- * Сохраняет в localStorage: просмотренные уроки, результаты тестов, прогресс глав
- */
+// progressManager.js - управление прогрессом обучения
 
 class ProgressManager {
     constructor() {
-        this.storageKey = 'cyberthreat_progress';
-        this.defaultData = {
-            chapters: {
-                chapter1: {
-                    lessonsViewed: [],
-                    testPassed: false,
-                    testScore: 0,
-                    testAttempts: 0
-                },
-                chapter2: {
-                    lessonsViewed: [],
-                    testPassed: false,
-                    testScore: 0,
-                    testAttempts: 0
-                },
-                chapter3: {
-                    lessonsViewed: [],
-                    testPassed: false,
-                    testScore: 0,
-                    testAttempts: 0
-                }
-            },
-            lastUpdated: null,
-            totalLessonsViewed: 0
-        };
-        
-        this.data = this.load();
+        this.storageKey = 'cyberThreatProgress';
+        this.viewedLessonsKey = 'viewedLessons';
+        this.testResultsKey = 'testResults';
+        this.quizAnswersKey = 'quizAnswers';
     }
 
-    // Загрузка данных из localStorage
-    load() {
+    // Получить данные прогресса
+    getProgress() {
         try {
-            const stored = localStorage.getItem(this.storageKey);
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                // Объединяем с дефолтными данными для совместимости
-                return this.mergeWithDefault(parsed);
-            }
-            return JSON.parse(JSON.stringify(this.defaultData));
+            const data = localStorage.getItem(this.storageKey);
+            return data ? JSON.parse(data) : {
+                viewedLessons: [],
+                testResults: {},
+                quizAnswers: {},
+                lastUpdated: null
+            };
         } catch (e) {
-            console.error('Ошибка загрузки прогресса:', e);
-            return JSON.parse(JSON.stringify(this.defaultData));
+            console.warn('Ошибка чтения прогресса:', e);
+            return {
+                viewedLessons: [],
+                testResults: {},
+                quizAnswers: {},
+                lastUpdated: null
+            };
         }
     }
 
-    // Объединение с дефолтными данными (для новых полей)
-    mergeWithDefault(stored) {
-        const defaultData = JSON.parse(JSON.stringify(this.defaultData));
-        
-        stored.chapters = stored.chapters || {};
-        
-        // Проверяем каждую главу
-        Object.keys(defaultData.chapters).forEach(chapterId => {
-            if (!stored.chapters[chapterId]) {
-                stored.chapters[chapterId] = defaultData.chapters[chapterId];
-            } else {
-                // Объединяем поля главы
-                stored.chapters[chapterId] = {
-                    ...defaultData.chapters[chapterId],
-                    ...stored.chapters[chapterId]
-                };
-            }
-        });
-        
-        return stored;
-    }
-
-    // Сохранение данных в localStorage
-    save() {
+    // Сохранить прогресс
+    saveProgress(progress) {
         try {
-            this.data.lastUpdated = new Date().toISOString();
-            localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+            progress.lastUpdated = new Date().toISOString();
+            localStorage.setItem(this.storageKey, JSON.stringify(progress));
+            return true;
         } catch (e) {
-            console.error('Ошибка сохранения прогресса:', e);
+            console.warn('Ошибка сохранения прогресса:', e);
+            return false;
         }
     }
 
     // Отметить урок как просмотренный
-    markLessonViewed(lessonId, chapterId) {
-        const chapter = this.data.chapters[chapterId];
-        if (!chapter) return false;
-        
-        if (!chapter.lessonsViewed.includes(lessonId)) {
-            chapter.lessonsViewed.push(lessonId);
-            this.data.totalLessonsViewed++;
-            this.save();
-            return true; // Новый урок
+    markLessonViewed(lessonId) {
+        const progress = this.getProgress();
+        if (!progress.viewedLessons.includes(lessonId)) {
+            progress.viewedLessons.push(lessonId);
+            this.saveProgress(progress);
+            console.log('Урок отмечен как просмотренный:', lessonId);
         }
-        return false; // Уже был просмотрен
+        return progress.viewedLessons.length;
     }
 
-    // Получить количество просмотренных уроков в главе
-    getLessonsViewedCount(chapterId) {
-        const chapter = this.data.chapters[chapterId];
-        return chapter ? chapter.lessonsViewed.length : 0;
-    }
-
-    // Проверить, все ли уроки просмотрены
-    areAllLessonsViewed(chapterId, totalLessons) {
-        const viewed = this.getLessonsViewedCount(chapterId);
-        return viewed >= totalLessons;
-    }
-
-    // Проверить, открыт ли тест главы
-    isTestAvailable(chapterId, totalLessons) {
-        // Тест доступен если все уроки просмотрены И тест ещё не сдан
-        const chapter = this.data.chapters[chapterId];
-        if (!chapter) return false;
-        
-        return this.areAllLessonsViewed(chapterId, totalLessons) && !chapter.testPassed;
-    }
-
-    // Проверить, открыта ли следующая глава
-    isNextChapterAvailable(currentChapterId) {
-        // Предыдущая глава должна быть сдана
-        const chapterNum = parseInt(currentChapterId.replace('chapter', ''));
-        if (chapterNum <= 1) return true; // Глава 1 всегда открыта
-        
-        const prevChapterId = `chapter${chapterNum - 1}`;
-        return this.data.chapters[prevChapterId]?.testPassed === true;
+    // Получить список просмотренных уроков
+    getViewedLessons() {
+        try {
+            const data = localStorage.getItem(this.viewedLessonsKey);
+            return data ? JSON.parse(data) : [];
+        } catch (e) {
+            return [];
+        }
     }
 
     // Сохранить результат теста
-    saveTestResult(chapterId, score, passed) {
-        const chapter = this.data.chapters[chapterId];
-        if (!chapter) return false;
-        
-        chapter.testScore = score;
-        chapter.testPassed = passed;
-        chapter.testAttempts++;
-        this.save();
-        
-        return passed;
+    saveTestResult(testId, score, totalQuestions, answers) {
+        const progress = this.getProgress();
+        progress.testResults[testId] = {
+            score: score,
+            total: totalQuestions,
+            percentage: Math.round((score / totalQuestions) * 100),
+            completedAt: new Date().toISOString(),
+            answers: answers
+        };
+        this.saveProgress(progress);
+        return progress.testResults[testId];
     }
 
-    // Получить результаты теста главы
-    getTestResult(chapterId) {
-        const chapter = this.data.chapters[chapterId];
-        return chapter ? {
-            passed: chapter.testPassed,
-            score: chapter.testScore,
-            attempts: chapter.testAttempts
-        } : null;
+    // Получить результат теста
+    getTestResult(testId) {
+        const progress = this.getProgress();
+        return progress.testResults[testId] || null;
     }
 
-    // Получить прогресс главы в процентах
-    getChapterProgress(chapterId, totalLessons) {
-        const viewed = this.getLessonsViewedCount(chapterId);
-        return Math.round((viewed / totalLessons) * 100);
-    }
-
-    // Получить прогресс прохождения всей главы (уроки + тест)
-    getFullChapterProgress(chapterId, totalLessons) {
-        const chapter = this.data.chapters[chapterId];
-        if (!chapter) return 0;
-        
-        // 80% - уроки, 20% - тест
-        const lessonsProgress = (this.getLessonsViewedCount(chapterId) / totalLessons) * 80;
-        const testProgress = chapter.testPassed ? 20 : 0;
-        
-        return Math.min(100, Math.round(lessonsProgress + testProgress));
-    }
-
-    // Сбросить прогресс главы (для тестирования)
-    resetChapter(chapterId) {
-        if (this.data.chapters[chapterId]) {
-            this.data.chapters[chapterId] = JSON.parse(JSON.stringify(this.defaultData.chapters[chapterId]));
-            this.save();
-            return true;
+    // Сохранить ответ на вопрос квиза
+    saveQuizAnswer(lessonId, questionIndex, answerIndex, isCorrect) {
+        const progress = this.getProgress();
+        if (!progress.quizAnswers[lessonId]) {
+            progress.quizAnswers[lessonId] = [];
         }
-        return false;
+        progress.quizAnswers[lessonId][questionIndex] = {
+            answer: answerIndex,
+            correct: isCorrect,
+            timestamp: new Date().toISOString()
+        };
+        this.saveProgress(progress);
     }
 
-    // Сбросить весь прогресс
-    resetAll() {
-        this.data = JSON.parse(JSON.stringify(this.defaultData));
-        this.save();
-        return true;
+    // Получить ответы на квиз урока
+    getQuizAnswers(lessonId) {
+        const progress = this.getProgress();
+        return progress.quizAnswers[lessonId] || [];
     }
 
-    // Получить все данные прогресса
-    getAllData() {
-        return this.data;
-    }
-
-    // Экспорт прогресса (для отладки)
-    export() {
-        return JSON.stringify(this.data, null, 2);
-    }
-
-    // Импорт прогресса
-    import(jsonString) {
+    // Очистить весь прогресс
+    clearAllProgress() {
         try {
-            const imported = JSON.parse(jsonString);
-            this.data = this.mergeWithDefault(imported);
-            this.save();
+            localStorage.removeItem(this.storageKey);
+            localStorage.removeItem(this.viewedLessonsKey);
+            localStorage.removeItem(this.testResultsKey);
+            localStorage.removeItem(this.quizAnswersKey);
+            console.log('Прогресс очищен');
             return true;
         } catch (e) {
-            console.error('Ошибка импорта:', e);
+            console.warn('Ошибка очистки прогресса:', e);
             return false;
         }
     }
+
+    // Получить статистику прогресса
+    getStats() {
+        const progress = this.getProgress();
+        const testResults = Object.values(progress.testResults);
+        
+        const totalTests = testResults.length;
+        const totalTestScore = testResults.reduce((sum, r) => sum + r.percentage, 0);
+        const avgTestScore = totalTests > 0 ? Math.round(totalTestScore / totalTests) : 0;
+        
+        return {
+            viewedLessons: progress.viewedLessons.length,
+            totalTests: totalTests,
+            avgTestScore: avgTestScore,
+            completedTests: testResults.filter(r => r.percentage >= 70).length
+        };
+    }
 }
 
-// Создаём глобальный экземпляр
+// Создаем глобальный экземпляр
 const progressManager = new ProgressManager();
+
+// Функция для обновления UI прогресса (вызывается из других скриптов)
+function updateProgress() {
+    const stats = progressManager.getStats();
+    
+    // Обновляем элементы если они существуют
+    const viewedCount = document.getElementById('viewed-lessons-count');
+    if (viewedCount) {
+        viewedCount.textContent = stats.viewedLessons;
+    }
+    
+    const testCount = document.getElementById('completed-tests-count');
+    if (testCount) {
+        testCount.textContent = stats.completedTests + '/' + stats.totalTests;
+    }
+    
+    const avgScore = document.getElementById('avg-test-score');
+    if (avgScore) {
+        avgScore.textContent = stats.avgTestScore + '%';
+    }
+    
+    console.log('Прогресс обновлён:', stats);
+}
+
+// Функция для отметки урока как просмотренного
+function markLessonViewed(lessonId) {
+    return progressManager.markLessonViewed(lessonId);
+}
+
+// Функция для получения статуса урока
+function isLessonViewed(lessonId) {
+    const viewedLessons = progressManager.getViewedLessons();
+    return viewedLessons.includes(lessonId);
+}
+
+// Функция для сохранения результата теста
+function saveTestResult(testId, score, totalQuestions, answers) {
+    return progressManager.saveTestResult(testId, score, totalQuestions, answers);
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    // Обновляем прогресс при загрузке
+    updateProgress();
+    
+    // Слушаем изменения localStorage (для синхронизации между вкладками)
+    window.addEventListener('storage', (e) => {
+        if (e.key === progressManager.storageKey || 
+            e.key === progressManager.viewedLessonsKey) {
+            updateProgress();
+        }
+    });
+});
 

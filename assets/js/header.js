@@ -2,6 +2,18 @@
 function createHeader() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     
+    const navItems = [
+        { href: 'index.html', icon: 'fa-newspaper', text: 'Новости' },
+        { href: 'cyberattackmap.html', icon: 'fa-map', text: 'Карта атак' },
+        { href: 'glossary.html', icon: 'fa-book', text: 'Глоссарий' },
+        { href: 'learn.html', icon: 'fa-graduation-cap', text: 'Учебник' },
+        { href: 'about.html', icon: 'fa-info-circle', text: 'О проекте' }
+    ];
+    
+    const navLinks = navItems.map(item => 
+        `<li><a href="${item.href}" ${currentPage === item.href ? 'class="active"' : ''}><i class="fas ${item.icon}"></i> ${item.text}</a></li>`
+    ).join('');
+    
     const headerHTML = `
     <header class="main-header">
         <div class="container">
@@ -12,10 +24,7 @@ function createHeader() {
             </a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" ${currentPage === 'index.html' ? 'class="active"' : ''}><i class="fas fa-map"></i> Карта атак</a></li>
-                    <li><a href="glossary.html" ${currentPage === 'glossary.html' ? 'class="active"' : ''}><i class="fas fa-book"></i> Глоссарий</a></li>
-                    <li><a href="learn.html" ${currentPage === 'learn.html' ? 'class="active"' : ''}><i class="fas fa-graduation-cap"></i> Учебник</a></li>
-                    <li><a href="about.html" ${currentPage === 'about.html' ? 'class="active"' : ''}><i class="fas fa-info-circle"></i> О проекте</a></li>
+                    ${navLinks}
                 </ul>
             </nav>
             <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
@@ -23,7 +32,13 @@ function createHeader() {
     </header>
     `;
     
-    // Находим тег body и вставляем header в начало
+    // Удаляем старую шапку если есть
+    const oldHeader = document.querySelector('header.main-header');
+    if (oldHeader) {
+        oldHeader.remove();
+    }
+    
+    // Вставляем новую шапку
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
     
     // Инициализируем мобильное меню
@@ -50,24 +65,8 @@ function initMobileMenu() {
     }
 }
 
-// Функция для замены старой шапки на новую единую
-function replaceOldHeader() {
-    const oldHeader = document.querySelector('header.main-header');
-    if (oldHeader) {
-        oldHeader.remove();
-    }
-    
-    const logoDiv = document.querySelector('.main-header .container > div.logo');
-    if (logoDiv) {
-        logoDiv.parentElement.parentElement.querySelector('.main-nav')?.remove();
-        logoDiv.parentElement.parentElement.querySelector('.mobile-menu-btn')?.remove();
-        logoDiv.remove();
-    }
-}
-
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    replaceOldHeader();
     createHeader();
 });
 

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Крупнейшие кибератаки и хакерские группировки — CyberThreat Explorer</title>
+    <meta name="description" content="За кулисами цифровой войны: кто, как и против кого. Подробный анализ крупнейших кибератак и известных хакерских группировок мира.">
+    
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/map.css">
+    <link rel="stylesheet" href="assets/css/extended-stats.css">
+    <link rel="stylesheet" href="assets/css/major-attacks.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
+</head>
+<body>
+    <!-- Шапка подключается через header.js -->
+    <script src="assets/js/header.js"></script>
+
+    <main class="container main-content">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1><i class="fas fa-user-secret"></i> За кулисами цифровой войны</h1>
+            <p>Кто, как и против кого: крупнейшие кибератаки и хакерские группировки мира</p>
+        </header>
+
+        <!-- Intro Section -->
+        <section class="info-panel">
+            <p class="intro-text">
+                Цифры статистики — лишь отражение деятельности конкретных группировок с именами и тактикой. 
+                От государственных «цифровых спецназов» до криминальных картелей — вот лица современной киберугрозы 
+                и их самые громкие «дела».
+            </p>
+        </section>
+
+        <!-- Main Attack Types -->
+        <section class="info-panel">
+            <h2><i class="fas fa-exclamation-triangle"></i> Ведущий тип атак в современном мире</h2>
+            <div class="main-threat-card">
+                <div class="threat-icon">
+                    <i class="fas fa-ransomware"></i>
+                </div>
+                <div class="threat-content">
+                    <h3>Программы-вымогатели (Ransomware) и утечки данных (Data Breach)</h3>
+                    <p>Это не случайные вирусы. Сегодня доминирует модель «взлом-шифрование-вымогательство» или «взлом-кража-шантаж». Злоумышленники неделями исследуют жертву, проникают в сеть, похищают критически важные данные, а затем либо шифруют системы, требуя выкуп за ключ, либо угрожают обнародовать конфиденциальную информацию. Это высокодоходный бизнес с ущербом в миллиарды долларов.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Government Groups -->
+        <section class="info-panel">
+            <h2><i class="fas fa-landmark"></i> Государственные / Политические группировки</h2>
+            
+            <div class="groups-timeline">
+                <!-- APT29 -->
+                <div class="group-card state-group">
+                    <div class="group-header">
+                        <div class="group-icon apt29-color">
+                            <i class="fas fa-bear"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3>APT29 (Cozy Bear / Midnight Blizzard)</h3>
+                            <span class="group-origin">Связь: предположительно, спецслужбы РФ</span>
+                        </div>
+                    </div>
+                    <div class="group-details">
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Громкое дело: SolarWinds (2020)</h4>
+                            <p>Через обновление легитимного ПО был получен доступ к сетям тысяч компаний и госучреждений США, включая Минобороны и Белый дом. Цель — долгосрочный шпионаж.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- APT41 -->
+                <div class="group-card state-group">
+                    <div class="group-header">
+                        <div class="group-icon apt41-color">
+                            <i class="fas fa-dragon"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3>APT41 (Double Dragon)</h3>
+                            <span class="group-origin">Связь: Китай, предположительно гражданско-военная</span>
+                        </div>
+                    </div>
+                    <div class="group-details">
+                        <p class="group-desc">Уникальны сочетанием кибершпионажа в госсекторе и криминальных атак для прибыли.</p>
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Громкое дело</h4>
+                            <p>Кампания против игровой индустрии и телеком-компаний по всему миру с кражей исходного кода и данных пользователей.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lazarus -->
+                <div class="group-card state-group">
+                    <div class="group-header">
+                        <div class="group-icon lazarus-color">
+                            <i class="fas fa-skull"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3>Lazarus Group</h3>
+                            <span class="group-origin">Связь: КНДР</span>
+                        </div>
+                    </div>
+                    <div class="group-details">
+                        <p class="group-desc">Финансирование режима через хакерскую деятельность.</p>
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Громкое дело: Sony Pictures (2014)</h4>
+                            <p>Атака в отместку за фильм «Интервью».</p>
+                        </div>
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Bangladesh Bank Heist (2016)</h4>
+                            <p>Кража $81 млн у Центрального банка Бангладеш.</p>
+                        </div>
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-biohazard"></i> WannaCry (2017)</h4>
+                            <p>Создание вредоносного ПО, парализовавшего системы здравоохранения Великобритании.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Criminal Groups -->
+        <section class="info-panel">
+            <h2><i class="fas fa-money-bill-wave"></i> Криминальные картели</h2>
+            
+            <div class="groups-grid">
+                <!-- REvil -->
+                <div class="group-card criminal-group">
+                    <div class="group-badge criminal-badge">Вымогатели</div>
+                    <div class="group-header">
+                        <div class="group-icon revil-color">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3>REvil (Sodinokibi)</h3>
+                            <span class="group-origin">Одна из самых наглых и прибыльных группировок</span>
+                        </div>
+                    </div>
+                    <div class="group-details">
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Kaseya (2021)</h4>
+                            <p>Атака позволила заразить тысячи бизнесов по цепочке через их IT-провайдера. Требовали выкуп в $70 млн.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conti -->
+                <div class="group-card criminal-group">
+                    <div class="group-badge criminal-badge">Вымогатели</div>
+                    <div class="group-header">
+                        <div class="group-icon conti-color">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3>Conti</h3>
+                            <span class="group-origin">Высокоорганизованный криминальный «концерн»</span>
+                        </div>
+                    </div>
+                    <div class="group-details">
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Ирландия (2021)</h4>
+                            <p>Жестокая атака на систему здравоохранения.</p>
+                        </div>
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Коста-Рика (2022)</h4>
+                            <p>Атака на Минздрав, приведшая к параличу госуслуг. Требования выкупа в десятки миллионов долларов.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DarkSide -->
+                <div class="group-card criminal-group">
+                    <div class="group-badge criminal-badge">Вымогатели</div>
+                    <div class="group-header">
+                        <div class="group-icon darkside-color">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3>DarkSide</h3>
+                            <span class="group-origin">Специализация: «big game hunting»</span>
+                        </div>
+                    </div>
+                    <div class="group-details">
+                        <div class="notable-attack">
+                            <h4><i class="fas fa-bolt"></i> Colonial Pipeline (2021)</h4>
+                            <p>Взлом привёл к временному прекращению работы крупнейшего топливопровода США, панике и дефициту бензина на Восточном побережье.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trends Section -->
+        <section class="info-panel">
+            <h2><i class="fas fa-chart-line"></i> Тенденции и будущее</h2>
+            <div class="trends-list">
+                <div class="trend-item">
+                    <div class="trend-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="trend-content">
+                        <h4>Ransomware 2.0</h4>
+                        <p>На смену простому вымогательству пришли более тихие атаки с сильным давлением за счёт угрозы утечки данных.</p>
+                    </div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div class="trend-content">
+                        <h4>Атаки на цепочки поставок</h4>
+                        <p>Как с SolarWinds — когда взлом одного поставщика компрометирует всех его клиентов.</p>
+                    </div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="trend-content">
+                        <h4>Искусственный интеллект</h4>
+                        <p>Рост использования AI для создания более изощрённых фишинговых сообщений и автоматизации атак.</p>
+                    </div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="trend-content">
+                        <h4>Геополитика</h4>
+                        <p>Киберпространство стало новой ареной геополитического противостояния и криминального бизнеса.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section info-panel">
+            <div class="cta-content">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Не становитесь следующей строкой в статистике</h3>
+                <p>Эти примеры — не повод для паники, а доказательство необходимости знаний о кибербезопасности.</p>
+            </div>
+        </section>
+
+        <!-- Sources -->
+        <section class="sources-section">
+            <h4><i class="fas fa-book-open"></i> Источники</h4>
+            <p>Отчёты компаний CrowdStrike, Mandiant, Kaspersky, Positive Technologies, данные FBI и CISA.</p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -18,6 +18,11 @@ class UIManager {
         this.setupAnimations();
     }
 
+    // Проверка готовности компонентов
+    isReady() {
+        return typeof window.dataHandler !== 'undefined' && typeof window.mapRenderer !== 'undefined';
+    }
+
     bindEvents() {
         // Кнопки фильтров (только если элементы существуют)
         const applyFiltersBtn = document.getElementById('apply-filters');
@@ -38,15 +43,27 @@ class UIManager {
         const playPause = document.getElementById('play-pause');
         
         if (zoomIn) {
-            zoomIn.addEventListener('click', () => window.mapRenderer?.zoomIn());
+            zoomIn.addEventListener('click', () => {
+                if (window.mapRenderer && typeof window.mapRenderer.zoomIn === 'function') {
+                    window.mapRenderer.zoomIn();
+                }
+            });
         }
         
         if (zoomOut) {
-            zoomOut.addEventListener('click', () => window.mapRenderer?.zoomOut());
+            zoomOut.addEventListener('click', () => {
+                if (window.mapRenderer && typeof window.mapRenderer.zoomOut === 'function') {
+                    window.mapRenderer.zoomOut();
+                }
+            });
         }
         
         if (resetView) {
-            resetView.addEventListener('click', () => window.mapRenderer?.resetView());
+            resetView.addEventListener('click', () => {
+                if (window.mapRenderer && typeof window.mapRenderer.resetView === 'function') {
+                    window.mapRenderer.resetView();
+                }
+            });
         }
         
         if (playPause) {
@@ -90,10 +107,14 @@ class UIManager {
             });
         }
         
-        // События данных
-        document.addEventListener('newAttack', (e) => {
-            this.handleNewAttack(e.detail);
-        });
+        // События данных - проверяем наличие dataHandler
+        if (typeof dataHandler !== 'undefined') {
+            document.addEventListener('newAttack', (e) => {
+                this.handleNewAttack(e.detail);
+            });
+        } else {
+            console.warn('DataHandler не загружен, события newAttack не обрабатываются');
+        }
         
         document.addEventListener('showAttackDetails', (e) => {
             this.showAttackDetails(e.detail);

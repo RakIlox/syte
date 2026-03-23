@@ -1,4 +1,5 @@
-// dataHandler.js - обработка и генерация данных об атаках
+
+// dataHandler.js - Оптимизированная обработка и генерация данных об атаках
 
 class DataHandler {
     constructor() {
@@ -8,253 +9,38 @@ class DataHandler {
         this.isPlaying = true;
         this.animationInterval = null;
         
-        // Расширенные определения атак для модальных окон
+        // Оптимизация: уменьшенное количество начальных атак
+        this.INITIAL_ATTACKS = 25;
+        this.MAX_ATTACKS = 50;
+        this.ANIMATION_INTERVAL = 30000;
+        
         this.attackDefinitions = {
-            ddos: {
-                title: "🔴 DDoS-атака",
-                icon: "🔴",
-                shortDesc: "Отказ в обслуживании",
-                color: "#ef4444",
-                explanation: "Злоумышленники пытаются «обрушить» сайты или сервисы, перегружая их огромным количеством ложных запросов. Это как толпа, которая одновременно пытается войти в одну дверь магазина — законные покупатели не могут попасть внутрь.",
-                technical: "Атака ведется с помощью «ботнета» — сети зараженных компьютеров (ботов) по всему миру. Каждый бот по команде начинает слать запросы к цели. Остановить сложно, потому что запросы идут с тысяч разных адресов.",
-                howToRecognize: [
-                    "Сайт медленно загружается или не открывается",
-                    "Множественные ошибки подключения",
-                    "Необычно долгое время ответа сервера",
-                    "Сбои в работе онлайн-сервисов"
-                ],
-                realExamples: [
-                    "Twitter & GitHub (2016): Атака мощностью 1.2 Тб/с — крупнейшая в истории",
-                    "Dyn (2017): Одновременный удар по Netflix, PayPal, Twitter и Spotify",
-                    "Криминальная группа Lizard Squad парализовала PSN и Xbox Live на Рождество",
-                    "Остановка крупнейшего банка Дании после DDoS на 7 часов",
-                    "Атака на украинский ПриватБанк в 2022 году — тысячи клиентов без доступа"
-                ],
-                statistics: "DDoS-атаки составляют около 25% всех кибератак. Средняя длительность атаки — 4 часа.",
-                protection: [
-                    "🔒 Не кликайте на подозрительные ссылки — ваш компьютер могут сделать частью ботнета",
-                    "🛡️ Используйте антивирус и регулярно обновляйте программы",
-                    "⏳ Если сайт не работает — возможно, он под атакой. Подождите немного",
-                    "🌐 Используйте CDN с защитой от DDoS (Cloudflare, Akamai)",
-                    "📊 Настройте мониторинг трафика для раннего обнаружения"
-                ],
-                article: "what-is-ddos"
-            },
-            phishing: {
-                title: "🎣 Фишинговая атака",
-                icon: "🎣",
-                shortDesc: "Кража учетных данных",
-                color: "#f59e0b",
-                explanation: "Мошенники рассылают поддельные письма или сообщения, которые выглядят как от известных компаний. Цель — заставить вас ввести свои логины, пароли или данные банковской карты.",
-                technical: "Создается точная копия сайта банка или соцсети. Ссылка ведет на этот фейковый сайт, где все введенные данные попадают к злоумышленникам.",
-                howToRecognize: [
-                    "Срочные письма с угрозой заблокировать аккаунт",
-                    "Орфографические и грамматические ошибки",
-                    "Странный адрес отправителя",
-                    "Просьба перейти по ссылке и ввести данные"
-                ],
-                realExamples: [
-                    "Фишинг против украинских военных (2022): фейковые письма от «Новой почты» с вредоносными ссылками",
-                    "Атака на сотрудников Microsoft (2019): похищены данные 30 000 клиентов",
-                    "Серия атак на пользователей «Ощадбанка» с SMS о «блокировке карты»",
-                    "Uber (2016): данные 57 млн пользователей украдены через фишинг письмо",
-                    "Массовая кампания Gmail 2023: поддельные приглашения в Google Docs"
-                ],
-                statistics: "Фишинг является причиной 90% успешных кибератак. Средний ущерб от одной фишинговой атаки — $4.7 млн.",
-                protection: [
-                    "🔍 Проверяйте адрес сайта в строке браузера",
-                    "❌ Не переходите по ссылкам в подозрительных письмах",
-                    "🔐 Включайте двухфакторную аутентификацию везде, где это возможно",
-                    "📧 Сверяйте адрес отправителя с официальным",
-                    "⚠️ Банки никогда не просят пароль через письмо"
-                ],
-                article: "what-is-phishing"
-            },
-            malware: {
-                title: "🦠 Вредоносное ПО",
-                icon: "🦠",
-                shortDesc: "Вирусы и трояны",
-                color: "#8b5cf6",
-                explanation: "Злоумышленники пытаются установить на ваш компьютер вирусы, трояны или шпионские программы. Эти программы могут воровать данные, показывать рекламу или использовать ваш компьютер для майнинга криптовалюты.",
-                technical: "Вредоносное ПО часто скрывается в пиратских программах, взломанных играх или вложениях к письмам. После запуска оно устанавливается в систему и начинает свою работу.",
-                howToRecognize: [
-                    "Компьютер стал работать медленнее обычного",
-                    "Появились неизвестные программы",
-                    "Браузер перенаправляет на незнакомые сайты",
-                    "Необычная активность жесткого диска"
-                ],
-                realExamples: [
-                    "WannaCry (2017): 200 000+ компьютеров в 150 странах, ущерб $4 млрд",
-                    "NotPetya (2017): парализовала Maersk, Rosneft, Новая Почта — ущерб $10 млрд",
-                    "Emotet: банковский троян, заразивший миллионы компьютеров по всему миру",
-                    "Утечка данных из украинских госреестров в 2022 году через установленное ПО",
-                    "Stuxnet (2010): вирус, уничтоживший центрифуги на иранском ядерном объекте"
-                ],
-                statistics: "Каждый день создается 300 000+ новых вирусов. 92% вредоносного ПО доставляется через email.",
-                protection: [
-                    "💻 Устанавливайте программы только с официальных сайтов",
-                    "📎 Не открывайте вложения от незнакомых отправителей",
-                    "💾 Регулярно делайте резервные копии важных файлов",
-                    "🧹 Используйте антивирус с регулярным обновлением баз",
-                    "🔌 Не скачивайте пиратское ПО и ключи активации"
-                ],
-                article: "malware-guide"
-            },
-            scanning: {
-                title: "🔍 Сканирование уязвимостей",
-                icon: "🔍",
-                shortDesc: "Разведка перед атакой",
-                color: "#10b981",
-                explanation: "Злоумышленники автоматически проверяют тысячи компьютеров на наличие известных уязвимостей. Это как вор, который проверяет все двери в доме — ищет, какая не заперта.",
-                technical: "Используются специальные программы-сканеры, которые проверяют стандартные порты и сервисы. Найдя уязвимость, злоумышленник может использовать её для взлома.",
-                howToRecognize: [
-                    "Необычные запросы на открытые порты в логах",
-                    "Много неудачных попыток подключения",
-                    "Сканирование с подозрительных IP-адресов",
-                    "Аномальная сетевая активность"
-                ],
-                realExamples: [
-                    "Masscan: сканер, способный проверить весь интернет за несколько минут",
-                    "Перед атакой NotPetya злоумышленники сканировали сеть МЭДТ",
-                    "Shodan: поисковая система для IoT-устройств — часто используется для разведки",
-                    "Сканирование украинских госсетей перед массированными атаками в 2022 году",
-                    "Атака на Colonial Pipeline: злоумышленники заранее изучили сеть компании"
-                ],
-                statistics: "60% атак начинаются со сканирования. 80% организаций обнаруживают сканирование своих сетей еженедельно.",
-                protection: [
-                    "🔧 Всегда устанавливайте обновления безопасности",
-                    "🔥 Используйте брандмауэр",
-                    "🚫 Отключайте неиспользуемые сетевые сервисы",
-                    "📊 Настройте IDS/IPS для обнаружения сканирования",
-                    "🔐 Закройте неиспользуемые порты"
-                ],
-                article: "network-security-monitoring"
-            },
-            bruteforce: {
-                title: "🔨 Подбор паролей",
-                icon: "🔨",
-                shortDesc: "Перебор паролей",
-                color: "#ec4899",
-                explanation: "Автоматический перебор всех возможных паролей для взлома учетной записи. Хакеры используют программы, которые пробуют тысячи паролей в секунду.",
-                technical: "Часто используются словари популярных паролей и базы утекших паролей. Эффективно против простых и распространенных паролей.",
-                howToRecognize: [
-                    "Множественные неудачные попытки входа в аккаунт",
-                    "Письма о попытках входа из незнакомых мест",
-                    "Блокировка учетной записи из-за частых попыток",
-                    "Необычная активность в логах системы"
-                ],
-                realExamples: [
-                    "LinkedIn (2012): 117 млн паролей утекли и были проданы",
-                    "Взлом учетных записей «Укрзализныци» в 2022 году через пароль '123456'",
-                    "Атака на WordPress-сайты: ботнет проверяет 100 000 паролей в секунду",
-                    "Аккаунты Blizzard Entertainment взломаны через подбор паролей",
-                    "Госслужащие Украины: массаный перебор паролей в 2022 году"
-                ],
-                statistics: "23% утечек данных происходят из-за слабых паролей. '123456' — самый популярный пароль в мире.",
-                protection: [
-                    "🔑 Используйте длинные сложные пароли (минимум 12 символов)",
-                    "🚫 Не используйте один пароль на разных сайтах",
-                    "🔐 Включите двухфакторную аутентификацию",
-                    "⏰ Меняйте пароли регулярно",
-                    "📝 Используйте менеджер паролей"
-                ],
-                article: "how-passwords-work"
-            },
-            sqlInjection: {
-                title: "💉 SQL-инъекция",
-                icon: "💉",
-                shortDesc: "Атака на базу данных",
-                color: "#06b6d4",
-                explanation: "Атака на базы данных веб-сайтов. Злоумышленник вводит специальный код в поля ввода, чтобы получить доступ к данным или удалить их.",
-                technical: "Если сайт не фильтрует ввод пользователя, злоумышленник может выполнить произвольные SQL-запросы к базе данных.",
-                howToRecognize: [
-                    "Странные данные в ответах от сервера",
-                    "Необычные ошибки базы данных",
-                    "Утечка данных в публичных источниках",
-                    "Изменение данных без авторизации"
-                ],
-                realExamples: [
-                    "Facebook (2019): данные 500 млн пользователей утекли через SQL-инъекцию",
-                    "Uber (2016): база данных с данными 57 млн водителей и клиентов",
-                    "British Airways (2018): кража данных 500 000 клиентов через SQLi",
-                    "Heartland Payment Systems: 130 млн кредитных карт украдено",
-                    "Украинские интернет-магазины: массовые утечки баз данных в 2021-2022"
-                ],
-                statistics: "SQL-инъекции составляют ~25% веб-атак. Средний ущерб — $196 000 за инцидент.",
-                protection: [
-                    "💻 Для разработчиков: используйте подготовленные запросы (prepared statements)",
-                    "🗄️ Не храните лишние данные в базе",
-                    "🔄 Регулярно обновляйте СУБД",
-                    "🔍 Проверяйте входные данные",
-                    "👤 Используйте принцип минимальных привилегий"
-                ],
-                article: "vulnerability-assessment"
-            },
-            xss: {
-                title: "⚡ XSS-атака",
-                icon: "⚡",
-                shortDesc: "Межсайтовый скриптинг",
-                color: "#f97316",
-                explanation: "Межсайтовый скриптинг. Злоумышленник внедряет вредоносный JavaScript код на страницу, который выполняется у других пользователей.",
-                technical: "Когда пользователь посещает зараженную страницу, скрипт может украсть его cookies, перенаправить на фишинговый сайт или выполнить действия от его имени.",
-                howToRecognize: [
-                    "Выполнение странного JavaScript на сайте",
-                    "Неожиданные перенаправления",
-                    "Кража сессионных cookies",
-                    "Подозрительные всплывающие окна"
-                ],
-                realExamples: [
-                    "British Airways (2018): XSS привел к утечке данных 500 000 клиентов",
-                    "eBay (2015): злоумышленники разместили вредоносный код на главной странице",
-                    "WordPress: множество плагинов с XSS-уязвимостями",
-                    "Twitter (2010): первый крупный XSS-червь распространился через профили",
-                    "Украинские новостные сайты: внедрение майнеров криптовалюты через XSS"
-                ],
-                statistics: "XSS уязвимости обнаружены на 40% веб-сайтов. Они входят в топ-3 веб-уязвимостей OWASP.",
-                protection: [
-                    "💻 Для разработчиков: экранируйте пользовательский ввод",
-                    "🛡️ Используйте Content Security Policy",
-                    "⚠️ Не доверяйте никакому JavaScript коду на странице",
-                    "🔒 HttpOnly и Secure флаги для cookies",
-                    "🧹 Регулярно проверяйте сайт на уязвимости"
-                ],
-                article: "web-security"
-            },
-            mitm: {
-                title: "👤 Атака «человек посередине»",
-                icon: "👤",
-                shortDesc: "Перехват трафика",
-                color: "#84cc16",
-                explanation: "Злоумышленник незаметно перехватывает и читает весь трафик между вами и сервером. Может изменять данные в процессе передачи.",
-                technical: "Часто реализуется через поддельные точки доступа Wi-Fi или взломанные роутеры.",
-                howToRecognize: [
-                    "Сайты без HTTPS в адресной строке",
-                    "Предупреждения о сертификатах",
-                    "Неожиданные разрывы соединения",
-                    "Замедленная работа в публичных сетях"
-                ],
-                realExamples: [
-                    "Взлом домашних роутеров TP-Link для перехвата трафика в Украине",
-                    "Атаки на публичные Wi-Fi в киевских торговых центрах",
-                    "SUPERMAN: инструмент АНБ для перехвата интернет-трафика",
-                    "Фишинг через поддельные точки доступа в аэропортах",
-                    "Скомпрометированные роутеры в отелях для кражи данных гостей"
-                ],
-                statistics: "В публичных Wi-Fi сетях риск MITM-атаки повышен на 25%. 70% MITM-атак происходят в кафе и аэропортах.",
-                protection: [
-                    "🔒 Используйте VPN в публичных сетях",
-                    "🔍 Проверяйте наличие HTTPS на сайтах",
-                    "❌ Не вводите важные данные в незащищенных сетях",
-                    "⚠️ Избегайте важных операций в публичном Wi-Fi",
-                    "📱 Используйте мобильный интернет для важных дел"
-                ],
-                article: "wifi-security"
-            }
+            ddos: { title: "🔴 DDoS-атака", icon: "🔴", shortDesc: "Отказ в обслуживании", color: "#ef4444", explanation: "Злоумышленники пытаются «обрушить» сайты.", howToRecognize: ["Сайт медленно загружается", "Много ошибок"], article: "what-is-ddos" },
+            phishing: { title: "🎣 Фишинг", icon: "🎣", shortDesc: "Кража данных", color: "#f59e0b", explanation: "Мошенники рассылают поддельные письма.", article: "what-is-phishing" },
+            malware: { title: "🦠 Вредоносное ПО", icon: "🦠", shortDesc: "Вирусы", color: "#8b5cf6", explanation: "Установка вирусов на компьютер.", article: "malware-guide" },
+            scanning: { title: "🔍 Сканирование", icon: "🔍", shortDesc: "Разведка", color: "#10b981", explanation: "Поиск уязвимостей.", article: "network-security-monitoring" },
+            bruteforce: { title: "🔨 Брутфорс", icon: "🔨", shortDesc: "Подбор паролей", color: "#ec4899", explanation: "Перебор паролей.", article: "how-passwords-work" },
+            sqlInjection: { title: "💉 SQL-инъекция", icon: "💉", shortDesc: "База данных", color: "#06b6d4", explanation: "Атака на БД.", article: "vulnerability-assessment" },
+            xss: { title: "⚡ XSS", icon: "⚡", shortDesc: "Скриптинг", color: "#f97316", explanation: "Внедрение кода.", article: "web-security" },
+            mitm: { title: "👤 MitM", icon: "👤", shortDesc: "Перехват", color: "#84cc16", explanation: "Перехват трафика.", article: "wifi-security" },
+            supplyChain: { title: "🏭 Цепочка", icon: "🏭", shortDesc: "Поставки", color: "#6366f1", explanation: "Через поставщиков.", article: "tools-frameworks" },
+            apt: { title: "🎯 APT", icon: "🎯", shortDesc: "Угроза", color: "#0ea5e9", explanation: "Государственные атаки.", article: "advanced-threat-intelligence" },
+            sessionHijacking: { title: "🎫 Сессия", icon: "🎫", shortDesc: "Перехват", color: "#f43f5e", explanation: "Кража сессии.", article: "social-engineering" },
+            arpSpoofing: { title: "🌐 ARP", icon: "🌐", shortDesc: "Спуфинг", color: "#14b8a6", explanation: "Отравление ARP.", article: "network-security-monitoring" },
+            cryptoAttack: { title: "🔐 Крипто", icon: "🔐", shortDesc: "Шифрование", color: "#eab308", explanation: "Взлом криптографии.", article: "crypto-security" },
+            toctou: { title: "⏱️ TOCTOU", icon: "⏱️", shortDesc: "Время", color: "#a855f7", explanation: "Уязвимость времени.", article: "security-architecture" },
+            bufferOverflow: { title: "💥 Буфер", icon: "💥", shortDesc: "Память", color: "#ef4444", explanation: "Переполнение.", article: "exploitation-techniques" },
+            sslStripping: { title: "⛓️ SSL", icon: "⛓️", shortDesc: "Downgrade", color: "#64748b", explanation: "Понижение HTTPS.", article: "wifi-security" },
+            clickjacking: { title: "👆 Клик", icon: "👆", shortDesc: "Обман", color: "#ec4899", explanation: "Перехват кликов.", article: "web-security" },
+            idsEvasion: { title: "🛡️ IDS", icon: "🛡️", shortDesc: "Обход", color: "#0f172a", explanation: "Обход защиты.", article: "network-security-monitoring" },
+            privilegeEscalation: { title: "🚪 Права", icon: "🚪", shortDesc: "Эскалация", color: "#dc2626", explanation: "Повышение прав.", article: "security-architecture" },
+            logicBomb: { title: "💣 Бомба", icon: "💣", shortDesc: "Логика", color: "#b91c1c", explanation: "Код с условием.", article: "malware-guide" },
+            cloudAttack: { title: "☁️ Облако", icon: "☁️", shortDesc: "Cloud", color: "#3b82f6", explanation: "Атака на облако.", article: "advanced-cloud-security" },
+            iotAttack: { title: "📱 IoT", icon: "📱", shortDesc: "Устройства", color: "#8b5cf6", explanation: "Взлом IoT.", article: "iot-security" },
+            aiAttack: { title: "🤖 AI", icon: "🤖", shortDesc: "ИИ", color: "#06b6d4", explanation: "Атака с ИИ.", article: "advanced-threat-intelligence" }
         };
         
-        // Координаты стран (упрощенные) - расширенный список
         this.countryCoordinates = {
-            // Основные игроки
             'US': { lat: 39.8, lon: -98.5, name: '🇺🇸 США' },
             'CN': { lat: 35.9, lon: 104.2, name: '🇨🇳 Китай' },
             'RU': { lat: 61.5, lon: 105.3, name: '🇷🇺 Россия' },
@@ -270,71 +56,53 @@ class DataHandler {
             'IT': { lat: 41.9, lon: 12.6, name: '🇮🇹 Италия' },
             'ES': { lat: 40.5, lon: -3.7, name: '🇪🇸 Испания' },
             'NL': { lat: 52.1, lon: 5.3, name: '🇳🇱 Нидерланды' },
-            // Европа
             'PL': { lat: 51.9, lon: 19.1, name: '🇵🇱 Польша' },
-            'SE': { lat: 60.1, lon: 18.6, name: '🇸🇪 Швеция' },
-            'CH': { lat: 46.8, lon: 8.2, name: '🇨🇭 Швейцария' },
             'UA': { lat: 48.4, lon: 31.1, name: '🇺🇦 Украина' },
             'TR': { lat: 38.9, lon: 35.2, name: '🇹🇷 Турция' },
-            // Азия
             'VN': { lat: 14.0, lon: 108.2, name: '🇻🇳 Вьетнам' },
             'ID': { lat: -0.7, lon: 113.9, name: '🇮🇩 Индонезия' },
             'TH': { lat: 15.8, lon: 100.9, name: '🇹🇭 Таиланд' },
             'SG': { lat: 1.3, lon: 103.8, name: '🇸🇬 Сингапур' },
-            'HK': { lat: 22.3, lon: 114.1, name: '🇭🇰 Гонконг' },
-            // Ближний Восток
             'IL': { lat: 31.0, lon: 35.1, name: '🇮🇱 Израиль' },
             'IR': { lat: 32.4, lon: 53.6, name: '🇮🇷 Иран' },
-            // Латинская Америка
             'MX': { lat: 23.6, lon: -102.5, name: '🇲🇽 Мексика' },
-            'AR': { lat: -38.4, lon: -63.6, name: '🇦🇷 Аргентина' },
-            // Африка
             'ZA': { lat: -30.5, lon: 22.9, name: '🇿🇦 ЮАР' },
             'NG': { lat: 9.0, lon: 8.6, name: '🇳🇬 Нигерия' },
             'EG': { lat: 26.8, lon: 30.8, name: '🇪🇬 Египет' }
         };
         
-        // Секторы экономики
         this.sectors = ['finance', 'healthcare', 'government', 'education', 'energy', 'telecom'];
         this.sectorNames = {
-            finance: '💰 Финансы',
-            healthcare: '🏥 Здравоохранение',
-            government: '🏛️ Госструктуры',
-            education: '🎓 Образование',
-            energy: '⚡ Энергетика',
-            telecom: '📡 Телекоммуникации'
+            finance: '💰 Финансы', healthcare: '🏥 Здравоохранение',
+            government: '🏛️ Госструктуры', education: '🎓 Образование',
+            energy: '⚡ Энергетика', telecom: '📡 Телеком'
         };
         
-        // Типы атак - расширенный список
-        this.attackTypes = ['ddos', 'phishing', 'malware', 'scanning', 'bruteforce', 'sqlInjection', 'xss', 'mitm'];
+        this.attackTypes = ['ddos', 'phishing', 'malware', 'scanning', 'bruteforce', 'sqlInjection', 'xss', 'mitm', 'supplyChain', 'apt', 'sessionHijacking', 'arpSpoofing', 'cryptoAttack', 'toctou', 'bufferOverflow', 'sslStripping', 'clickjacking', 'idsEvasion', 'privilegeEscalation', 'logicBomb', 'cloudAttack', 'iotAttack', 'aiAttack'];
         this.attackTypeNames = {
-            ddos: '🔴 DDoS',
-            phishing: '🎣 Фишинг',
-            malware: '🦠 Вредоносное ПО',
-            scanning: '🔍 Сканирование',
-            bruteforce: '🔨 Подбор паролей',
-            sqlInjection: '💉 SQL-инъекция',
-            xss: '⚡ XSS',
-            mitm: '👤 MitM'
-        };
+            ddos: '🔴 DDoS', phishing: '🎣 Фишинг', malware: '🦠 ВПО', scanning: '🔍 Скан', bruteforce: '🔨 Брут', sqlInjection: '💉 SQL', xss: '⚡ XSS', mitm: '👤 MitM', supplyChain: '🏭 Цепь', apt: '🎯 APT', sessionHijacking: '🎫 Сессия', arpSpoofing: '🌐 ARP', cryptoAttack: '🔐 Крипто', toctou: '⏱️ TOCTOU', bufferOverflow: '💥 Буфер', sslStripping: '⛓️ SSL', clickjacking: '👆 Клик', idsEvasion: '🛡️ IDS', privilegeEscalation: '🚪 Права', logicBomb: '💣 Бомба', cloudAttack: '☁️ Облако', iotAttack: '📱 IoT', aiAttack: '🤖 AI' };
         
-        // Уровни опасности
         this.severityLevels = ['low', 'medium', 'high', 'critical'];
-        this.severityNames = {
-            low: '🟢 Низкий',
-            medium: '🟡 Средний',
-            high: '🟠 Высокий',
-            critical: '🔴 Критический'
-        };
-        this.severityColors = {
-            low: '#10b981',
-            medium: '#f59e0b',
-            high: '#f97316',
-            critical: '#ef4444'
+        this.severityNames = { low: '🟢 Низкий', medium: '🟡 Средний', high: '🟠 Высокий', critical: '🔴 Критический' };
+        this.severityColors = { low: '#10b981', medium: '#f59e0b', high: '#f97316', critical: '#ef4444' };
+
+        this.cities = {
+            'US-NYC': { lat: 40.7128, lon: -74.0060, name: 'Нью-Йорк', country: 'US' },
+            'US-LAX': { lat: 34.0522, lon: -118.2437, name: 'Лос-Анджелес', country: 'US' },
+            'US-CHI': { lat: 41.8781, lon: -87.6298, name: 'Чикаго', country: 'US' },
+            'CN-BJS': { lat: 39.9042, lon: 116.4074, name: 'Пекин', country: 'CN' },
+            'CN-SHA': { lat: 31.2304, lon: 121.4737, name: 'Шанхай', country: 'CN' },
+            'RU-MOW': { lat: 55.7558, lon: 37.6173, name: 'Москва', country: 'RU' },
+            'RU-SPB': { lat: 59.9343, lon: 30.3351, name: 'СПб', country: 'RU' },
+            'DE-BER': { lat: 52.5200, lon: 13.4050, name: 'Берлин', country: 'DE' },
+            'GB-LON': { lat: 51.5074, lon: -0.1278, name: 'Лондон', country: 'GB' },
+            'FR-PAR': { lat: 48.8566, lon: 2.3522, name: 'Париж', country: 'FR' },
+            'JP-TOK': { lat: 35.6762, lon: 139.6503, name: 'Токио', country: 'JP' },
+            'IN-BOM': { lat: 19.0760, lon: 72.8777, name: 'Мумбаи', country: 'IN' },
+            'AU-SYD': { lat: -33.8688, lon: 151.2093, name: 'Сидней', country: 'AU' }
         };
     }
 
-    // Инициализация данных
     async init() {
         await this.generateInitialData();
         this.startAnimation();
@@ -342,21 +110,13 @@ class DataHandler {
         return this.attacks;
     }
 
-    // Генерация начальных данных
     generateInitialData() {
         this.attacks = [];
-        const count = 15; // Начальное количество атак
-        
         const countries = Object.keys(this.countryCoordinates);
-        
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < this.INITIAL_ATTACKS; i++) {
             const sourceCountry = countries[Math.floor(Math.random() * countries.length)];
             let targetCountry;
-            
-            // Убедимся, что цель не совпадает с источником
-            do {
-                targetCountry = countries[Math.floor(Math.random() * countries.length)];
-            } while (targetCountry === sourceCountry);
+            do { targetCountry = countries[Math.floor(Math.random() * countries.length)]; } while (targetCountry === sourceCountry);
             
             const attackType = this.attackTypes[Math.floor(Math.random() * this.attackTypes.length)];
             const severity = this.severityLevels[Math.floor(Math.random() * this.severityLevels.length)];
@@ -365,28 +125,19 @@ class DataHandler {
             this.attacks.push({
                 id: `attack_${Date.now()}_${i}`,
                 timestamp: new Date(Date.now() - Math.random() * 3600000).toISOString(),
-                sourceCountry,
-                targetCountry,
-                attackType,
-                severity,
-                sector,
-                description: `${this.attackTypeNames[attackType]} атака из ${this.countryCoordinates[sourceCountry].name} в ${this.countryCoordinates[targetCountry].name}`,
-                active: Math.random() > 0.3 // 70% атак активны
+                sourceCountry, targetCountry, attackType, severity, sector,
+                description: `${this.attackTypeNames[attackType]} из ${this.countryCoordinates[sourceCountry].name}`,
+                active: Math.random() > 0.3
             });
         }
     }
 
-    // Добавление новой атаки
     addNewAttack() {
         if (!this.isPlaying) return;
-        
         const countries = Object.keys(this.countryCoordinates);
         const sourceCountry = countries[Math.floor(Math.random() * countries.length)];
         let targetCountry;
-        
-        do {
-            targetCountry = countries[Math.floor(Math.random() * countries.length)];
-        } while (targetCountry === sourceCountry);
+        do { targetCountry = countries[Math.floor(Math.random() * countries.length)]; } while (targetCountry === sourceCountry);
         
         const attackType = this.attackTypes[Math.floor(Math.random() * this.attackTypes.length)];
         const severity = this.severityLevels[Math.floor(Math.random() * this.severityLevels.length)];
@@ -395,162 +146,69 @@ class DataHandler {
         const newAttack = {
             id: `attack_${Date.now()}`,
             timestamp: new Date().toISOString(),
-            sourceCountry,
-            targetCountry,
-            attackType,
-            severity,
-            sector,
-            description: `${this.attackTypeNames[attackType]} атака из ${this.countryCoordinates[sourceCountry].name} в ${this.countryCoordinates[targetCountry].name}`,
+            sourceCountry, targetCountry, attackType, severity, sector,
+            description: `${this.attackTypeNames[attackType]} из ${this.countryCoordinates[sourceCountry].name}`,
             active: true
         };
         
         this.attacks.push(newAttack);
-        
-        // Удаляем старые атаки (больше 50 не храним)
-        if (this.attacks.length > 50) {
-            this.attacks = this.attacks.slice(-50);
-        }
-        
+        if (this.attacks.length > this.MAX_ATTACKS) this.attacks = this.attacks.slice(-this.MAX_ATTACKS);
         this.updateLastUpdateTime();
         return newAttack;
     }
 
-    // Получение данных для карты
-    getMapData() {
-        return this.attacks.filter(attack => attack.active);
-    }
-
-    // Получение статистики
+    getMapData() { return this.attacks.filter(a => a.active); }
+    
     getStats() {
         const activeAttacks = this.attacks.filter(a => a.active);
-        const attackCountByType = {};
-        const attackCountByCountry = {};
-        
+        const attackCountByType = {}, attackCountByCountry = {};
         activeAttacks.forEach(attack => {
-            // Статистика по типам
             attackCountByType[attack.attackType] = (attackCountByType[attack.attackType] || 0) + 1;
-            
-            // Статистика по странам
             attackCountByCountry[attack.sourceCountry] = (attackCountByCountry[attack.sourceCountry] || 0) + 1;
         });
-        
-        // Находим самый частый тип атаки
-        let topType = '--';
-        let maxTypeCount = 0;
-        Object.entries(attackCountByType).forEach(([type, count]) => {
-            if (count > maxTypeCount) {
-                maxTypeCount = count;
-                topType = this.attackTypeNames[type];
-            }
-        });
-        
-        // Находим самую активную страну
-        let topCountry = '--';
-        let maxCountryCount = 0;
-        Object.entries(attackCountByCountry).forEach(([country, count]) => {
-            if (count > maxCountryCount) {
-                maxCountryCount = count;
-                topCountry = this.countryCoordinates[country]?.name || country;
-            }
-        });
-        
-        return {
-            total: this.attacks.length,
-            active: activeAttacks.length,
-            topCountry,
-            topType
-        };
+        let topType = '--', maxType = 0; Object.entries(attackCountByType).forEach(([t, c]) => { if (c > maxType) { maxType = c; topType = this.attackTypeNames[t]; }});
+        let topCountry = '--', maxCountry = 0; Object.entries(attackCountByCountry).forEach(([c, n]) => { if (n > maxCountry) { maxCountry = n; topCountry = this.countryCoordinates[c]?.name || c; }});
+        return { total: this.attacks.length, active: activeAttacks.length, topCountry, topType };
     }
 
-    // Фильтрация атак
     filterAttacks(filters) {
-        return this.attacks.filter(attack => {
-            // Проверяем активность атаки
-            if (!attack.active) return false;
-            
-            // Проверяем фильтр по типу атаки
-            if (filters.attackType !== 'all' && attack.attackType !== filters.attackType) {
-                return false;
-            }
-            
-            // Проверяем фильтр по уровню опасности
-            if (filters.severity !== 'all' && attack.severity !== filters.severity) {
-                return false;
-            }
-            
-            // Проверяем фильтр по сектору цели
-            if (filters.targetSector !== 'all' && attack.sector !== filters.targetSector) {
-                return false;
-            }
-            
+        return this.attacks.filter(a => {
+            if (!a.active) return false;
+            if (filters.attackType !== 'all' && a.attackType !== filters.attackType) return false;
+            if (filters.severity !== 'all' && a.severity !== filters.severity) return false;
+            if (filters.targetSector !== 'all' && a.sector !== filters.targetSector) return false;
             return true;
         });
     }
 
-    // Получение информации об атаке для модального окна
     getAttackDetails(attack) {
-        const definition = this.attackDefinitions[attack.attackType] || this.attackDefinitions.ddos;
-        
+        const def = this.attackDefinitions[attack.attackType] || this.attackDefinitions.ddos;
         return {
-            title: definition.title,
-            icon: definition.icon,
-            shortDesc: definition.shortDesc,
-            color: definition.color,
-            source: this.countryCoordinates[attack.sourceCountry]?.name || attack.sourceCountry,
-            sourceCode: attack.sourceCountry,
-            target: this.countryCoordinates[attack.targetCountry]?.name || attack.targetCountry,
-            targetCode: attack.targetCountry,
-            sector: this.sectorNames[attack.sector] || attack.sector,
-            sectorKey: attack.sector,
-            severity: this.severityNames[attack.severity] || attack.severity,
-            severityKey: attack.severity,
-            severityColor: this.severityColors[attack.severity] || '#ef4444',
-            severityClass: `severity-${attack.severity}`,
-            explanation: definition.explanation,
-            technical: definition.technical,
-            howToRecognize: definition.howToRecognize || [],
-            realExamples: definition.realExamples || [],
-            statistics: definition.statistics || '',
-            protection: definition.protection || [],
-            article: definition.article || attack.attackType
+            title: def.title, icon: def.icon, shortDesc: def.shortDesc, color: def.color,
+            source: this.countryCoordinates[attack.sourceCountry]?.name, sourceCode: attack.sourceCountry,
+            target: this.countryCoordinates[attack.targetCountry]?.name, targetCode: attack.targetCountry,
+            sector: this.sectorNames[attack.sector], sectorKey: attack.sector,
+            severity: this.severityNames[attack.severity], severityKey: attack.severity,
+            severityColor: this.severityColors[attack.severity], severityClass: `severity-${attack.severity}`,
+            article: def.article
         };
     }
 
-    // Запуск анимации (добавление новых атак)
     startAnimation() {
-        if (this.animationInterval) {
-            clearInterval(this.animationInterval);
-        }
-        
+        if (this.animationInterval) clearInterval(this.animationInterval);
         this.animationInterval = setInterval(() => {
             if (this.isPlaying) {
-                this.addNewAttack();
-                // Обновляем UI через события
-                document.dispatchEvent(new CustomEvent('newAttack', {
-                    detail: this.attacks[this.attacks.length - 1]
-                }));
+                const newAttack = this.addNewAttack();
+                if (newAttack) document.dispatchEvent(new CustomEvent('newAttack', { detail: newAttack }));
             }
-        }, 20000); // Новая атака каждые 20 секунд
+        }, this.ANIMATION_INTERVAL);
     }
 
-    // Пауза/возобновление анимации
-    toggleAnimation() {
-        this.isPlaying = !this.isPlaying;
-        return this.isPlaying;
-    }
-
-    // Обновление времени последнего обновления
-    updateLastUpdateTime() {
-        this.lastUpdate = new Date();
-        return this.lastUpdate.toLocaleTimeString('ru-RU');
-    }
-
-    // Получение координат страны
-    getCountryCoordinates(countryCode) {
-        return this.countryCoordinates[countryCode] || { lat: 0, lon: 0, name: countryCode };
-    }
+    toggleAnimation() { this.isPlaying = !this.isPlaying; return this.isPlaying; }
+    updateLastUpdateTime() { this.lastUpdate = new Date(); return this.lastUpdate.toLocaleTimeString('ru-RU'); }
+    getCountryCoordinates(c) { return this.countryCoordinates[c] || { lat: 0, lon: 0, name: c }; }
+    getCityCoordinates(c) { return this.cities[c] || { lat: 0, lon: 0, name: c, country: 'XX' }; }
 }
 
-// Создаем глобальный экземпляр
 const dataHandler = new DataHandler();
 

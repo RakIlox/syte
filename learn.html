@@ -24,22 +24,125 @@
     <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
+    <script src="assets/js/header.js"></script>
     <style>
         .lessons-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 40px; }
         
-        @media (max-width: 1100px) { .lessons-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 768px) { .lessons-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-        @media (max-width: 500px) { .lessons-grid { grid-template-columns: 1fr; gap: 10px; } }
-        @media (max-width: 360px) { .lessons-grid { gap: 8px; } }
+        @media (max-width: 1100px) { .lessons-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+        @media (max-width: 768px) { .lessons-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+        @media (max-width: 500px) { .lessons-grid { grid-template-columns: 1fr; gap: 8px; } }
+        @media (max-width: 360px) { .lessons-grid { gap: 6px; } }
         
-        .lesson-card { background: rgba(30, 41, 59, 0.7); border-radius: 12px; padding: 25px 20px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; text-decoration: none; display: block; text-align: center; min-height: 140px; display: flex; flex-direction: column; }
+        /* Улучшенные стили для lesson-card */
+        .lesson-card { 
+            background: rgba(30, 41, 59, 0.7); 
+            border-radius: 12px; 
+            padding: 25px 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            transition: all 0.3s ease; 
+            text-decoration: none; 
+            display: flex; 
+            flex-direction: column;
+            min-height: 140px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Touch устройства - убираем hover эффекты, добавляем active */
+        @media (hover: none) and (pointer: coarse) {
+            .lesson-card:hover {
+                transform: none;
+                border-color: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+            }
+            
+            .lesson-card:active {
+                transform: scale(0.98);
+                background: rgba(30, 41, 59, 0.85);
+            }
+            
+            .tip-card:hover {
+                transform: none;
+                border-color: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+            }
+            
+            .tip-card:active {
+                transform: scale(0.98);
+            }
+            
+            .knowledge-card .start-btn:active {
+                transform: scale(0.95);
+            }
+            
+            .restart-btn:active,
+            .close-btn:active {
+                transform: scale(0.95);
+            }
+            
+            .next-question-btn:active {
+                transform: scale(0.95);
+            }
+        }
         
         @media (max-width: 768px) {
-            .lesson-card { padding: 18px 15px; min-height: 130px; }
+            .lesson-card { 
+                padding: 18px 15px; 
+                min-height: 130px; 
+            }
+            .lesson-card:active {
+                transform: scale(0.98);
+            }
         }
         
         @media (max-width: 500px) {
-            .lesson-card { padding: 16px; min-height: auto; }
+            .lesson-card { 
+                padding: 16px; 
+                min-height: auto; 
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                gap: 16px;
+            }
+            .lesson-card .card-icon {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            .lesson-card h3 {
+                font-size: 0.95rem;
+                margin-bottom: 4px;
+            }
+            .lesson-card .lesson-desc {
+                font-size: 0.75rem;
+                margin-bottom: 0;
+                display: none;
+            }
+            .lesson-card .read-btn {
+                margin-top: 0;
+                margin-left: auto;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .lesson-card {
+                padding: 12px 14px;
+                gap: 12px;
+            }
+            .lesson-card .card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .lesson-card h3 {
+                font-size: 0.85rem;
+            }
+            .lesson-card .read-btn {
+                padding: 5px 10px;
+                font-size: 0.7rem;
+            }
         }
         
         .lesson-card:hover { transform: translateY(-5px); border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
@@ -425,28 +528,7 @@
     </style>
 </head>
 <body>
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1>CyberThreat<span>Explorer</span></h1>
-                <small>для начинающих</small>
-            </a>
-            
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html"><i class="fas fa-map"></i> Карта атак</a></li>
-                    <li><a href="glossary.html"><i class="fas fa-book"></i> Глоссарий</a></li>
-                    <li><a href="learn.html" class="active"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
-                </ul>
-            </nav>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+    <!-- Шапка подключается через header.js -->
 
     <main class="container main-content">
         <!-- Page Header -->
@@ -661,20 +743,34 @@
         }
 
         function closeQuiz() {
-            document.getElementById('quiz-modal').classList.remove('active');
-            document.body.style.overflow = '';
+            const modal = document.getElementById('quiz-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         }
 
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() { document.querySelector('.main-nav').classList.toggle('active'); });
+        // Мобильное меню - проверяем существование элементов перед добавлением обработчика
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mainNav = document.querySelector('.main-nav');
+        if (mobileMenuBtn && mainNav) {
+            mobileMenuBtn.addEventListener('click', function() { mainNav.classList.toggle('active'); });
+        }
         
-        document.getElementById('quiz-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeQuiz();
-        });
+        // Модальное окно теста - проверяем существование элемента
+        const quizModal = document.getElementById('quiz-modal');
+        if (quizModal) {
+            quizModal.addEventListener('click', function(e) {
+                if (e.target === this) closeQuiz();
+            });
+        }
         
+        // Закрытие по клавише Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeQuiz();
         });
         
+        // Рендерим уроки после загрузки DOM
         renderLessons();
     </script>
 </body>

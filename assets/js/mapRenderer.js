@@ -1,4 +1,4 @@
-// mapRenderer.js - 2D карта мира с атаками и анимациями
+// mapRenderer.js - Оптимизированная 2D карта мира с атаками и анимациями
 
 class MapRenderer {
     constructor(containerId) {
@@ -13,8 +13,11 @@ class MapRenderer {
         this.zoom = null;
         this.tooltip = null;
         this.legendGroup = null;
+        this.isLoaded = false;
+        this.countriesGroup = null;
+        this.attacksGroup = null;
         
-        // Цвета для типов атак
+        // Цвета для типов атак (23 типа)
         this.attackColors = {
             ddos: '#ef4444',
             phishing: '#f59e0b',
@@ -23,9 +26,25 @@ class MapRenderer {
             bruteforce: '#ec4899',
             sqlInjection: '#06b6d4',
             xss: '#f97316',
-            mitm: '#84cc16'
+            mitm: '#84cc16',
+            supplyChain: '#6366f1',
+            apt: '#0ea5e9',
+            sessionHijacking: '#f43f5e',
+            arpSpoofing: '#14b8a6',
+            cryptoAttack: '#eab308',
+            toctou: '#a855f7',
+            bufferOverflow: '#ef4444',
+            sslStripping: '#64748b',
+            clickjacking: '#ec4899',
+            idsEvasion: '#0f172a',
+            privilegeEscalation: '#dc2626',
+            logicBomb: '#b91c1c',
+            cloudAttack: '#3b82f6',
+            iotAttack: '#8b5cf6',
+            aiAttack: '#06b6d4'
         };
         
+        // Иконки для типов атак
         this.attackIcons = {
             ddos: '🔴',
             phishing: '🎣',
@@ -34,18 +53,42 @@ class MapRenderer {
             bruteforce: '🔨',
             sqlInjection: '💉',
             xss: '⚡',
-            mitm: '👤'
+            mitm: '👤',
+            supplyChain: '🏭',
+            apt: '🎯',
+            sessionHijacking: '🎫',
+            arpSpoofing: '🌐',
+            cryptoAttack: '🔐',
+            toctou: '⏱️',
+            bufferOverflow: '💥',
+            sslStripping: '⛓️',
+            clickjacking: '👆',
+            idsEvasion: '🛡️',
+            privilegeEscalation: '🚪',
+            logicBomb: '💣',
+            cloudAttack: '☁️',
+            iotAttack: '📱',
+            aiAttack: '🤖'
         };
         
-        // Состояние фильтров - какие типы скрыты
+        // Состояние фильтров
         this.hiddenTypes = new Set();
+        
+        // Оптимизация: статические DOM elements для tooltip
+        this._tooltipEl = null;
     }
 
-    // Инициализация карты
     async init() {
         const container = document.getElementById(this.containerId);
         if (!container) {
             console.error('Контейнер карты не найден:', this.containerId);
+            return;
+        }
+        
+        // Проверяем загрузку d3.js
+        if (typeof d3 === 'undefined') {
+            console.error('D3.js не загружен!');
+            this.showError(container, 'Ошибка загрузки D3.js. Проверьте подключение к интернету.');
             return;
         }
         
@@ -79,29 +122,54 @@ class MapRenderer {
         
         // Загружаем карту мира
         await this.loadWorldMap();
+        
+        this.isLoaded = true;
+        console.log('Карта готова к отображению атак');
     }
 
-    // Создание SVG элемента
+    showError(container, message) {
+        container.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #94a3b8; text-align: center; padding: 20px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 20px;"></i>
+                <h3 style="margin: 0 0 10px;">Ошибка загрузки</h3>
+                <p>${message}</p>
+            </div>
+        `;
+    }
+
+    isReady() {
+        return this.isLoaded && this.svg !== null && this.g !== null;
+    }
+
+    // Оптимизация: использование documentFragment не нужен для SVG,
+    // но используем batch создание элементов
     createSVG(container) {
-        // Очищаем контейнер
         container.innerHTML = '';
         
-        // Создаём SVG
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         this.svg.setAttribute('width', '100%');
         this.svg.setAttribute('height', '100%');
         this.svg.setAttribute('viewBox', '0 0 ' + this.width + ' ' + this.height);
         this.svg.style.display = 'block';
         
-        // Создаём единую группу для карты И атак (чтобы всё масштабировалось вместе)
+        // Группа для стран (оптимизация: отдельная группа для стран)
+        this.countriesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        this.countriesGroup.setAttribute('class', 'countries-group');
+        
+        // Группа для атак (оптимизация: отдельная группа для атак)
+        this.attacksGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        this.attacksGroup.setAttribute('class', 'attacks-group');
+        
+        // Основная группа для карты
         this.g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         this.g.setAttribute('class', 'map-group');
+        this.g.appendChild(this.countriesGroup);
+        this.g.appendChild(this.attacksGroup);
         
-        // Создаём группу для легенды (отдельно, чтобы не масштабировалась)
+        // Группа для легенды
         this.legendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         this.legendGroup.setAttribute('class', 'legend-group');
         
-        // Добавляем в DOM - сначала основная группа, потом легенда
         container.appendChild(this.svg);
         this.svg.appendChild(this.g);
         this.svg.appendChild(this.legendGroup);
@@ -109,7 +177,6 @@ class MapRenderer {
         console.log('SVG создан');
     }
 
-    // Настройка проекции
     setupProjection() {
         this.projection = d3.geoMercator()
             .scale(this.scale * (this.width / 1200))
@@ -118,7 +185,6 @@ class MapRenderer {
         this.path = d3.geoPath().projection(this.projection);
     }
 
-    // Настройка зума
     setupZoom() {
         if (!this.svg) return;
         
@@ -135,62 +201,68 @@ class MapRenderer {
         d3.select(this.svg).call(this.zoom);
     }
 
-    // Создание tooltip
     createTooltip() {
-        this.tooltip = d3.select('body')
-            .append('div')
-            .attr('class', 'attack-tooltip')
-            .style('position', 'absolute')
-            .style('visibility', 'hidden')
-            .style('background', 'rgba(15, 23, 42, 0.95)')
-            .style('border', '1px solid rgba(59, 130, 246, 0.5)')
-            .style('border-radius', '12px')
-            .style('padding', '16px')
-            .style('color', '#f8fafc')
-            .style('font-size', '14px')
-            .style('max-width', '320px')
-            .style('z-index', '3000')
-            .style('box-shadow', '0 10px 25px rgba(0, 0, 0, 0.3)')
-            .style('pointer-events', 'none')
-            .style('backdrop-filter', 'blur(10px)');
+        // Оптимизация: создаём tooltip только если его нет
+        if (this._tooltipEl) {
+            this._tooltipEl.remove();
+        }
+        
+        this._tooltipEl = document.createElement('div');
+        this._tooltipEl.className = 'attack-tooltip';
+        this._tooltipEl.style.cssText = 'position: absolute; visibility: hidden; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(59, 130, 246, 0.5); border-radius: 12px; padding: 16px; color: #f8fafc; font-size: 14px; max-width: 320px; z-index: 3000; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); pointer-events: none; backdrop-filter: blur(10px);';
+        
+        document.body.appendChild(this._tooltipEl);
+        
+        this.tooltip = {
+            show: (event, html) => {
+                this._tooltipEl.innerHTML = html;
+                this._tooltipEl.style.visibility = 'visible';
+                this._tooltipEl.style.left = (event.pageX + 15) + 'px';
+                this._tooltipEl.style.top = (event.pageY - 10) + 'px';
+            },
+            hide: () => {
+                this._tooltipEl.style.visibility = 'hidden';
+            },
+            move: (x, y) => {
+                this._tooltipEl.style.left = (x + 15) + 'px';
+                this._tooltipEl.style.top = (y - 10) + 'px';
+            },
+            html: (content) => {
+                this._tooltipEl.innerHTML = content;
+            }
+        };
     }
 
-    // Переключение фильтра типа атаки
     toggleFilter(attackType) {
         if (this.hiddenTypes.has(attackType)) {
             this.hiddenTypes.delete(attackType);
-            return true; // Показать
+            return true;
         } else {
             this.hiddenTypes.add(attackType);
-            return false; // Скрыть
+            return false;
         }
     }
     
-    // Проверка скрыт ли тип атаки
     isTypeHidden(attackType) {
         return this.hiddenTypes.has(attackType);
     }
     
-    // Показать все типы атак
     showAllTypes() {
         this.hiddenTypes.clear();
     }
     
-    // Получить список видимых типов атак
     getVisibleTypes() {
         const allTypes = Object.keys(this.attackIcons);
         return allTypes.filter(type => !this.hiddenTypes.has(type));
     }
 
-    // Создание интерактивной легенды
     createLegend() {
         const legendItems = Object.entries(this.attackIcons);
-        const legendWidth = 130;
-        const legendHeight = 270;
+        const legendWidth = 145;
+        const legendHeight = 620;
         const legendY = this.height - legendHeight - 15;
         const legendX = 15;
         
-        // Фон легенды
         const legendBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         legendBg.setAttribute('x', legendX);
         legendBg.setAttribute('y', legendY);
@@ -203,7 +275,6 @@ class MapRenderer {
         
         this.legendGroup.appendChild(legendBg);
         
-        // Заголовок легенды - по центру
         const legendTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         legendTitle.setAttribute('x', legendX + legendWidth / 2);
         legendTitle.setAttribute('y', legendY + 25);
@@ -214,7 +285,6 @@ class MapRenderer {
         legendTitle.textContent = 'Типы атак';
         this.legendGroup.appendChild(legendTitle);
         
-        // Элементы легенды
         const self = this;
         legendItems.forEach(([type, icon], index) => {
             const itemY = legendY + 55 + index * 25;
@@ -225,7 +295,6 @@ class MapRenderer {
             itemGroup.setAttribute('data-type', type);
             itemGroup.style.cursor = 'pointer';
             
-            // Иконка (слева от центра)
             const iconText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             iconText.setAttribute('x', centerX - 60);
             iconText.setAttribute('y', itemY);
@@ -234,7 +303,6 @@ class MapRenderer {
             iconText.setAttribute('id', 'legend-icon-' + type);
             itemGroup.appendChild(iconText);
             
-            // Название (справа от центра)
             const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             nameText.setAttribute('x', centerX - 40);
             nameText.setAttribute('y', itemY + 3);
@@ -244,7 +312,6 @@ class MapRenderer {
             nameText.setAttribute('id', 'legend-name-' + type);
             itemGroup.appendChild(nameText);
             
-            // Цветовая метка (справа)
             const colorRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             colorRect.setAttribute('x', centerX + 55);
             colorRect.setAttribute('y', itemY - 4);
@@ -272,18 +339,14 @@ class MapRenderer {
                 legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.92)');
             });
             
-            // Клик - переключение фильтра
             itemGroup.addEventListener('click', function() {
-                // Переключаем состояние
                 if (self.hiddenTypes.has(type)) {
                     self.hiddenTypes.delete(type);
                 } else {
                     self.hiddenTypes.add(type);
                 }
                 
-                // Обновляем визуальное состояние
                 if (self.hiddenTypes.has(type)) {
-                    // Зачеркиваем
                     iconText.setAttribute('fill', '#475569');
                     iconText.setAttribute('opacity', '0.5');
                     nameText.setAttribute('fill', '#475569');
@@ -291,7 +354,6 @@ class MapRenderer {
                     nameText.setAttribute('opacity', '0.5');
                     colorRect.setAttribute('opacity', '0.3');
                 } else {
-                    // Возвращаем в нормальное состояние
                     iconText.setAttribute('fill', 'inherit');
                     iconText.setAttribute('opacity', '1');
                     nameText.setAttribute('fill', '#94a3b8');
@@ -300,10 +362,8 @@ class MapRenderer {
                     colorRect.setAttribute('opacity', '1');
                 }
                 
-                // Обновляем карту - показываем/скрываем атаки
                 self.updateAttacksVisibility();
                 
-                // Показываем уведомление
                 const action = self.hiddenTypes.has(type) ? 'скрыты' : 'показаны';
                 const message = self.getAttackTypeName(type) + ' атаки ' + action;
                 document.dispatchEvent(new CustomEvent('showNotification', {
@@ -315,22 +375,16 @@ class MapRenderer {
         });
     }
     
-    // Обновление видимости атак на карте
     updateAttacksVisibility() {
-        if (!this.g) return;
+        if (!this.attacksGroup) return;
         
-        const attackGroups = this.g.querySelectorAll('.attack-group');
+        const attackGroups = this.attacksGroup.querySelectorAll('.attack-group');
         attackGroups.forEach(group => {
             const attackType = group.getAttribute('data-attack-type');
-            if (this.hiddenTypes.has(attackType)) {
-                group.style.display = 'none';
-            } else {
-                group.style.display = '';
-            }
+            group.style.display = this.hiddenTypes.has(attackType) ? 'none' : '';
         });
     }
 
-    // Получение названия типа атаки
     getAttackTypeName(type) {
         const names = {
             ddos: 'DDoS',
@@ -340,15 +394,29 @@ class MapRenderer {
             bruteforce: 'Подбор паролей',
             sqlInjection: 'SQL-инъекция',
             xss: 'XSS',
-            mitm: 'MitM'
+            mitm: 'MitM',
+            supplyChain: 'Цепочка поставок',
+            apt: 'APT',
+            sessionHijacking: 'Перехват сессии',
+            arpSpoofing: 'ARP-спуфинг',
+            cryptoAttack: 'Криптография',
+            toctou: 'TOCTOU',
+            bufferOverflow: 'Переполнение',
+            sslStripping: 'SSL Stripping',
+            clickjacking: 'Кликджекинг',
+            idsEvasion: 'Обход IDS',
+            privilegeEscalation: 'Эскалация прав',
+            logicBomb: 'Логическая бомба',
+            cloudAttack: 'Облако',
+            iotAttack: 'IoT',
+            aiAttack: 'AI-атака'
         };
         return names[type] || type;
     }
 
-    // Показать tooltip
     showTooltip(event, attack) {
-        var sourceName = dataHandler.countryCoordinates[attack.sourceCountry] ? dataHandler.countryCoordinates[attack.sourceCountry].name : attack.sourceCountry;
-        var targetName = dataHandler.countryCoordinates[attack.targetCountry] ? dataHandler.countryCoordinates[attack.targetCountry].name : attack.targetCountry;
+        var sourceName = dataHandler.countryCoordinates[attack.sourceCountry]?.name || attack.sourceCountry;
+        var targetName = dataHandler.countryCoordinates[attack.targetCountry]?.name || attack.targetCountry;
         var attackTypeName = dataHandler.attackTypeNames[attack.attackType] || attack.attackType;
         var severityName = dataHandler.severityNames[attack.severity] || attack.severity;
         var sectorName = dataHandler.sectorNames[attack.sector] || attack.sector;
@@ -356,47 +424,54 @@ class MapRenderer {
         var icon = this.attackIcons[attack.attackType] || '⚠️';
         var color = this.attackColors[attack.attackType] || '#ef4444';
         
-        this.tooltip
-            .style('visibility', 'visible')
-            .html(
-                '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">' +
-                '<span style="font-size: 24px;">' + icon + '</span>' +
-                '<div><span style="font-weight: 600; font-size: 16px; color: ' + color + ';">' + attackTypeName + '</span>' +
-                '<br><span style="font-size: 11px; color: #94a3b8;">' + dataHandler.attackDefinitions[attack.attackType]?.shortDesc + '</span></div>' +
-                '</div>' +
-                '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">' +
-                '<div><span style="color: #94a3b8; font-size: 11px;">🔴 Источник:</span><br><strong>' + sourceName + '</strong></div>' +
-                '<div><span style="color: #94a3b8; font-size: 11px;">🎯 Цель:</span><br><strong>' + targetName + '</strong></div>' +
-                '</div>' +
-                '<div style="margin-bottom: 8px;">' +
-                '<span style="color: #94a3b8; font-size: 11px;">🏭 Сектор:</span><br><strong>' + sectorName + '</strong></div>' +
-                '<div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between;">' +
-                '<div><span style="color: #94a3b8; font-size: 11px;">⚠️ Опасность:</span><br>' +
-                '<span style="background: ' + color + '; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">' + severityName + '</span></div>' +
-                '<span style="font-size: 10px; color: #64748b;">👆 Кликните для деталей</span>' +
-                '</div>'
-            )
-            .style('left', (event.pageX + 15) + 'px')
-            .style('top', (event.pageY - 10) + 'px');
+        const html = 
+            '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">' +
+            '<span style="font-size: 24px;">' + icon + '</span>' +
+            '<div><span style="font-weight: 600; font-size: 16px; color: ' + color + ';">' + attackTypeName + '</span>' +
+            '<br><span style="font-size: 11px; color: #94a3b8;">' + (dataHandler.attackDefinitions[attack.attackType]?.shortDesc || '') + '</span></div>' +
+            '</div>' +
+            '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">' +
+            '<div><span style="color: #94a3b8; font-size: 11px;">🔴 Источник:</span><br><strong>' + sourceName + '</strong></div>' +
+            '<div><span style="color: #94a3b8; font-size: 11px;">🎯 Цель:</span><br><strong>' + targetName + '</strong></div>' +
+            '</div>' +
+            '<div style="margin-bottom: 8px;">' +
+            '<span style="color: #94a3b8; font-size: 11px;">🏭 Сектор:</span><br><strong>' + sectorName + '</strong></div>' +
+            '<div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between;">' +
+            '<div><span style="color: #94a3b8; font-size: 11px;">⚠️ Опасность:</span><br>' +
+            '<span style="background: ' + color + '; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">' + severityName + '</span></div>' +
+            '<span style="font-size: 10px; color: #64748b;">👆 Кликните для деталей</span>' +
+            '</div>';
+        
+        this.tooltip.show(event, html);
     }
 
-    // Скрыть tooltip
     hideTooltip() {
-        this.tooltip.style('visibility', 'hidden');
+        this.tooltip.hide();
     }
 
-    // Загрузка карты мира из файла
     async loadWorldMap() {
         try {
+            if (typeof topojson === 'undefined') {
+                console.warn('TopoJSON не загружен, используем упрощённую карту');
+                this.drawBackground();
+                return;
+            }
+            
+            var self = this;
             var world = await d3.json('assets/data/world-map.json');
             
             if (!world || !world.objects) {
-                throw new Error('Неверный формат данных карты');
+                console.warn('Неверный формат данных карты, используем фон');
+                this.drawBackground();
+                return;
             }
             
             var countries = topojson.feature(world, world.objects.countries);
             
-            this.drawCountries(countries.features);
+            // Оптимизация: используем requestAnimationFrame для рендеринга
+            requestAnimationFrame(() => {
+                self.drawCountries(countries.features);
+            });
             
             console.log('Карта мира загружена');
                 
@@ -406,9 +481,8 @@ class MapRenderer {
         }
     }
 
-    // Рисование стран
     drawCountries(countries) {
-        if (!this.g || !this.path) return;
+        if (!this.countriesGroup || !this.path) return;
         
         var self = this;
         countries.forEach(function(feature) {
@@ -432,24 +506,28 @@ class MapRenderer {
                     path.setAttribute('stroke', 'rgba(59, 130, 246, 0.4)');
                 });
                 
-                self.g.appendChild(path);
+                self.countriesGroup.appendChild(path);
             }
         });
     }
 
-    // Рисование фона
     drawBackground() {
-        if (!this.g) return;
+        if (!this.countriesGroup) return;
         
         var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         rect.setAttribute('width', this.width);
         rect.setAttribute('height', this.height);
         rect.setAttribute('fill', 'rgba(15, 23, 42, 0.95)');
-        this.g.insertBefore(rect, this.g.firstChild);
+        this.countriesGroup.insertBefore(rect, this.countriesGroup.firstChild);
     }
 
-    // Отрисовка атаки с анимацией
     drawAttack(attack) {
+        // Проверяем загрузку dataHandler
+        if (typeof dataHandler === 'undefined') {
+            console.warn('DataHandler не загружен, атака не отображена');
+            return null;
+        }
+        
         var source = dataHandler.getCountryCoordinates(attack.sourceCountry);
         var target = dataHandler.getCountryCoordinates(attack.targetCountry);
         
@@ -464,7 +542,6 @@ class MapRenderer {
         var x2 = coords2[0], y2 = coords2[1];
         var color = this.attackColors[attack.attackType] || '#ef4444';
         
-        // Создаем группу для атаки
         var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         group.setAttribute('class', 'attack-group');
         group.setAttribute('data-attack-type', attack.attackType);
@@ -480,7 +557,7 @@ class MapRenderer {
         var perpX = -dy / distance * offset;
         var perpY = dx / distance * offset;
         
-        // Создаем путь атаки (изогнутая линия)
+        // Создаем путь атаки (оптимизировано: без CSS animation на SVG)
         var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + (midX + perpX) + ',' + (midY + perpY) + ' ' + x2 + ',' + y2);
         path.setAttribute('fill', 'none');
@@ -489,24 +566,7 @@ class MapRenderer {
         path.setAttribute('stroke-dasharray', '6,3');
         path.setAttribute('opacity', '0.6');
         
-        // Добавляем анимацию в документ если ещё нет
-        if (!document.getElementById('attack-animation-style')) {
-            var style = document.createElement('style');
-            style.id = 'attack-animation-style';
-            style.textContent = `
-                @keyframes attackFlow {
-                    0% { stroke-dashoffset: 100; opacity: 0.3; }
-                    50% { opacity: 0.8; }
-                    100% { stroke-dashoffset: -100; opacity: 0.3; }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
-        // Анимация движения по линии - только на стрелке
-        path.style.animation = 'attackFlow 3s linear infinite';
-        
-        // Маркер источника (статичный, без анимации)
+        // Маркер источника
         var sourcePoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         sourcePoint.setAttribute('cx', x1);
         sourcePoint.setAttribute('cy', y1);
@@ -514,7 +574,7 @@ class MapRenderer {
         sourcePoint.setAttribute('fill', color);
         sourcePoint.setAttribute('opacity', '0.9');
         
-        // Маркер цели (статичный, без анимации)
+        // Маркер цели
         var targetPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         targetPoint.setAttribute('cx', x2);
         targetPoint.setAttribute('cy', y2);
@@ -523,26 +583,22 @@ class MapRenderer {
         targetPoint.setAttribute('opacity', '1');
         targetPoint.style.filter = 'drop-shadow(0 0 6px ' + color + ')';
         
-        // Добавляем элементы в группу
         group.appendChild(path);
         group.appendChild(sourcePoint);
         group.appendChild(targetPoint);
         
         var self = this;
         
-        // Hover эффекты
         group.addEventListener('mouseenter', function(e) {
             path.setAttribute('stroke-width', '3');
             path.setAttribute('opacity', '1');
             sourcePoint.setAttribute('r', '7');
             targetPoint.setAttribute('r', '9');
-            targetPoint.setAttribute('opacity', '1');
             self.showTooltip(e, attack);
         });
         
         group.addEventListener('mousemove', function(e) {
-            self.tooltip.style('left', (e.pageX + 15) + 'px');
-            self.tooltip.style('top', (e.pageY - 10) + 'px');
+            self.tooltip.move(e.pageX, e.pageY);
         });
         
         group.addEventListener('mouseleave', function() {
@@ -550,7 +606,6 @@ class MapRenderer {
             path.setAttribute('opacity', '0.6');
             sourcePoint.setAttribute('r', '5');
             targetPoint.setAttribute('r', '7');
-            targetPoint.setAttribute('opacity', '1');
             self.hideTooltip();
         });
         
@@ -560,42 +615,88 @@ class MapRenderer {
             }));
         });
         
-        // Добавляем в основную группу (которая масштабируется вместе с картой)
-        if (self.g) {
-            self.g.appendChild(group);
-        }
-        
         return group;
     }
 
-    // Очистка всех атак
-    clearAttacks() {
-        // Очищаем из основной группы (которая масштабируется)
-        if (this.g) {
-            // Удаляем только элементы атак (не страны)
-            const children = this.g.querySelectorAll('.attack-group');
-            children.forEach(child => child.remove());
-        }
-    }
-
-    // Добавление одной атаки на карту
-    addAttack(attack) {
-        this.drawAttack(attack);
-    }
-
-    // Отрисовка всех атак
-    drawAttacks(attacks) {
+    // Оптимизация: пакетное добавление атак (ускоренная загрузка)
+    drawAttacks(attacks, options = {}) {
         this.clearAttacks();
         
         if (!attacks || !Array.isArray(attacks)) return;
         
+        // Проверяем, что attacksGroup существует
+        if (!this.attacksGroup) {
+            console.warn('attacksGroup не инициализирован, пропуск отрисовки атак');
+            return;
+        }
+        
         var self = this;
-        attacks.forEach(function(attack) {
-            self.drawAttack(attack);
-        });
+        // Уменьшена задержка для быстрой загрузки
+        var delay = options.delay || 10;
+        // Увеличено количество атак за раз
+        var maxAtOnce = options.maxAtOnce || 10;
+        // Увеличено общее количество батчей
+        var maxBatches = options.maxBatches || 50;
+        
+        // Фильтруем по типам
+        var filteredAttacks = attacks.filter(attack => !this.hiddenTypes.has(attack.attackType));
+        
+        // Разбиваем на батчи
+        var batchIndex = 0;
+        
+        function processBatch() {
+            var start = batchIndex * maxAtOnce;
+            var end = Math.min(start + maxAtOnce, filteredAttacks.length);
+            
+            // Используем document fragment для batch insert
+            var fragment = document.createDocumentFragment();
+            
+            for (var i = start; i < end; i++) {
+                var attack = filteredAttacks[i];
+                var group = self.drawAttack(attack);
+                if (group) {
+                    // Быстрое появление без сложной анимации
+                    fragment.appendChild(group);
+                }
+            }
+            
+            // Дополнительная проверка перед добавлением
+            if (self.attacksGroup) {
+                self.attacksGroup.appendChild(fragment);
+            }
+            
+            batchIndex++;
+            
+            // Уменьшено условие для более быстрой загрузки всех атак
+            if (end < filteredAttacks.length && batchIndex < maxBatches) {
+                setTimeout(processBatch, delay);
+            }
+        }
+        
+        // Запускаем с небольшой задержкой чтобы дать карте отрисоваться
+        setTimeout(processBatch, 100);
     }
 
-    // Управление зумом
+    clearAttacks() {
+        if (this.attacksGroup) {
+            this.attacksGroup.innerHTML = '';
+        }
+    }
+
+    addAttack(attack) {
+        // Проверяем существование attacksGroup
+        if (!this.attacksGroup) {
+            console.warn('addAttack: attacksGroup не инициализирован');
+            return null;
+        }
+        
+        var group = this.drawAttack(attack);
+        if (group && this.attacksGroup) {
+            this.attacksGroup.appendChild(group);
+        }
+        return group;
+    }
+
     zoomIn() {
         if (!this.svg || !this.zoom) return;
         d3.select(this.svg)

@@ -399,7 +399,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 1100px;
+    min-height: 1000px;
 }
 
 .map-header {
@@ -445,7 +445,7 @@ body {
     flex: 1;
     width: 100%;
     min-height: 700px;
-    height: 1000px;
+    height: 500px;
     background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
     border-radius: 16px;
     overflow: hidden;
@@ -482,8 +482,8 @@ body {
     }
     
     #world-map {
-        min-height: 450px;
-        height: 450px;
+        min-height: 300px;
+        height: 300px;
         border-radius: 12px;
     }
 }
@@ -1775,7 +1775,8 @@ body {
     }
     
     #world-map {
-        min-height: 300px;
+        min-height: 250px;
+        height: 250px;
     }
     
     .map-control-btn {
@@ -1846,8 +1847,8 @@ body {
     }
     
     #world-map {
-        min-height: 250px;
-        height: 250px;
+        min-height: 200px;
+        height: 200px;
     }
     
     .map-control-btn {

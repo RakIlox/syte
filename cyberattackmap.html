@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Основные SEO метатеги -->
+    <title>CyberThreat Explorer — интерактивная карта кибератак для начинающих</title>
+    <meta name="description" content="CyberThreat Explorer — образовательный проект о кибербезопасности. Интерактивная карта кибератак, глоссарий терминов и обучающий учебник для начинающих. Узнайте о DDoS, фишинге, вирусах и защите от киберугроз.">
+    <meta name="keywords" content="кибербезопасность, карта атак, ddos, фишинг, вирусы, защита от хакеров, обучение безопасности, учебник, глоссарий, vpn, пароли, 2fa, информационная безопасность">
+    <meta name="author" content="CyberThreat Explorer">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ваш-сайт.ru/">
+    <meta name="yandex-verification" content="c3e80d0c734ed50e" />
+    
+    <!-- Open Graph для социальных сетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ваш-сайт.ru/">
+    <meta property="og:title" content="CyberThreat Explorer — карта кибератак и обучение">
+    <meta property="og:description" content="Интерактивная карта кибератак и учебник по кибербезопасности для начинающих. Узнайте, как защититься от хакеров и вирусов.">
+    <meta property="og:image" content="https://ваш-сайт.ru/assets/img/logos/icon.svg">
+    <meta property="og:site_name" content="CyberThreat Explorer">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ваш-сайт.ru/">
+    <meta name="twitter:title" content="CyberThreat Explorer — карта кибератак">
+    <meta name="twitter:description" content="Интерактивная карта кибератак и обучение кибербезопасности для начинающих">
+    <meta name="twitter:image" content="https://ваш-сайт.ru/assets/img/logos/icon.svg">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "CyberThreat Explorer",
+        "description": "Образовательный проект по кибербезопасности для начинающих",
+        "url": "https://ваш-сайт.ru/",
+        "logo": "https://ваш-сайт.ru/assets/img/logos/icon.svg",
+        "sameAs": []
+    }
+    </script>
+    
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/map.css">
+    <link rel="stylesheet" href="assets/css/extended-stats.css">
+    <link rel="stylesheet" href="assets/css/disclaimer.css">
+    
+    <!-- D3.js и TopoJSON (с надёжного CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+    
+    <!-- Font Awesome с веб-шрифтами -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Предзагрузка шрифтов -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
+    
+</head>
+<body>
+    <!-- Шапка подключается через header.js -->
+    <script src="assets/js/header.js"></script>
+
+    <main class="container main-content">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1><i class="fas fa-globe-americas"></i> Карта кибератак</h1>
+            <p class="disclaimer-text"><i class="fas fa-info-circle"></i> Данная карта не имеет связи с реальными атаками</p>
+            <p>Интерактивная карта демонстрирует моделирование кибератак со всего мира</p>
+        </header>
+
+        <!-- Панель управления картой -->
+
+        <!-- Карта -->
+        <section class="map-container">
+            <div class="map-header">
+                <h2><i class="fas fa-globe-americas"></i> Карта кибератак</h2>
+                
+                <div class="map-controls">
+                    <button id="zoom-in" class="map-control-btn" title="Увеличить">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button id="zoom-out" class="map-control-btn" title="Уменьшить">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button id="reset-view" class="map-control-btn" title="Сбросить вид">
+                        <i class="fas fa-home"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="world-map"></div>
+        </section>
+
+        <!-- Советы -->
+        <section class="tips-section">
+            <h2><i class="fas fa-lightbulb"></i> Как пользоваться картой?</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <h4>Кликните на атаку</h4>
+                    <p>Нажмите на стрелку атаки, чтобы увидеть подробную информацию и рекомендации по защите</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-search-plus"></i>
+                    <h4>Масштабирование</h4>
+                    <p>Используйте кнопки + и - или колесико мыши для увеличения и уменьшения масштаба карты</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-hand-paper"></i>
+                    <h4>Перетаскивание</h4>
+                    <p>Перетаскивайте карту мышью для навигации по разным регионам мира</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-home"></i>
+                    <h4>Сброс вида</h4>
+                    <p>Нажмите кнопку "Домой" для возврата к исходному виду карты</p>
+                </div>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <div id="attack-modal" class="modal attack-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-wrapper">
+                    <span id="modal-icon" style="font-size: 28px;">⚡</span>
+                    <div class="modal-title-text">
+                        <h3 id="modal-title">DDoS-атака</h3>
+                        <span id="modal-short-desc" class="modal-short-desc">Отказ в обслуживании</span>
+                    </div>
+                </div>
+                <button class="modal-close">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Основная информация -->
+                <div class="attack-meta-grid">
+                    <div class="meta-card source-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="meta-label">Источник</span>
+                            <span id="modal-source" class="meta-value">🇨🇳 Китай</span>
+                        </div>
+                    </div>
+                    <div class="meta-card target-card">
+                        <i class="fas fa-bullseye"></i>
+                        <div>
+                            <span class="meta-label">Цель</span>
+                            <span id="modal-target" class="meta-value">🇺🇸 США</span>
+                        </div>
+                    </div>
+                    <div class="meta-card sector-card">
+                        <i class="fas fa-industry"></i>
+                        <div>
+                            <span class="meta-label">Сектор</span>
+                            <span id="modal-sector" class="meta-value">💰 Финансы</span>
+                        </div>
+                    </div>
+                    <div class="meta-card severity-card">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <span class="meta-label">Опасность</span>
+                            <span id="modal-severity" class="severity-badge">🔴 Высокий</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Разделы информации -->
+                <div class="info-sections">
+                    <!-- Что это такое -->
+                    <div class="info-section">
+                        <h4><i class="fas fa-question-circle"></i> Что это такое?</h4>
+                        <p id="modal-explanation" class="info-text">
+                            Злоумышленники пытаются «обрушить» сайты или сервисы, перегружая их огромным количеством ложных запросов.
+                        </p>
+                    </div>
+                    
+                    <!-- Как это работает -->
+                    <div class="info-section">
+                        <h4><i class="fas fa-cogs"></i> Как это работает?</h4>
+                        <p id="modal-technical" class="info-text">
+                            Атака ведется с помощью «ботнета» — сети зараженных компьютеров по всему миру.
+                        </p>
+                    </div>
+                    
+                    <!-- Как распознать -->
+                    <div class="info-section highlight-section">
+                        <h4><i class="fas fa-eye"></i> Как распознать атаку?</h4>
+                        <ul id="modal-how-to-recognize" class="recognition-list">
+                            <li><span style="color: #ef4444;">●</span> Сайт медленно загружается или не открывается</li>
+                            <li><span style="color: #ef4444;">●</span> Множественные ошибки подключения</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Статистика -->
+                    <div class="info-section statistics-section">
+                        <p id="modal-statistics">
+                            <span style="font-size: 20px; margin-right: 8px;">📊</span>
+                            DDoS-атаки составляют около 25% всех кибератак. Средняя длительность — 4 часа.
+                        </p>
+                    </div>
+                    
+                    <!-- Реальные примеры -->
+                    <div class="info-section">
+                        <h4><i class="fas fa-history"></i> Реальные примеры</h4>
+                        <div id="modal-real-examples" class="examples-list">
+                            <div>
+                                <span style="color: #ef4444; font-weight: bold; margin-right: 8px;">1.</span>
+                                Атака на Twitter в 2016 году — крупнейшая в истории (1.2 Тб/с)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Защита -->
+                    <div class="info-section protection-section">
+                        <h4><i class="fas fa-shield-alt"></i> Как защититься?</h4>
+                        <ul id="modal-protection" class="protection-list">
+                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
+                                🔒 Не кликайте на подозрительные ссылки
+                            </li>
+                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
+                                🛡️ Используйте антивирус и регулярно обновляйте программы
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Кнопки -->
+                <div class="modal-footer">
+                    <button id="learn-more-btn" class="btn btn-primary">
+                        <i class="fas fa-book-open"></i> Узнать больше
+                    </button>
+                    <button class="btn btn-secondary modal-close">
+                        <i class="fas fa-times"></i> Закрыть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
+                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-book"></i> Ресурсы</h4>
+                    <p>Глоссарий терминов и обучающие уроки для начинающих</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-code"></i> Технологии</h4>
+                    <p>D3.js • JavaScript • HTML5 • CSS3</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p>
+                <p class="disclaimer">
+                    <i class="fas fa-graduation-cap"></i>
+                    Создано для обучения и практики веб-разработки
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/dataHandler.js"></script>
+    <script src="assets/js/mapRenderer.js"></script>
+    <script src="assets/js/uiManager.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

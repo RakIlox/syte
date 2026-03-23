@@ -5,168 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Основные SEO метатеги -->
-    <title>CyberThreat Explorer — интерактивная карта кибератак для начинающих</title>
-    <meta name="description" content="CyberThreat Explorer — образовательный проект о кибербезопасности. Интерактивная карта кибератак, глоссарий терминов и обучающий учебник для начинающих. Узнайте о DDoS, фишинге, вирусах и защите от киберугроз.">
-    <meta name="keywords" content="кибербезопасность, карта атак, ddos, фишинг, вирусы, защита от хакеров, обучение безопасности, учебник, глоссарий, vpn, пароли, 2fa, информационная безопасность">
+    <title>CyberThreat Explorer — новости и статистика кибербезопасности</title>
+    <meta name="description" content="Актуальные новости мира кибербезопасности, статистика кибератак и образовательные материалы для начинающих. Узнайте о DDoS, фишинге, вирусах и защите от киберугроз.">
+    <meta name="keywords" content="кибербезопасность, новости, ddos, фишинг, вирусы, защита, статистика, обучение, учебник">
     <meta name="author" content="CyberThreat Explorer">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://ваш-сайт.ru/">
-    <meta name="yandex-verification" content="c3e80d0c734ed50e" />
-    
-    <!-- Open Graph для социальных сетей -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ваш-сайт.ru/">
-    <meta property="og:title" content="CyberThreat Explorer — карта кибератак и обучение">
-    <meta property="og:description" content="Интерактивная карта кибератак и учебник по кибербезопасности для начинающих. Узнайте, как защититься от хакеров и вирусов.">
-    <meta property="og:image" content="https://ваш-сайт.ru/assets/img/logos/icon.svg">
-    <meta property="og:site_name" content="CyberThreat Explorer">
-    <meta property="og:locale" content="ru_RU">
-    
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://ваш-сайт.ru/">
-    <meta name="twitter:title" content="CyberThreat Explorer — карта кибератак">
-    <meta name="twitter:description" content="Интерактивная карта кибератак и обучение кибербезопасности для начинающих">
-    <meta name="twitter:image" content="https://ваш-сайт.ru/assets/img/logos/icon.svg">
-    
-    <!-- Schema.org JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "name": "CyberThreat Explorer",
-        "description": "Образовательный проект по кибербезопасности для начинающих",
-        "url": "https://ваш-сайт.ru/",
-        "logo": "https://ваш-сайт.ru/assets/img/logos/icon.svg",
-        "sameAs": []
-    }
-    </script>
     
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/map.css">
+    <link rel="stylesheet" href="assets/css/extended-stats.css">
+    <link rel="stylesheet" href="assets/css/news.css">
     
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/topojson@3"></script>
-    
-    <!-- Font Awesome с веб-шрифтами -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Предзагрузка шрифтов -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
-    
+    <script src="assets/js/header.js"></script>
 </head>
 <body>
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1>CyberThreat<span>Explorer</span></h1>
-                <small>для начинающих</small>
-            </a>
-            
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html" class="active"><i class="fas fa-map"></i> Карта атак</a></li>
-                    <li><a href="glossary.html"><i class="fas fa-book"></i> Глоссарий</a></li>
-                    <li><a href="learn.html"><i class="fas fa-graduation-cap"></i> Учебник</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> О проекте</a></li>
-                </ul>
-            </nav>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+    <!-- Шапка подключается через header.js -->
+    <script src="assets/js/header.js"></script>
 
     <main class="container main-content">
         <!-- Page Header -->
         <header class="page-header">
-            <h1><i class="fas fa-globe-americas"></i> Карта кибератак</h1>
-            <p>Интерактивная карта в реальном времени показывает кибератаки со всего мира</p>
+            <h1><i class="fas fa-newspaper"></i> Новости кибербезопасности</h1>
+            <p>Актуальные события мира цифровых угроз и защиты</p>
         </header>
 
-        <!-- Статистика -->
-        <section class="stats-panel info-panel">
-            <h2><i class="fas fa-chart-line"></i> Статистика</h2>
-            <div class="stats-grid stats-4">
-                <div class="stat-card">
-                    <div class="stat-value" id="total-attacks">0</div>
-                    <div class="stat-label">Всего атак</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="active-now">0</div>
-                    <div class="stat-label">Активных</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="top-country">--</div>
-                    <div class="stat-label">Главный источник</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="top-type">--</div>
-                    <div class="stat-label">Основной тип</div>
-                </div>
-            </div>
-            <div class="update-info">
-                <i class="fas fa-clock"></i>
-                <span>Обновлено: <span id="last-update">только что</span></span>
-            </div>
-        </section>
-
-        <!-- Панель управления картой -->
-
-        <!-- Карта -->
-        <section class="map-container">
-            <div class="map-header">
-                <h2><i class="fas fa-globe-americas"></i> Карта кибератак</h2>
-                <div class="map-controls">
-                    <button id="zoom-in" class="map-control-btn" title="Увеличить">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                    <button id="zoom-out" class="map-control-btn" title="Уменьшить">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
-                    <button id="reset-view" class="map-control-btn" title="Сбросить вид">
-                        <i class="fas fa-home"></i>
-                    </button>
-                </div>
+        <!-- Статистика киберугроз -->
+        <section class="extended-stats info-panel">
+            <h2><i class="fas fa-shield-alt"></i> Киберпространство в цифрах</h2>
+            
+            <!-- Динамический счетчик -->
+            <div class="realtime-counter">
+                <p class="counter-intro">Каждую секунду в мире происходит <span class="counter-value">~40</span> кибератак.</p>
+                <p class="counter-note">Это не преувеличение. Пока вы читаете этот текст, счётчик продолжает расти.</p>
             </div>
             
-            <div id="world-map"></div>
+            <!-- Статистические блоки -->
+            <div class="ext-stats-grid">
+                <div class="ext-stat-card">
+                    <div class="ext-stat-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="ext-stat-content">
+                        <h4>Масштаб угрозы</h4>
+                        <div class="ext-stat-value">3.5+ млрд</div>
+                        <p>Инцидентов зарегистрировано с начала активного учёта (с ~2005 г.). Мы считаем только целенаправленные атаки и автоматизированные кампании.</p>
+                    </div>
+                
+                <div class="ext-stat-card">
+                    <div class="ext-stat-icon target-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="ext-stat-content">
+                        <h4>Главная мишень</h4>
+                        <div class="ext-stat-value">🇺🇸 США</div>
+                        <p>Чаще всего целью киберпреступников и государственных хакеров становится США. Высокая цифровизация инфраструктуры делает её ключевой мишенью.</p>
+                    </div>
+                
+                <div class="ext-stat-card">
+                    <div class="ext-stat-icon source-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="ext-stat-content">
+                        <h4>Источник угроз</h4>
+                        <div class="ext-stat-value">🇮🇳 Индия</div>
+                        <p>По данным экспертов, Индия — главный источник фишинговых атак. Хакеры используют около 600 различных вредоносных сайтов.</p>
+                    </div>
+            </div>
+            
+            <div class="ext-cta">
+                <a href="major-attacks.html" class="btn btn-primary">
+                    <i class="fas fa-info-circle"></i> Узнать о крупнейших атаках и группировках
+                </a>
+            </div>
         </section>
 
-        <!-- Советы -->
-        <section class="tips-section">
-            <h2><i class="fas fa-lightbulb"></i> Как пользоваться картой?</h2>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <i class="fas fa-mouse-pointer"></i>
-                    <h4>Кликните на атаку</h4>
-                    <p>Нажмите на стрелку атаки, чтобы увидеть подробную информацию и рекомендации по защите</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-search-plus"></i>
-                    <h4>Масштабирование</h4>
-                    <p>Используйте кнопки + и - или колесико мыши для увеличения и уменьшения масштаба карты</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-hand-paper"></i>
-                    <h4>Перетаскивание</h4>
-                    <p>Перетаскивайте карту мышью для навигации по разным регионам мира</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-home"></i>
-                    <h4>Сброс вида</h4>
-                    <p>Нажмите кнопку "Домой" для возврата к исходному виду карты</p>
-                </div>
+        <!-- Последние новости -->
+        <section class="news-section info-panel">
+            <h2><i class="fas fa-newspaper"></i> Новости от SecurityLab</h2>
+            <p class="news-source">Источник: <a href="https://www.securitylab.ru/news/" target="_blank" rel="noopener">securitylab.ru</a></p>
+            
+            <div class="news-grid">
+                <article class="news-card" data-news-id="cisco-vulnerability">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 17 января 2025
+                    </div>
+                    <h3>Critical уязвимость в Cisco ASA и FTD позволяет удалённо выполнить код</h3>
+                    <p>Компания Cisco выпустила экстренные патчи для устранения критической уязвимости CVE-2025-0001 в межсетевых экранах ASA и FTD. Уязвимость позволяет злоумышленникам выполнить произвольный код без аутентификации.</p>
+                    <div class="news-tags">
+                        <span class="news-tag vulnerability"><i class="fas fa-bug"></i> Уязвимость</span>
+                        <span class="news-tag critical"><i class="fas fa-exclamation-triangle"></i> Critical</span>
+                        <span class="news-tag cisco"><i class="fas fa-server"></i> Cisco</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="lazarus-linkedin">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 17 января 2025
+                    </div>
+                    <h3>Хакеры Lazarus атакуют криптовалютные биржи через LinkedIn</h3>
+                    <p>Группировка Lazarus из КНДР использует фальшивые вакансии на LinkedIn для атак на сотрудников криптовалютных компаний. Злоумышленники рассылают вредоносные PDF-файлы с предложениями о работе.</p>
+                    <div class="news-tags">
+                        <span class="news-tag apt"><i class="fas fa-user-secret"></i> APT</span>
+                        <span class="news-tag phishing"><i class="fas fa-fish"></i> Фишинг</span>
+                        <span class="news-tag crypto"><i class="fas fa-coins"></i> Криптовалюта</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="data-breach">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 16 января 2025
+                    </div>
+                    <h3>Massive утечка данных: 2.7 млрд записей с персональными данными в открытом доступе</h3>
+                    <p>Исследователи обнаружили базу данных объёмом более 1 ТБ, содержащую 2.7 млрд записей с именами, адресами электронной почты, номерами телефонов и другими персональными данными пользователей из нескольких стран.</p>
+                    <div class="news-tags">
+                        <span class="news-tag databreach"><i class="fas fa-database"></i> Утечка</span>
+                        <span class="news-tag personaldata"><i class="fas fa-user"></i> Персональные данные</span>
+                        <span class="news-tag massive"><i class="fas fa-exclamation-circle"></i> Масштабная</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="blacklock-ransomware">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 16 января 2025
+                    </div>
+                    <h3>Новый ransomware Blacklock атакует Linux-серверы корпораций</h3>
+                    <p>Обнаружен новый штамм программы-вымогателя Blacklock, нацеленный на Linux-системы. Вымогатель использует уязвимости в популярных CMS и серверном ПО для проникновения в корпоративные сети.</p>
+                    <div class="news-tags">
+                        <span class="news-tag ransomware"><i class="fas fa-ransomware"></i> Ransomware</span>
+                        <span class="news-tag linux"><i class="fab fa-linux"></i> Linux</span>
+                        <span class="news-tag critical"><i class="fas fa-exclamation-triangle"></i> Критический</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="browser-patches">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 15 января 2025
+                    </div>
+                    <h3>Chrome и Firefox получили патчи с устранением 0-day уязвимостей</h3>
+                    <p>Google и Mozilla выпустили экстренные обновления для браузеров Chrome и Firefox. Исправленные уязвимости активно эксплуатировались злоумышленниками в реальных атаках. Рекомендуется обновиться немедленно.</p>
+                    <div class="news-tags">
+                        <span class="news-tag zeroday"><i class="fas fa-bolt"></i> 0-day</span>
+                        <span class="news-tag browser"><i class="fas fa-globe"></i> Браузер</span>
+                        <span class="news-tag patch"><i class="fas fa-download"></i> Патч</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="deepfake-fraud">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 15 января 2025
+                    </div>
+                    <h3>AI-генерированные дипфейки используются для мошенничества на видеоконференциях</h3>
+                    <p>Эксперты зафиксировали рост случаев мошенничества с использованием дипфейков на видеозвонках. Злоумышленники имитируют руководителей компаний для хищения средств через фишинг и BEC-атаки.</p>
+                    <div class="news-tags">
+                        <span class="news-tag ai"><i class="fas fa-robot"></i> AI</span>
+                        <span class="news-tag deepfake"><i class="fas fa-video"></i> Дипфейк</span>
+                        <span class="news-tag fraud"><i class="fas fa-user-times"></i> Мошенничество</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="spyware-googleplay">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 14 января 2025
+                    </div>
+                    <h3>Шпионское ПО скомпрометировало более 1000 Android-приложений в Google Play</h3>
+                    <p>Исследователи обнаружили кампанию по распространению шпионского ПО через официальный магазин приложений. Вредоносные приложения похищали SMS, контакты и геолокацию пользователей.</p>
+                    <div class="news-tags">
+                        <span class="news-tag android"><i class="fab fa-android"></i> Android</span>
+                        <span class="news-tag spyware"><i class="fas fa-eye"></i> Шпионское ПО</span>
+                        <span class="news-tag googleplay"><i class="fab fa-google-play"></i> Google Play</span>
+                    </div>
+                </article>
+
+                <article class="news-card" data-news-id="russia-bank-ddos">
+                    <div class="news-date">
+                        <i class="fas fa-calendar-alt"></i> 14 января 2025
+                    </div>
+                    <h3>Крупный банк России подвергся DDoS-атаке мощностью более 500 Гбит/с</h3>
+                    <p>Мощная распределённая атака на отказ в обслуживании парализовала работу онлайн-сервисов крупного российского банка. Атака продолжалась более 8 часов с использованием ботнета из IoT-устройств.</p>
+                    <div class="news-tags">
+                        <span class="news-tag ddos"><i class="fas fa-server"></i> DDoS</span>
+                        <span class="news-tag finance"><i class="fas fa-money-bill-wave"></i> Финансы</span>
+                        <span class="news-tag iot"><i class="fas fa-wifi"></i> IoT</span>
+                    </div>
+                </article>
             </div>
         </section>
 
@@ -174,6 +199,11 @@
         <section class="resources-section">
             <h2><i class="fas fa-link"></i> Изучите подробнее</h2>
             <div class="resources-grid">
+                <a href="cyberattackmap.html" class="resource-card">
+                    <i class="fas fa-globe-americas"></i>
+                    <h4>Карта атак</h4>
+                    <p>Интерактивная карта моделирования кибератак</p>
+                </a>
                 <a href="glossary.html" class="resource-card">
                     <i class="fas fa-book"></i>
                     <h4>Глоссарий</h4>
@@ -184,141 +214,21 @@
                     <h4>Учебник</h4>
                     <p>Полный курс для начинающих</p>
                 </a>
-                <a href="about.html" class="resource-card">
-                    <i class="fas fa-info-circle"></i>
-                    <h4>О проекте</h4>
-                    <p>Информация о создателях</p>
+                <a href="major-attacks.html" class="resource-card">
+                    <i class="fas fa-user-secret"></i>
+                    <h4>Группировки</h4>
+                    <p>Крупнейшие атаки и хакерские группы</p>
                 </a>
             </div>
         </section>
     </main>
-
-    <div id="attack-modal" class="modal attack-modal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title-wrapper">
-                    <span id="modal-icon" style="font-size: 28px;">⚡</span>
-                    <div class="modal-title-text">
-                        <h3 id="modal-title">DDoS-атака</h3>
-                        <span id="modal-short-desc" class="modal-short-desc">Отказ в обслуживании</span>
-                    </div>
-                </div>
-                <button class="modal-close">&times;</button>
-            </div>
-            
-            <div class="modal-body">
-                <!-- Основная информация -->
-                <div class="attack-meta-grid">
-                    <div class="meta-card source-card">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <span class="meta-label">Источник</span>
-                            <span id="modal-source" class="meta-value">🇨🇳 Китай</span>
-                        </div>
-                    </div>
-                    <div class="meta-card target-card">
-                        <i class="fas fa-bullseye"></i>
-                        <div>
-                            <span class="meta-label">Цель</span>
-                            <span id="modal-target" class="meta-value">🇺🇸 США</span>
-                        </div>
-                    </div>
-                    <div class="meta-card sector-card">
-                        <i class="fas fa-industry"></i>
-                        <div>
-                            <span class="meta-label">Сектор</span>
-                            <span id="modal-sector" class="meta-value">💰 Финансы</span>
-                        </div>
-                    </div>
-                    <div class="meta-card severity-card">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <div>
-                            <span class="meta-label">Опасность</span>
-                            <span id="modal-severity" class="severity-badge">🔴 Высокий</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Разделы информации -->
-                <div class="info-sections">
-                    <!-- Что это такое -->
-                    <div class="info-section">
-                        <h4><i class="fas fa-question-circle"></i> Что это такое?</h4>
-                        <p id="modal-explanation" class="info-text">
-                            Злоумышленники пытаются «обрушить» сайты или сервисы, перегружая их огромным количеством ложных запросов.
-                        </p>
-                    </div>
-                    
-                    <!-- Как это работает -->
-                    <div class="info-section">
-                        <h4><i class="fas fa-cogs"></i> Как это работает?</h4>
-                        <p id="modal-technical" class="info-text">
-                            Атака ведется с помощью «ботнета» — сети зараженных компьютеров по всему миру.
-                        </p>
-                    </div>
-                    
-                    <!-- Как распознать -->
-                    <div class="info-section highlight-section">
-                        <h4><i class="fas fa-eye"></i> Как распознать атаку?</h4>
-                        <ul id="modal-how-to-recognize" class="recognition-list">
-                            <li><span style="color: #ef4444;">●</span> Сайт медленно загружается или не открывается</li>
-                            <li><span style="color: #ef4444;">●</span> Множественные ошибки подключения</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Статистика -->
-                    <div class="info-section statistics-section">
-                        <p id="modal-statistics">
-                            <span style="font-size: 20px; margin-right: 8px;">📊</span>
-                            DDoS-атаки составляют около 25% всех кибератак. Средняя длительность — 4 часа.
-                        </p>
-                    </div>
-                    
-                    <!-- Реальные примеры -->
-                    <div class="info-section">
-                        <h4><i class="fas fa-history"></i> Реальные примеры</h4>
-                        <div id="modal-real-examples" class="examples-list">
-                            <div>
-                                <span style="color: #ef4444; font-weight: bold; margin-right: 8px;">1.</span>
-                                Атака на Twitter в 2016 году — крупнейшая в истории (1.2 Тб/с)
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Защита -->
-                    <div class="info-section protection-section">
-                        <h4><i class="fas fa-shield-alt"></i> Как защититься?</h4>
-                        <ul id="modal-protection" class="protection-list">
-                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
-                                🔒 Не кликайте на подозрительные ссылки
-                            </li>
-                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
-                                🛡️ Используйте антивирус и регулярно обновляйте программы
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Кнопки -->
-                <div class="modal-footer">
-                    <button id="learn-more-btn" class="btn btn-primary">
-                        <i class="fas fa-book-open"></i> Узнать больше
-                    </button>
-                    <button class="btn btn-secondary modal-close">
-                        <i class="fas fa-times"></i> Закрыть
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
-                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
+                    <p>Изучай кибербезопасность с актуальными новостями и интерактивной картой атак</p>
                 </div>
                 
                 <div class="footer-section">
@@ -330,7 +240,6 @@
                     <h4><i class="fas fa-code"></i> Технологии</h4>
                     <p>D3.js • JavaScript • HTML5 • CSS3</p>
                 </div>
-            </div>
             
             <div class="footer-bottom">
                 <p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p>
@@ -339,13 +248,26 @@
                     Создано для обучения и практики веб-разработки
                 </p>
             </div>
-        </div>
     </footer>
 
-    <script src="assets/js/dataHandler.js"></script>
-    <script src="assets/js/mapRenderer.js"></script>
-    <script src="assets/js/uiManager.js"></script>
-    <script src="assets/js/app.js"></script>
+    <!-- Модальное окно для просмотра подробностей новости -->
+    <div class="news-detail-modal" id="news-detail-modal">
+        <div class="news-detail-content">
+            <div class="news-detail-header">
+                <h3 id="news-detail-title"><i class="fas fa-newspaper"></i> Заголовок новости</h3>
+                <button class="news-detail-close" onclick="closeNewsDetail()">&times;</button>
+            </div>
+            <div class="news-detail-meta">
+                <span id="news-detail-date"><i class="fas fa-calendar-alt"></i> Дата</span>
+                <span id="news-detail-source"><i class="fas fa-link"></i> Источник</span>
+            </div>
+            <div class="news-detail-tags" id="news-detail-tags"></div>
+            <div class="news-detail-body" id="news-detail-content">
+                Контент новости...
+            </div>
+    </div>
+
+    <script src="assets/js/header.js"></script>
+    <script src="assets/js/newsDetail.js"></script>
 </body>
 </html>
-
