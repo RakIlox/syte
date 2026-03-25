@@ -1,15 +1,20 @@
-# TODO - Исправление стилей index.html (2026)
+# Mobile Map Optimization & Infinite Field Fix
+Current Working Directory: c:/Users/Admin/Desktop/нормальня версия сайта
 
-## ✅ Завершённые задачи (из предыдущих)
-- [x] Все JS критические ошибки
-- [x] Мобильная адаптация
+## Task
+Make map smaller for mobile devices and fix infinite field behind map (responsive .map-container height).
 
-## 📋 Текущие задачи (стиль index.html)
-1. [x] Заменить CDN Font Awesome → emoji иконки (шаг 1 ✅)
-2. [x] Удалить дубли script header.js (шаг 1 ✅)
-3. [ ] Добавить CSS fallback в main.css
-4. [ ] Тестировать (F12)
-5. [ ] Финальная проверка
+## Steps (Plan Breakdown)
+- [ ] 1. Edit main.css: Update .map-container min-height to clamp(600px, 70vh, 1000px); strengthen mobile media queries for #world-map (reduce to 250px/200px).
+- [ ] 2. Edit map.css: Reduce #world-map mobile heights (768px:300px, 480px:220px) and add clamp base.
+- [ ] 3. Test on mobile viewports / live preview.
+- [ ] 4. Mark complete.
 
-## 📝 Примечания
-Главная причина \"кривого\" стиля — отсутствие иконок из-за блокировки CDN.
+## Progress
+- ✅ Step 1: main.css edited (responsive container min-height clamp(), mobile map heights reduced: 250px@768px, 200px@480px, 160px@360px)
+- ✅ Step 2: map.css edited (base clamp(250px,45vh,500px), 300px@768px, 220px@480px)
+
+Next: Step 3 - Test / live preview.
+
+
+

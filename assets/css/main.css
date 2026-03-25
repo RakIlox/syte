@@ -399,7 +399,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 1000px;
+    min-height: clamp(600px, 70vh, 1000px);
 }
 
 .map-header {
@@ -482,8 +482,8 @@ body {
     }
     
     #world-map {
-        min-height: 300px;
-        height: 300px;
+        min-height: 250px;
+        height: 250px;
         border-radius: 12px;
     }
 }
@@ -891,8 +891,20 @@ body {
 }
 
 @media (max-width: 480px) {
+    #world-map {
+        min-height: 180px;
+        height: 200px;
+    }
+    
     .attack-meta-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 360px) {
+    #world-map {
+        height: clamp(160px, 40vh, 200px);
+        min-height: 160px;
     }
 }
 
@@ -1775,8 +1787,8 @@ body {
     }
     
     #world-map {
-        min-height: 250px;
-        height: 250px;
+        min-height: 180px;
+        height: 200px;
     }
     
     .map-control-btn {
