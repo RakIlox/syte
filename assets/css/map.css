@@ -710,3 +710,81 @@
         min-height: 180px;
     }
 }
+
+/* 🗺️ Стили легенды карты кибератак */
+#world-map .legend-group {
+  pointer-events: auto;
+}
+
+#world-map .legend-group rect:first-child {
+  animation: legendFadeIn 0.5s ease-out;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
+}
+
+@keyframes legendFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#world-map .legend-item {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+#world-map .legend-item:hover {
+  transform: scale(1.15) translateY(-2px);
+}
+
+#world-map .legend-item:hover text {
+  fill: #f8fafc !important;
+  font-weight: 600;
+  font-size: 13px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+#world-map .legend-item rect {
+  transition: all 0.2s ease;
+  rx: 2;
+}
+
+#world-map .legend-item:hover rect {
+  filter: drop-shadow(0 2px 6px currentColor);
+  transform: scale(1.2);
+  stroke: rgba(255,255,255,0.6);
+  stroke-width: 1.5;
+}
+
+#world-map .legend-item.filtered,
+#world-map .legend-item.filtered text {
+  opacity: 0.4;
+}
+
+#world-map .legend-item.active text {
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Responsive легенда */
+@media (max-width: 1024px) {
+  #world-map .legend-group rect:first-child {
+    width: 92vw !important;
+    rx: 10 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #world-map .legend-group {
+    transform: scale(0.95);
+  }
+  #world-map .legend-item {
+    transform: translateX(-4px) scale(0.95);
+  }
+}
+
+@media (max-width: 480px) {
+  #world-map .legend-item text {
+    font-size: 11px !important;
+  }
+  #world-map .legend-item:hover {
+    transform: scale(1.1) !important;
+  }
+}

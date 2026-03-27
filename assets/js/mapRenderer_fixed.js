@@ -39,7 +39,7 @@ class MapRenderer {
             this.height = Math.max(rect.height, 450);
             this.scale = 140 * (this.width / 1000);
             if (this.svg) {
-                this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height + 80}`);
+                this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height + 120}`);
                 this.setupProjection();
                 this.setupZoom();
                 this.legendGroup.innerHTML = '';
@@ -119,7 +119,7 @@ class MapRenderer {
     }
 
     setupProjection() {
-        this.projection = d3.geoMercator().scale(this.scale).translate([this.width / 2, this.height / 1.6]);
+        this.projection = d3.geoMercator().scale(this.scale).translate([this.width / 2, this.height / 2]);
         this.path = d3.geoPath().projection(this.projection);
     }
 
@@ -128,7 +128,7 @@ class MapRenderer {
         const self = this;
         this.zoom = d3.zoom()
             .scaleExtent([0.7, 5])
-            .translateExtent([[-this.width/3, -this.height/3], [this.width*1.4, this.height*1.4]])
+            .translateExtent([[0, -this.height/3], [this.width*1.4, this.height*1.4]])
             .on('zoom', event => self.g.setAttribute('transform', `translate(${event.transform.x},${event.transform.y})scale(${event.transform.k})`));
         d3.select(this.svg).call(this.zoom);
     }
@@ -156,7 +156,7 @@ class MapRenderer {
     }
 
     createLegend() {
-        const legendWidth = this.width * 0.95, legendHeight = 160, legendY = this.height - 90, legendX = (this.width - legendWidth) / 2;
+        const legendWidth = this.width * 0.95, legendHeight = 160, legendY = this.height + 20, legendX = (this.width - legendWidth) / 2;
         
         const legendBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         legendBg.setAttribute('x', legendX);
