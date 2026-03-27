@@ -190,9 +190,13 @@ class MapRenderer {
         
         var self = this;
         this.zoom = d3.zoom()
-            .scaleExtent([0.8, 8])
-            .translateExtent([[-80, -80], [this.width + 80, this.height + 80]]) /* ✅ ГРАНИЦЫ ПРОКРУТКИ */
+            .scaleExtent([1, 4]) /* ✅ ОГРАНИЧЕН ЗУМ */
+            .translateExtent([[0, 0], [this.width, this.height]]) /* ✅ ЖЁСТКИЕ ГРАНИЦЫ - НЕЛЬЗЯ УЙТИ */
             .extent([[0, 0], [this.width, this.height]])
+            .constrainExtent(([x0, y0], w, h, [x1, y1], k) => [  /* ✅ АБСОЛЮТНОЕ ОГРАНИЧЕНИЕ */
+                [Math.max(0, Math.min(this.width * k, x0)), Math.max(0, Math.min(this.height * k, y0))],
+                [Math.max(0, Math.min(this.width * k, x1)), Math.max(0, Math.min(this.height * k, y1))]
+            ])
             .on('zoom', function(event) {
                 if (self.g) {
                     self.g.setAttribute('transform', 

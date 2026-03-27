@@ -1420,7 +1420,7 @@ body {
 .main-footer {
     background: rgba(15, 23, 42, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 40px 0 20px;
+    padding: 20px 0 10px; /* ✅ УБРАНО ОГРОМНОЕ НИЖНЕЕ ПОЛЕ */
 }
 
 .footer-content {
