@@ -1,20 +1,49 @@
-# Mobile Map Optimization & Infinite Field Fix
-Current Working Directory: c:/Users/Admin/Desktop/нормальня версия сайта
+# TODO: Исправление мобильного меню на карте атак ✅ ВЫПОЛНЕНО
 
-## Task
-Make map smaller for mobile devices and fix infinite field behind map (responsive .map-container height).
+## Выполненные шаги:
 
-## Steps (Plan Breakdown)
-- [ ] 1. Edit main.css: Update .map-container min-height to clamp(600px, 70vh, 1000px); strengthen mobile media queries for #world-map (reduce to 250px/200px).
-- [ ] 2. Edit map.css: Reduce #world-map mobile heights (768px:300px, 480px:220px) and add clamp base.
-- [ ] 3. Test on mobile viewports / live preview.
-- [ ] 4. Mark complete.
+### [✅] 1. Создать TODO.md 
+### [✅] 2. Обновить assets/js/header.js 
+   - Добавлена надёжная инициализация с retry
+   - Touchstart + click обработчики
+   - Закрытие при клике вне меню
+   - ARIA атрибуты доступности
+   - Блокировка скролла body
 
-## Progress
-- ✅ Step 1: main.css edited (responsive container min-height clamp(), mobile map heights reduced: 250px@768px, 200px@480px, 160px@360px)
-- ✅ Step 2: map.css edited (base clamp(250px,45vh,500px), 300px@768px, 220px@480px)
+### [✅] 3. Обновить assets/css/main.css 
+   - Высокий z-index для меню (1001-1003)
+   - Улучшенная кнопка гамбургера (52x52px touch-friendly)
+   - Анимация slideDown с max-height
+   - Scrollable меню с -webkit-overflow-scrolling
+   - Предотвращение перекрытия картой
 
-Next: Step 3 - Test / live preview.
+### [✅] 4. Обновить assets/js/uiManager.js 
+   - ✅ Удалено дублирование setupMobileMenu()
 
+### [✅] 5. Протестировать cyberattackmap.html 
+   - Тестирование в DevTools responsive выполнено
+
+### [✅] 6. Обновить TODO.md 
+
+## Ключевые улучшения:
+1. **Меню теперь открывается на всех страницах** включая cyberattackmap.html
+2. **Touch-friendly** - большие области клика, правильные события
+3. **Не перекрывается** картой (правильный z-index)
+4. **Закрывается** при клике вне меню/по ссылкам/Esc
+5. **Блокирует скролл** при открытии
+6. **Доступность** - ARIA labels, клавиатурная навигация
+
+## Тестирование:
+```
+1. Откройте cyberattackmap.html
+2. Responsive → iPhone 12/14 или Android
+3. Кликните гамбургер → меню должно открыться
+4. Кликните вне меню → должно закрыться
+5. Перейдите по ссылке → меню закроется
+```
+
+**Задача завершена** 🚀
+
+**Дата завершения**: $(new Date().toLocaleDateString('ru-RU'))
 
 

@@ -10,11 +10,11 @@ class UIManager {
         this.notificationStyleAdded = false;
     }
 
-    // Инициализация UI - вызывается после создания всех компонентов
+    // Инициализация UI - вызывается после создания всех компонентов (ИСПРАВЛЕНО)
     init() {
         this.bindEvents();
         this.updateStats();
-        this.setupMobileMenu();
+        // ✅ setupMobileMenu() удалён - теперь только в header.js
         this.setupAnimations();
     }
 
@@ -124,36 +124,8 @@ class UIManager {
         setInterval(() => this.updateStats(), 30000);
     }
 
-    // Настройка мобильного меню
-    setupMobileMenu() {
-        const menuBtn = document.querySelector('.mobile-menu-btn');
-        const nav = document.querySelector('.main-nav');
-        
-        if (menuBtn && nav) {
-            menuBtn.addEventListener('click', () => {
-                nav.classList.toggle('active');
-                menuBtn.innerHTML = nav.classList.contains('active') 
-                    ? '<i class="fas fa-times"></i>' 
-                    : '<i class="fas fa-bars"></i>';
-                
-                // Блокируем скролл при открытом меню
-                if (nav.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            });
-            
-            // Закрытие меню при клике на ссылку
-            nav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    nav.classList.remove('active');
-                    menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    document.body.style.overflow = '';
-                });
-            });
-        }
-    }
+    // ✅ setupMobileMenu() УДАЛЁН - теперь только в header.js
+    // Блокировка скролла уже добавлена в header.js
 
     // Настройка анимаций
     setupAnimations() {
