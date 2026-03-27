@@ -1625,7 +1625,7 @@ body {
         z-index: 1;
     }
     
-    /* Карта не должна перекрывать меню */
+
         padding: 16px 0;
         gap: 16px;
     }
@@ -1638,7 +1638,7 @@ body {
     /* Панели */
     .info-panel,
     .stats-panel,
-    .filter-panel,
+    .filter-pan,
     .tips-panel {
         padding: 16px;
         border-radius: 12px;
