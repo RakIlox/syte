@@ -191,6 +191,8 @@ class MapRenderer {
         var self = this;
         this.zoom = d3.zoom()
             .scaleExtent([0.8, 8])
+            .translateExtent([[-80, -80], [this.width + 80, this.height + 80]]) /* ✅ ГРАНИЦЫ ПРОКРУТКИ */
+            .extent([[0, 0], [this.width, this.height]])
             .on('zoom', function(event) {
                 if (self.g) {
                     self.g.setAttribute('transform', 

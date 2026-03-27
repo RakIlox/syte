@@ -434,7 +434,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: clamp(600px, 70vh, 1000px);
+    min-height: clamp(400px, 50vh, 700px); /* ✅ УМЕНЬШЕНО */
     position: relative;
     z-index: 1;
 }
@@ -481,8 +481,8 @@ body {
 #world-map {
     flex: 1;
     width: 100%;
-    min-height: 700px;
-    height: 500px;
+    min-height: 400px; /* ✅ УМЕНЬШЕНО с 700px */
+    height: 400px; /* ✅ УМЕНЬШЕНО с 500px */
     background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
     border-radius: 16px;
     overflow: hidden;
