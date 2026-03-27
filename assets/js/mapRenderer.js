@@ -264,121 +264,139 @@ class MapRenderer {
 
     createLegend() {
         const legendItems = Object.entries(this.attackIcons);
-        const legendWidth = 145;
-        const legendHeight = 620;
+        const legendWidth = 160; /* ✅ Шире для 2 столбцов */
+        const legendHeight = 320; /* ✅ Короче */
         const legendY = this.height - legendHeight - 15;
         const legendX = 15;
         
+        /* ✅ ФОН ЛЕГЕНДЫ */
         const legendBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         legendBg.setAttribute('x', legendX);
         legendBg.setAttribute('y', legendY);
         legendBg.setAttribute('width', legendWidth);
         legendBg.setAttribute('height', legendHeight);
-        legendBg.setAttribute('rx', 10);
-        legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.92)');
+        legendBg.setAttribute('rx', 12);
+        legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.95)');
         legendBg.setAttribute('stroke', 'rgba(59, 130, 246, 0.4)');
-        legendBg.setAttribute('stroke-width', '1');
+        legendBg.setAttribute('stroke-width', '1.5');
         
         this.legendGroup.appendChild(legendBg);
         
         const legendTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         legendTitle.setAttribute('x', legendX + legendWidth / 2);
-        legendTitle.setAttribute('y', legendY + 25);
+        legendTitle.setAttribute('y', legendY + 22);
         legendTitle.setAttribute('fill', '#f8fafc');
-        legendTitle.setAttribute('font-size', '11px');
-        legendTitle.setAttribute('font-weight', '600');
+        legendTitle.setAttribute('font-size', '12px');
+        legendTitle.setAttribute('font-weight', '700');
         legendTitle.setAttribute('text-anchor', 'middle');
         legendTitle.textContent = 'Типы атак';
         this.legendGroup.appendChild(legendTitle);
         
+        /* ✅ 2 СТОЛБЦА */
         const self = this;
-        legendItems.forEach(([type, icon], index) => {
-            const itemY = legendY + 55 + index * 25;
-            const centerX = legendX + legendWidth / 2;
+        legendItems.slice(0, 12).forEach(([type, icon], index) => { /* Левая колонка */
+            const itemY = legendY + 40 + (index * 22);
+            const centerX = legendX + 35; /* Левая колонка */
             
-            const itemGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            itemGroup.setAttribute('class', 'legend-item');
-            itemGroup.setAttribute('data-type', type);
-            itemGroup.style.cursor = 'pointer';
-            
-            const iconText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            iconText.setAttribute('x', centerX - 60);
-            iconText.setAttribute('y', itemY);
-            iconText.setAttribute('font-size', '12px');
-            iconText.textContent = icon;
-            iconText.setAttribute('id', 'legend-icon-' + type);
-            itemGroup.appendChild(iconText);
-            
-            const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            nameText.setAttribute('x', centerX - 40);
-            nameText.setAttribute('y', itemY + 3);
-            nameText.setAttribute('fill', '#94a3b8');
-            nameText.setAttribute('font-size', '10px');
-            nameText.textContent = this.getAttackTypeName(type);
-            nameText.setAttribute('id', 'legend-name-' + type);
-            itemGroup.appendChild(nameText);
-            
-            const colorRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            colorRect.setAttribute('x', centerX + 55);
-            colorRect.setAttribute('y', itemY - 4);
-            colorRect.setAttribute('width', '7');
-            colorRect.setAttribute('height', '7');
-            colorRect.setAttribute('rx', '2');
-            colorRect.setAttribute('fill', this.attackColors[type]);
-            colorRect.setAttribute('id', 'legend-color-' + type);
-            itemGroup.appendChild(colorRect);
-            
-            // Hover эффект
-            itemGroup.addEventListener('mouseenter', function() {
-                if (!self.hiddenTypes.has(type)) {
-                    iconText.setAttribute('fill', '#fff');
-                    nameText.setAttribute('fill', '#fff');
-                }
-                legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.95)');
-            });
-            
-            itemGroup.addEventListener('mouseleave', function() {
-                if (!self.hiddenTypes.has(type)) {
-                    iconText.setAttribute('fill', 'inherit');
-                    nameText.setAttribute('fill', '#94a3b8');
-                }
-                legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.92)');
-            });
-            
-            itemGroup.addEventListener('click', function() {
-                if (self.hiddenTypes.has(type)) {
-                    self.hiddenTypes.delete(type);
-                } else {
-                    self.hiddenTypes.add(type);
-                }
-                
-                if (self.hiddenTypes.has(type)) {
-                    iconText.setAttribute('fill', '#475569');
-                    iconText.setAttribute('opacity', '0.5');
-                    nameText.setAttribute('fill', '#475569');
-                    nameText.setAttribute('text-decoration', 'line-through');
-                    nameText.setAttribute('opacity', '0.5');
-                    colorRect.setAttribute('opacity', '0.3');
-                } else {
-                    iconText.setAttribute('fill', 'inherit');
-                    iconText.setAttribute('opacity', '1');
-                    nameText.setAttribute('fill', '#94a3b8');
-                    nameText.setAttribute('text-decoration', 'none');
-                    nameText.setAttribute('opacity', '1');
-                    colorRect.setAttribute('opacity', '1');
-                }
-                
-                self.updateAttacksVisibility();
-                
-                const action = self.hiddenTypes.has(type) ? 'скрыты' : 'показаны';
-                const message = self.getAttackTypeName(type) + ' атаки ' + action;
-                document.dispatchEvent(new CustomEvent('showNotification', {
-                    detail: { message: message, type: 'info' }
-                }));
-            });
-            
+            const itemGroup = self.createLegendItem(type, icon, itemY, centerX);
             this.legendGroup.appendChild(itemGroup);
         });
+        
+        legendItems.slice(12, 23).forEach(([type, icon], index) => { /* Правая колонка */
+            const itemY = legendY + 40 + (index * 22);
+            const centerX = legendX + 125; /* Правая колонка */
+            
+            const itemGroup = self.createLegendItem(type, icon, itemY, centerX);
+            this.legendGroup.appendChild(itemGroup);
+        });
+    }
+    
+    createLegendItem(type, icon, itemY, centerX) {
+        const itemGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        itemGroup.setAttribute('class', 'legend-item');
+        itemGroup.setAttribute('data-type', type);
+        itemGroup.style.cursor = 'pointer';
+        
+        const iconText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        iconText.setAttribute('x', centerX - 20);
+        iconText.setAttribute('y', itemY);
+        iconText.setAttribute('font-size', '14px');
+        iconText.textContent = icon;
+        iconText.setAttribute('id', 'legend-icon-' + type);
+        itemGroup.appendChild(iconText);
+        
+        const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameText.setAttribute('x', centerX + 5);
+        nameText.setAttribute('y', itemY + 4);
+        nameText.setAttribute('fill', '#94a3b8');
+        nameText.setAttribute('font-size', '11px');
+        nameText.textContent = this.getAttackTypeName(type);
+        nameText.setAttribute('id', 'legend-name-' + type);
+        itemGroup.appendChild(nameText);
+        
+        const colorRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        colorRect.setAttribute('x', centerX + 75);
+        colorRect.setAttribute('y', itemY - 3);
+        colorRect.setAttribute('width', '8');
+        colorRect.setAttribute('height', '8');
+        colorRect.setAttribute('rx', '3');
+        colorRect.setAttribute('fill', this.attackColors[type]);
+        colorRect.setAttribute('id', 'legend-color-' + type);
+        itemGroup.appendChild(colorRect);
+        
+        /* ✅ ОБРАБОТЧИКИ */
+        const self = this;
+        itemGroup.addEventListener('mouseenter', function() {
+            if (!self.hiddenTypes.has(type)) {
+                iconText.setAttribute('fill', '#fff');
+                nameText.setAttribute('fill', '#fff');
+            }
+        });
+        
+        itemGroup.addEventListener('mouseleave', function() {
+            if (!self.hiddenTypes.has(type)) {
+                iconText.setAttribute('fill', 'inherit');
+                nameText.setAttribute('fill', '#94a3b8');
+            }
+        });
+        
+        itemGroup.addEventListener('click', function() {
+            self.toggleLegendItem(type, itemGroup, iconText, nameText, colorRect);
+        });
+        
+        return itemGroup;
+    }
+    
+    toggleLegendItem(type, itemGroup, iconText, nameText, colorRect) {
+        if (this.hiddenTypes.has(type)) {
+            this.hiddenTypes.delete(type);
+        } else {
+            this.hiddenTypes.add(type);
+        }
+        
+        if (this.hiddenTypes.has(type)) {
+            iconText.setAttribute('fill', '#475569');
+            iconText.setAttribute('opacity', '0.5');
+            nameText.setAttribute('fill', '#475569');
+            nameText.setAttribute('text-decoration', 'line-through');
+            nameText.setAttribute('opacity', '0.5');
+            colorRect.setAttribute('opacity', '0.3');
+        } else {
+            iconText.setAttribute('fill', 'inherit');
+            iconText.setAttribute('opacity', '1');
+            nameText.setAttribute('fill', '#94a3b8');
+            nameText.setAttribute('text-decoration', 'none');
+            nameText.setAttribute('opacity', '1');
+            colorRect.setAttribute('opacity', '1');
+        }
+        
+        this.updateAttacksVisibility();
+        
+        const action = this.hiddenTypes.has(type) ? 'скрыты' : 'показаны';
+        const message = this.getAttackTypeName(type) + ' атаки ' + action;
+        document.dispatchEvent(new CustomEvent('showNotification', {
+            detail: { message: message, type: 'info' }
+        }));
     }
     
     updateAttacksVisibility() {
