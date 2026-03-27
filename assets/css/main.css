@@ -429,14 +429,16 @@ body {
     background: rgba(30, 41, 59, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    padding: 24px;
+    padding: 20px;
     box-shadow: 0 20px 15px -3px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: clamp(400px, 50vh, 700px); /* ✅ УМЕНЬШЕНО */
+    min-height: clamp(420px, 50vh, 620px);
+    max-height: clamp(500px, 60vh, 700px);
     position: relative;
     z-index: 1;
+    overflow: hidden;
 }
 
 .map-header {
@@ -485,9 +487,11 @@ body {
     height: 400px; /* ✅ УМЕНЬШЕНО с 500px */
     background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
     border-radius: 16px;
-    overflow: hidden;
+    overflow: visible !important;
     position: relative;
     box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
+    height: auto;
+    min-height: 480px;
 }
 
 #world-map svg {
@@ -505,23 +509,52 @@ body {
 
 @media (max-width: 768px) {
     .map-container {
-        padding: 16px;
+        padding: 12px;
+        min-height: clamp(250px, 40vh, 400px) !important;
+        max-height: 450px !important;
+    }
+    
+    .map-header {
+        margin-bottom: 12px;
     }
     
     .map-header h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+    }
+    
+    .map-controls {
+        gap: 6px;
     }
     
     .map-control-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
     }
     
     #world-map {
-        min-height: 250px;
-        height: 250px;
-        border-radius: 12px;
+        min-height: 220px;
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    .tips-section {
+        padding: 16px;
+        margin-top: 16px;
+    }
+
+    .tips-section h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tip-card {
+        padding: 14px;
     }
 }
 
@@ -536,13 +569,23 @@ body {
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: flex-start;
 }
 
 .legend-color {
     width: 20px;
     height: 20px;
     border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-label {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 8px;
 }
 
 .legend-color.ddos { background: #ef4444; }
@@ -928,9 +971,30 @@ body {
 }
 
 @media (max-width: 480px) {
+    .map-container {
+        padding: 10px;
+        min-height: 240px !important;
+    }
+
     #world-map {
-        min-height: 180px;
-        height: 200px;
+        min-height: 160px;
+    }
+    
+    .map-control-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .tips-section {
+        padding: 12px;
+    }
+
+    .tips-grid {
+        gap: 10px;
+    }
+
+    .tip-card {
+        padding: 12px;
     }
     
     .attack-meta-grid {
@@ -1625,7 +1689,7 @@ body {
         z-index: 1;
     }
     
-
+    .main-content {
         padding: 16px 0;
         gap: 16px;
     }
@@ -1638,7 +1702,7 @@ body {
     /* Панели */
     .info-panel,
     .stats-panel,
-    .filter-pan,
+    .filter-panel,
     .tips-panel {
         padding: 16px;
         border-radius: 12px;
@@ -1712,6 +1776,16 @@ body {
         padding: 8px 12px;
         background: rgba(15, 23, 42, 0.5);
         border-radius: 8px;
+        justify-content: flex-start;
+    }
+    
+    .legend-label {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 4px;
     }
     
     .legend-color {
@@ -2411,20 +2485,20 @@ body {
 
 /* Раздел быстрых советов */
 .tips-section {
-    margin-top: 40px;
-    padding: 30px;
+    margin-top: 24px;
+    padding: 20px;
     background: rgba(30, 41, 59, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
+    border-radius: 12px;
 }
 
 .tips-section h2 {
     color: #f8fafc;
-    font-size: 1.4rem;
-    margin-bottom: 24px;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .tips-section h2 i {
@@ -2433,14 +2507,14 @@ body {
 
 .tips-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
 }
 
 .tip-card {
     background: rgba(15, 23, 42, 0.6);
-    padding: 20px;
-    border-radius: 12px;
+    padding: 16px;
+    border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
 }

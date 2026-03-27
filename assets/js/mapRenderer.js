@@ -3,9 +3,9 @@
 class MapRenderer {
     constructor(containerId) {
         this.containerId = containerId;
-        this.width = 1200;
-        this.height = 600;
-        this.scale = 150;
+        this.width = 1000;
+        this.height = 500;
+        this.scale = 140;
         this.projection = null;
         this.path = null;
         this.svg = null;
@@ -16,6 +16,7 @@ class MapRenderer {
         this.isLoaded = false;
         this.countriesGroup = null;
         this.attacksGroup = null;
+        this.resizeObserver = null;
         
         // Цвета для типов атак (23 типа)
         this.attackColors = {
@@ -84,6 +85,26 @@ class MapRenderer {
             console.error('Контейнер карты не найден:', this.containerId);
             return;
         }
+
+        // Добавляем обработчик resize
+        const updateSizes = () => {
+            const rect = container.getBoundingClientRect();
+            this.width = Math.max(rect.width, 900);
+            this.height = Math.max(rect.height, 450);
+            this.scale = 140 * (this.width / 1000);
+            if (this.svg) {
+            this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height + 80}`);
+            this.setupProjection();
+            this.setupZoom();
+                // Пересоздаём легенду при ресайзе
+                const legendElements = this.legendGroup.querySelectorAll('*');
+                legendElements.forEach(el => el.remove());
+                this.createLegend();
+            }
+        };
+
+        window.addEventListener('resize', updateSizes);
+        this.updateSizes = updateSizes;
         
         // Проверяем загрузку d3.js
         if (typeof d3 === 'undefined') {
@@ -92,16 +113,17 @@ class MapRenderer {
             return;
         }
         
-        // Принудительно устанавливаем размеры контейнера
+        // Responsive размеры контейнера
         container.style.width = '100%';
-        container.style.height = '600px';
-        container.style.minHeight = '600px';
+        container.style.height = '100%';
+        container.style.minHeight = '400px';
         container.style.display = 'block';
         
-        // Получаем размеры
+        // Responsive размеры
         const rect = container.getBoundingClientRect();
-        this.width = Math.max(rect.width, 800);
-        this.height = Math.max(rect.height, 500);
+        this.width = Math.max(rect.width, 900);
+        this.height = Math.max(rect.height, 450);
+        this.scale = 140 * (this.width / 1000);
         
         console.log('Размеры карты:', this.width, 'x', this.height);
         
@@ -149,7 +171,7 @@ class MapRenderer {
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         this.svg.setAttribute('width', '100%');
         this.svg.setAttribute('height', '100%');
-        this.svg.setAttribute('viewBox', '0 0 ' + this.width + ' ' + this.height);
+        this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height + 80}`);
         this.svg.style.display = 'block';
         
         /* ✅ Drop-shadow filter для легенды */
@@ -193,7 +215,7 @@ class MapRenderer {
 
     setupProjection() {
         this.projection = d3.geoMercator()
-            .scale(this.scale * (this.width / 1200))
+            .scale(this.scale)
             .translate([this.width / 2, this.height / 1.6]);
         
         this.path = d3.geoPath().projection(this.projection);
@@ -204,8 +226,8 @@ class MapRenderer {
         
         var self = this;
         this.zoom = d3.zoom()
-            .scaleExtent([0.8, 4]) /* ✅ Нормальный зум */
-            .translateExtent([[-this.width/4, -this.height/4], [this.width*1.25, this.height*1.25]]) /* ✅ Мягкие границы */
+            .scaleExtent([0.7, 5])
+            .translateExtent([[-this.width/3, -this.height/3], [this.width*1.4, this.height*1.4]])
             .on('zoom', function(event) {
                 if (self.g) {
                     self.g.setAttribute('transform', 
@@ -272,11 +294,10 @@ class MapRenderer {
     }
 
     createLegend() {
-        const legendItems = Object.entries(this.attackIcons);
-        const legendWidth = this.width * 0.9; /* ✅ Ширина экрана */
-        const legendHeight = 90; /* ✅ 2 строчки */
-        const legendY = this.height - legendHeight - 10; /* ✅ Внизу */
-        const legendX = (this.width - legendWidth) / 2; /* ✅ По центру */
+        const legendWidth = this.width * 0.95; /* Полная ширина страницы */
+        const legendHeight = 180;
+        const legendY = this.height - 100;
+        const legendX = (this.width - legendWidth) / 2;
         
         /* ✅ Фон внизу */
         const legendBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -293,20 +314,29 @@ class MapRenderer {
         this.legendGroup.appendChild(legendBg);
         
         const self = this;
-        /* ✅ ПЕРВАЯ СТРОЧКА (левая половина) */
-        const row1Types = ['ddos', 'phishing', 'malware', 'scanning', 'bruteforce', 'sqlInjection', 'xss'];
+        /* ПЕРВАЯ СТРОЧКА */
+        const row1Types = ['ddos', 'phishing', 'malware', 'scanning', 'bruteforce', 'sqlInjection', 'xss', 'mitm'];
         row1Types.forEach((type, index) => {
-            const iconX = legendX + 30 + index * 65;
-            const itemY = legendY + 45;
+            const iconX = legendX + 40 + index * 85;
+            const itemY = legendY + 50;
             const itemGroup = self.createHorizontalLegendItem(type, iconX, itemY);
             this.legendGroup.appendChild(itemGroup);
         });
         
-        /* ✅ ВТОРАЯ СТРОЧКА (правая половина) */
-        const row2Types = ['mitm', 'supplyChain', 'apt', 'sessionHijacking', 'arpSpoofing', 'cryptoAttack', 'logicBomb'];
+        /* ВТОРАЯ СТРОЧКА */
+        const row2Types = ['supplyChain', 'apt', 'sessionHijacking', 'arpSpoofing', 'cryptoAttack', 'toctou', 'bufferOverflow', 'sslStripping'];
         row2Types.forEach((type, index) => {
-            const iconX = legendX + 30 + index * 65;
-            const itemY = legendY + 70;
+            const iconX = legendX + 40 + index * 85;
+            const itemY = legendY + 110;
+            const itemGroup = self.createHorizontalLegendItem(type, iconX, itemY);
+            this.legendGroup.appendChild(itemGroup);
+        });
+
+        /* ТРЕТЬЯ СТРОЧКА */
+        const row3Types = ['clickjacking', 'idsEvasion', 'privilegeEscalation', 'logicBomb', 'cloudAttack', 'iotAttack', 'aiAttack'];
+        row3Types.forEach((type, index) => {
+            const iconX = legendX + 40 + index * 85;
+            const itemY = legendY + 170;
             const itemGroup = self.createHorizontalLegendItem(type, iconX, itemY);
             this.legendGroup.appendChild(itemGroup);
         });
@@ -318,25 +348,70 @@ class MapRenderer {
         itemGroup.setAttribute('data-type', type);
         itemGroup.style.cursor = 'pointer';
         
-        /* Иконка */
+        /* Название по центру */
+        const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameText.setAttribute('x', iconX);
+        nameText.setAttribute('y', itemY + 8);
+        nameText.setAttribute('fill', '#94a3b8');
+        nameText.setAttribute('font-size', '13px');
+        nameText.setAttribute('text-anchor', 'middle');
+        nameText.textContent = this.getAttackTypeName(type);
+        nameText.setAttribute('id', 'legend-name-' + type);
+        itemGroup.appendChild(nameText);
+        
+        /* Цвет справа - переименован для избежания конфликта */
+        const legendColorRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        legendColorRect.setAttribute('x', iconX + 22);
+        legendColorRect.setAttribute('y', itemY - 4);
+        legendColorRect.setAttribute('width', '12');
+        legendColorRect.setAttribute('height', '12');
+        legendColorRect.setAttribute('rx', '3');
+        legendColorRect.setAttribute('fill', this.attackColors[type]);
+        legendColorRect.setAttribute('id', 'legend-color-' + type);
+        itemGroup.appendChild(legendColorRect);
+        
+        const legendSelf = this;
+        
+        /* Mouseenter эффект */
+        const self = this;
+        itemGroup.addEventListener('mouseenter', function() {
+            nameText.setAttribute('fill', '#f8fafc');
+            nameText.setAttribute('font-size', '14px');
+        });
+        
+        itemGroup.addEventListener('mouseleave', function() {
+            nameText.setAttribute('fill', '#94a3b8');
+            nameText.setAttribute('font-size', '13px');
+        });
+        
+        /* ✅ КРАСИВЫЕ ОБРАБОТЧИКИ - ОСТАВЛЯЕМ iconText для совместимости */
         const iconText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         iconText.setAttribute('x', iconX);
         iconText.setAttribute('y', itemY);
-        iconText.setAttribute('font-size', '18px');
+        iconText.setAttribute('font-size', '1px');
+        iconText.setAttribute('opacity', '0');
         iconText.textContent = this.attackIcons[type];
         iconText.setAttribute('id', 'legend-icon-' + type);
         itemGroup.appendChild(iconText);
         
-        /* Название снизу */
-        const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        nameText.setAttribute('x', iconX);
-        nameText.setAttribute('y', itemY + 18);
-        nameText.setAttribute('fill', '#94a3b8');
-        nameText.setAttribute('font-size', '10px');
-        nameText.setAttribute('text-anchor', 'middle');
-        nameText.textContent = this.getAttackTypeName(type).substring(0, 8); /* ✅ Коротко */
-        nameText.setAttribute('id', 'legend-name-' + type);
-        itemGroup.appendChild(nameText);
+        const self = this;
+        itemGroup.addEventListener('mouseenter', function() {
+            iconText.setAttribute('font-size', '22px');
+            iconText.setAttribute('opacity', '1');
+            nameText.setAttribute('fill', '#f8fafc');
+            nameText.setAttribute('font-size', '14px');
+        });
+        
+        itemGroup.addEventListener('mouseleave', function() {
+            iconText.setAttribute('font-size', '1px');
+            iconText.setAttribute('opacity', '0');
+            nameText.setAttribute('fill', '#94a3b8');
+            nameText.setAttribute('font-size', '13px');
+        });
+        
+        itemGroup.addEventListener('click', function() {
+            self.toggleLegendItem(itemGroup, iconText, nameText, colorRect, type);
+        });
         
         /* Цвет справа */
         const colorRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -352,13 +427,15 @@ class MapRenderer {
         /* ✅ КРАСИВЫЕ ОБРАБОТЧИКИ */
         const self = this;
         itemGroup.addEventListener('mouseenter', function() {
-            iconText.setAttribute('font-size', '20px');
+            iconText.setAttribute('font-size', '22px');
             nameText.setAttribute('fill', '#f8fafc');
+            nameText.setAttribute('font-size', '14px');
         });
         
         itemGroup.addEventListener('mouseleave', function() {
-            iconText.setAttribute('font-size', '18px');
+            iconText.setAttribute('font-size', '20px');
             nameText.setAttribute('fill', '#94a3b8');
+            nameText.setAttribute('font-size', '13px');
         });
         
         itemGroup.addEventListener('click', function() {
@@ -376,12 +453,12 @@ class MapRenderer {
         }
         
         if (this.hiddenTypes.has(type)) {
-            iconText.setAttribute('opacity', '0.4');
+            if (iconText) iconText.setAttribute('opacity', '0.4');
             nameText.setAttribute('opacity', '0.4');
             nameText.setAttribute('text-decoration', 'line-through');
             colorRect.setAttribute('opacity', '0.3');
         } else {
-            iconText.setAttribute('opacity', '1');
+            if (iconText) iconText.setAttribute('opacity', '1');
             nameText.setAttribute('opacity', '1');
             nameText.setAttribute('text-decoration', 'none');
             colorRect.setAttribute('opacity', '1');
