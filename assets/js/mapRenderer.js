@@ -152,11 +152,24 @@ class MapRenderer {
         this.svg.setAttribute('viewBox', '0 0 ' + this.width + ' ' + this.height);
         this.svg.style.display = 'block';
         
-        // Группа для стран (оптимизация: отдельная группа для стран)
+        /* ✅ Drop-shadow filter для легенды */
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+        filter.setAttribute('id', 'drop-shadow');
+        const feDropShadow = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow');
+        feDropShadow.setAttribute('dx', '0');
+        feDropShadow.setAttribute('dy', '4');
+        feDropShadow.setAttribute('stdDeviation', '8');
+        feDropShadow.setAttribute('flood-color', 'rgba(0,0,0,0.4)');
+        filter.appendChild(feDropShadow);
+        defs.appendChild(filter);
+        this.svg.appendChild(defs);
+        
+        // Группа для стран
         this.countriesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         this.countriesGroup.setAttribute('class', 'countries-group');
         
-        // Группа для атак (оптимизация: отдельная группа для атак)
+        // Группа для атак
         this.attacksGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         this.attacksGroup.setAttribute('class', 'attacks-group');
         
@@ -166,15 +179,16 @@ class MapRenderer {
         this.g.appendChild(this.countriesGroup);
         this.g.appendChild(this.attacksGroup);
         
-        // Группа для легенды
+        // Группа для легенды (с pointer-events: none для карты)
         this.legendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         this.legendGroup.setAttribute('class', 'legend-group');
+        this.legendGroup.style.pointerEvents = 'none'; /* ✅ Легенда НЕ блокирует карту */
         
         container.appendChild(this.svg);
         this.svg.appendChild(this.g);
         this.svg.appendChild(this.legendGroup);
         
-        console.log('SVG создан');
+        console.log('SVG создан с drop-shadow');
     }
 
     setupProjection() {
@@ -190,13 +204,8 @@ class MapRenderer {
         
         var self = this;
         this.zoom = d3.zoom()
-            .scaleExtent([1, 4]) /* ✅ ОГРАНИЧЕН ЗУМ */
-            .translateExtent([[0, 0], [this.width, this.height]]) /* ✅ ЖЁСТКИЕ ГРАНИЦЫ - НЕЛЬЗЯ УЙТИ */
-            .extent([[0, 0], [this.width, this.height]])
-            .constrainExtent(([x0, y0], w, h, [x1, y1], k) => [  /* ✅ АБСОЛЮТНОЕ ОГРАНИЧЕНИЕ */
-                [Math.max(0, Math.min(this.width * k, x0)), Math.max(0, Math.min(this.height * k, y0))],
-                [Math.max(0, Math.min(this.width * k, x1)), Math.max(0, Math.min(this.height * k, y1))]
-            ])
+            .scaleExtent([0.8, 4]) /* ✅ Нормальный зум */
+            .translateExtent([[-this.width/4, -this.height/4], [this.width*1.25, this.height*1.25]]) /* ✅ Мягкие границы */
             .on('zoom', function(event) {
                 if (self.g) {
                     self.g.setAttribute('transform', 
@@ -264,49 +273,52 @@ class MapRenderer {
 
     createLegend() {
         const legendItems = Object.entries(this.attackIcons);
-        const legendWidth = 160; /* ✅ Шире для 2 столбцов */
-        const legendHeight = 320; /* ✅ Короче */
-        const legendY = this.height - legendHeight - 15;
-        const legendX = 15;
+        const legendWidth = 300; /* ✅ Компактнее и красивее */
+        const legendHeight = 280; /* ✅ */
+        const legendY = this.height - legendHeight - 20;
+        const legendX = this.width - legendWidth - 20; /* ✅ Справа, не перекрывает карту */
         
-        /* ✅ ФОН ЛЕГЕНДЫ */
+        /* ✅ Красивый фон */
         const legendBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         legendBg.setAttribute('x', legendX);
         legendBg.setAttribute('y', legendY);
         legendBg.setAttribute('width', legendWidth);
         legendBg.setAttribute('height', legendHeight);
-        legendBg.setAttribute('rx', 12);
-        legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.95)');
-        legendBg.setAttribute('stroke', 'rgba(59, 130, 246, 0.4)');
-        legendBg.setAttribute('stroke-width', '1.5');
+        legendBg.setAttribute('rx', 16);
+        legendBg.setAttribute('fill', 'rgba(15, 23, 42, 0.97)');
+        legendBg.setAttribute('stroke', 'rgba(59, 130, 246, 0.6)');
+        legendBg.setAttribute('stroke-width', '2');
+        legendBg.setAttribute('filter', 'url(#drop-shadow)');
         
         this.legendGroup.appendChild(legendBg);
         
+        /* ✅ Заголовок */
         const legendTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         legendTitle.setAttribute('x', legendX + legendWidth / 2);
-        legendTitle.setAttribute('y', legendY + 22);
+        legendTitle.setAttribute('y', legendY + 24);
         legendTitle.setAttribute('fill', '#f8fafc');
-        legendTitle.setAttribute('font-size', '12px');
+        legendTitle.setAttribute('font-size', '14px');
         legendTitle.setAttribute('font-weight', '700');
         legendTitle.setAttribute('text-anchor', 'middle');
-        legendTitle.textContent = 'Типы атак';
+        legendTitle.textContent = '🛡️ Типы атак';
         this.legendGroup.appendChild(legendTitle);
         
-        /* ✅ 2 СТОЛБЦА */
+        /* ✅ 2 КОМПАКТНЫХ СТОЛБЦА */
         const self = this;
-        legendItems.slice(0, 12).forEach(([type, icon], index) => { /* Левая колонка */
-            const itemY = legendY + 40 + (index * 22);
-            const centerX = legendX + 35; /* Левая колонка */
-            
-            const itemGroup = self.createLegendItem(type, icon, itemY, centerX);
+        const col1Types = ['ddos', 'phishing', 'malware', 'scanning', 'bruteforce', 'sqlInjection', 'xss', 'mitm', 'supplyChain', 'apt', 'sessionHijacking'];
+        const col2Types = ['arpSpoofing', 'cryptoAttack', 'toctou', 'bufferOverflow', 'sslStripping', 'clickjacking', 'idsEvasion', 'privilegeEscalation', 'logicBomb', 'cloudAttack', 'iotAttack', 'aiAttack'];
+        
+        col1Types.forEach((type, index) => {
+            const itemY = legendY + 45 + index * 20;
+            const centerX = legendX + 65;
+            const itemGroup = self.createLegendItem(type, this.attackIcons[type], itemY, centerX, this.attackColors[type]);
             this.legendGroup.appendChild(itemGroup);
         });
         
-        legendItems.slice(12, 23).forEach(([type, icon], index) => { /* Правая колонка */
-            const itemY = legendY + 40 + (index * 22);
-            const centerX = legendX + 125; /* Правая колонка */
-            
-            const itemGroup = self.createLegendItem(type, icon, itemY, centerX);
+        col2Types.forEach((type, index) => {
+            const itemY = legendY + 45 + index * 20;
+            const centerX = legendX + 215;
+            const itemGroup = self.createLegendItem(type, this.attackIcons[type], itemY, centerX, this.attackColors[type]);
             this.legendGroup.appendChild(itemGroup);
         });
     }
