@@ -1,102 +1,85 @@
-# 🛡️ CyberThreat Explorer / Исследователь Киберугроз
+# 🛡️ CyberThreat Explorer — Исследователь Киберугроз
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](CHANGELOG.md)
-[![Русский](https://img.shields.io/badge/язык-Русский-orange.svg)](README.ru.md)
+[![Лицензия](https://img.shields.io/badge/лицензия-MIT-синий.svg)](LICENSE)
+[![Версия](https://img.shields.io/badge/версия-1.1.0-зелёный.svg)](CHANGELOG.md)
 
-> **EN**: Interactive cybersecurity education platform with world cyberattack map visualization for beginners.
-> 
-> **RU**: Интерактивная образовательная платформа по кибербезопасности с визуализацией кибератак на карте мира для начинающих.
+> Интерактивная образовательная платформа по **кибербезопасности** с визуализацией кибератак на карте мира для **начинающих**.
 
 ![CyberThreat Explorer](https://via.placeholder.com/1200x600/0f172a/3b82f6?text=CyberThreat+Explorer)
 
 ---
 
-## 📋 Project Description / Описание проекта
+## 📋 Описание проекта
 
-**EN**: CyberThreat Explorer visualizes cyberattacks on an interactive world map and explains them in simple terms. Educational project using D3.js.
+**CyberThreat Explorer** — образовательный веб-проект, который **визуализирует кибератаки** на интерактивной карте мира и объясняет их **простым языком**. Цель — сделать кибербезопасность **понятной** для всех.
 
-**RU**: CyberThreat Explorer визуализирует кибератаки на интерактивной карте мира и объясняет их простым языком. Образовательный проект на D3.js.
-
-### 🎯 Target Audience / Целевая аудитория
-- Beginners in cybersecurity
-- Students
-- Parents (child safety online)
-- Non-IT professionals
-- Начинающие
-- Студенты
-- Родители
-- Специалисты непрофильных областей
+### 🎯 Целевая аудитория
+- **Начинающие** — хотят понять основы
+- **Студенты** — изучают ИБ
+- **Родители** — защита детей онлайн
+- **Специалисты** — IT и не-IT
 
 ---
 
-## ✨ Features / Основные функции
+## ✨ Основные функции
 
-### 🌍 Interactive Attack Map / Интерактивная карта атак
-| Feature / Функция | Description / Описание |
-|-------------------|-----------------------|
-| Real-time visualization | D3.js world map with attack arrows |
-| Click for details | Attack info + protection tips |
-| Zoom/Pan | Mouse wheel + drag |
-| Filters | By type/country/sector |
-| Визуализация | Карта мира с D3.js |
-| Детали | По клику |
-| Масштаб | Колесико/кнопки |
+### 🌍 Интерактивная карта атак
+| Функция | Описание |
+|---------|----------|
+| Визуализация | Карта мира D3.js с атаками |
+| Детали | Клик — инфо + защита |
+| Масштаб/Перетаскивание | Мышь/колесико |
+| Фильтры | Тип/страна/сектор |
 
-### 📚 Glossary / Глоссарий
-- **77+ terms** (updated from about.html)
-- Searchable
-- 60+ терминов
+### 📚 Глоссарий
+- **77+ терминов** (из about.html)
+- Поиск, категории
 
-### 🎓 Learning Materials / Учебные материалы
-- **60+ articles** in `articles/` (TIB, pentesting, malware, phishing, etc.)
-- Quizzes/tests (2+)
-- 60+ статей
+### 🎓 Учебник
+- **60+ статей** в `articles/` (ТИБ, пентест, malware, фишинг...)
+- **2+ теста** для проверки
 
-### 📊 Statistics / Статистика
-- Live counters (attacks/sec)
-- Top sources/targets
+### 📊 Статистика
+- Счетчики атак/сек
+- Топ источники/цели
 
 ---
 
-## 📱 Pages / Страницы
-
-| Page / Страница | File / Файл | Description / Описание |
-|-----------------|-------------|-----------------------|
-| Home (News) | `index.html` | News + stats from SecurityLab.ru |
-| Attack Map | `cyberattackmap.html` | Interactive D3.js map |
-| About | `about.html` | Project info |
-| Glossary | `glossary.html` | Terms dictionary |
-| Learn | `learn.html` | Lessons + tests |
-| Article | `article.html` | MD article viewer |
-| Главная | `index.html` | Новости + статистика |
-| Карта | `cyberattackmap.html` | Интерактивная карта |
+## 📱 Страницы сайта
+| Страница | Файл | Описание |
+|----------|------|----------|
+| Главная (Новости) | `index.html` | Новости SecurityLab + статистика |
+| Карта атак | `cyberattackmap.html` | Интерактивная D3.js карта |
+| О проекте | `about.html` | Инфо о проекте |
+| Глоссарий | `glossary.html` | Словарь терминов |
+| Учебник | `learn.html` | Уроки + тесты |
+| Статья | `article.html` | Просмотр MD |
 
 ---
 
-## 🛠 Tech Stack / Технологии
+## 🛠 Технологии
 
 ```
 HTML5 • CSS3 • JavaScript ES6+
 D3.js v7 • TopoJSON
-Font Awesome 6 • Roboto (Google Fonts)
+Font Awesome 6 • Roboto
 ```
 
-**Full structure / Полная структура**:
+**Структура проекта**:
 ```
 .
-├── index.html              # Главная (новости)
-├── cyberattackmap.html     # Карта атак
+├── index.html              # Главная
+├── cyberattackmap.html     # Карта
 ├── about.html              # О проекте
 ├── glossary.html           # Глоссарий
 ├── learn.html              # Учебник
-├── article.html            # Шаблон статьи
-├── README.md               # Документация (обновлено)
-├── TODO.md                 # Прогресс задач
-├── articles/ (60+)         # Статьи: tib-*.md, advanced-*.md, etc.
+├── article.html            # Статья
+├── README.md               # Документация (RU)
+├── TODO.md                 # Задачи
+├── articles/ (60+)         # Статьи: tib-*.md, advanced-*.md
 ├── assets/
-│   ├── css/ (main.css, map-custom.css, news.css...)
-│   ├── js/ (mapRenderer_fixed.js, uiManager.js, app.js...)
+│   ├── css/ (main.css, map-custom.css...)
+│   ├── js/ (mapRenderer_fixed.js, uiManager.js...)
 │   ├── data/ (glossary.json, world-map.json)
 │   └── img/
 └── sitemap.xml, robots.txt
@@ -104,86 +87,73 @@ Font Awesome 6 • Roboto (Google Fonts)
 
 ---
 
-## 🚀 Quick Start / Быстрый запуск (Windows)
+## 🚀 Запуск (Windows)
 
 ```cmd
-# Открыть главную страницу
+# Открыть сайт
 start index.html
 
-# Или через Live Server (VSCode extension)
-# Нажать Go Live
-```
-
-**Python server** (if needed):
-```cmd
+# Сервер (опционально)
 cd "c:/Users/Admin/Desktop/нормальня версия сайта"
 python -m http.server 8000
 start http://localhost:8000
 ```
 
-**No dependencies / Без зависимостей** - pure frontend.
+**Без зависимостей** — чистый frontend.
 
 ---
 
-## 🎨 Attack Types / Типы атак
-
-| Type / Тип | Color / Цвет | Description / Описание |
-|------------|--------------|-----------------------|
-| DDoS | 🔴 Red | Denial of Service |
-| Phishing | 🟠 Orange | Social engineering |
-| Malware | 🟣 Purple | Viruses/trojans |
-| DDoS | 🔴 Красный | Отказ в обслуживании |
-| Фишинг | 🟠 Оранжевый | Соц. инженерия |
-
----
-
-## 📚 Topics / Темы (60+ articles)
-
-- TIB (Триада ИИК): Confidentiality, Integrity, Availability
-- Pentesting, OSINT, Phishing, Ransomware
-- Cloud/IoT/ICS Security
-- ТИБ, пентестинг, фишинг, ransomware
+## 🎨 Типы атак
+| Тип | Цвет | Описание |
+|-----|------|----------|
+| DDoS | 🔴 | Отказ в обслуживании |
+| Фишинг | 🟠 | Кража данных |
+| Malware | 🟣 | Вирусы/трояны |
+| SQLi | 🔵 | Инъекции |
+| XSS | 🟠 | Скриптинг |
 
 ---
 
-## 📱 Responsive / Адаптивность
+## 📚 Темы статей (60+)
+- **ТИБ** (Конфиденциальность, Целостность, Доступность)
+- Пентестинг, OSINT, Ransomware
+- Облака, IoT, ICS
+- Фишинг, пароли, VPN
 
-Works on Desktop/Tablet/Mobile (tested).
+---
+
+## 📱 Адаптивность
+Desktop/Tablet/Mobile — полностью responsive.
 
 ---
 
 ## 🔒 SEO
-
-- Meta tags, Open Graph, Schema.org
-- sitemap.xml, robots.txt
+Meta, Open Graph, sitemap.xml, robots.txt.
 
 ---
 
-## 📄 License
-
-MIT License.
-
----
-
-## 🤝 Contributing / Вклад
-
-1. Add articles to `articles/`
-2. Report issues
-3. Translate/enhance
-
-**Roadmap / Дорожная карта** (from about.html):
-- [x] Interactive map + glossary (77 terms)
-- [x] 60+ articles + 2 tests
-- [ ] Full course/tests expansion
-- [ ] New features (secret)
+## 📄 Лицензия
+MIT.
 
 ---
 
-## 🙏 Thanks / Благодарности
+## 🤝 Вклад
+- Добавить статьи в `articles/`
+- Issues/PR
+- Переводы/улучшения
 
-D3.js, Font Awesome, SecurityLab.ru (news source).
+**Дорожная карта** (из about.html):
+- [x] Карта + глоссарий (77 терминов)
+- [x] 60+ статей + тесты
+- [ ] Расширение тестов/курса
+- [ ] Новые фичи
+
+---
+
+## 🙏 Благодарности
+D3.js, Font Awesome, SecurityLab.ru (новости).
 
 **© 2026 CyberThreat Explorer** 🛡️
 
-*Updated: Accurate stats/structure for current version.*
+*Обновлено полностью на русском по запросу.*
 
