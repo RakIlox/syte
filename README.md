@@ -1,341 +1,189 @@
-# 🛡️ CyberThreat Explorer
+# 🛡️ CyberThreat Explorer / Исследователь Киберугроз
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](CHANGELOG.md)
+[![Русский](https://img.shields.io/badge/язык-Русский-orange.svg)](README.ru.md)
 
-> **CyberThreat Explorer** — интерактивная образовательная платформа по кибербезопасности с визуализацией кибератак на карте мира для начинающих.
+> **EN**: Interactive cybersecurity education platform with world cyberattack map visualization for beginners.
+> 
+> **RU**: Интерактивная образовательная платформа по кибербезопасности с визуализацией кибератак на карте мира для начинающих.
 
 ![CyberThreat Explorer](https://via.placeholder.com/1200x600/0f172a/3b82f6?text=CyberThreat+Explorer)
 
 ---
 
-## 📋 Описание проекта
+## 📋 Project Description / Описание проекта
 
-**CyberThreat Explorer** — это образовательный веб-проект, который визуализирует кибератаки на интерактивной карте мира и объясняет их простым языком. Цель проекта — сделать кибербезопасность понятной и доступной для всех, независимо от уровня подготовки.
+**EN**: CyberThreat Explorer visualizes cyberattacks on an interactive world map and explains them in simple terms. Educational project using D3.js.
 
-### 🎯 Целевая аудитория
+**RU**: CyberThreat Explorer визуализирует кибератаки на интерактивной карте мира и объясняет их простым языком. Образовательный проект на D3.js.
 
-- **Начинающие пользователи** — люди, которые хотят понять основы кибербезопасности
-- **Студенты** — изучающие информационную безопасность и смежные дисциплины
-- **Родители** — желающие защитить своих детей в цифровом пространстве
-- **Специалисты непрофильных областей** — все, кто интересуется технологиями и безопасностью
-
----
-
-## ✨ Основные функции
-
-### 🌍 Интерактивная карта атак
-
-| Функция | Описание |
-|---------|----------|
-| Визуализация в реальном времени | Отображение атак со всего мира с использованием D3.js |
-| Интерактивные элементы | Клик на атаку для просмотра подробной информации |
-| Масштабирование | Увеличение и уменьшение карты для детального просмотра |
-| Перетаскивание | Навигация по карте мышью или касанием |
-| Фильтрация | Отбор атак по типу, стране и сектору |
-
-### 📚 Глоссарий терминов
-
-- **60+ терминов** кибербезопасности
-- Категоризация по темам (атаки, защита, сети, криптография)
-- Подробные статьи с примерами
-- Поиск по ключевым словам
-- Интерактивные карточки терминов
-
-### 🎓 Учебные материалы
-
-- **50+ статей** по различным темам кибербезопасности
-- Уроки от основ до продвинутых тем
-- Практические рекомендации по защите
-- Чек-листы безопасности
-- Тесты для проверки знаний
-
-### 📊 Статистика
-
-- Общее количество атак
-- Активные атаки в реальном времени
-- Главные источники атак
-- Основные типы атак
-- Фильтры по странам и секторам
+### 🎯 Target Audience / Целевая аудитория
+- Beginners in cybersecurity
+- Students
+- Parents (child safety online)
+- Non-IT professionals
+- Начинающие
+- Студенты
+- Родители
+- Специалисты непрофильных областей
 
 ---
 
-## 📱 Страницы сайта
+## ✨ Features / Основные функции
 
-| Страница | Файл | Описание |
-|----------|------|----------|
-| Главная | `index.html` | Интерактивная карта атак и статистика |
-| Глоссарий | `glossary.html` | Интерактивный словарь терминов |
-| Учебник | `learn.html` | Обучающие материалы и тесты |
-| О проекте | `about.html` | Информация о проекте |
-| Статья | `article.html` | Шаблон для отображения статей |
+### 🌍 Interactive Attack Map / Интерактивная карта атак
+| Feature / Функция | Description / Описание |
+|-------------------|-----------------------|
+| Real-time visualization | D3.js world map with attack arrows |
+| Click for details | Attack info + protection tips |
+| Zoom/Pan | Mouse wheel + drag |
+| Filters | By type/country/sector |
+| Визуализация | Карта мира с D3.js |
+| Детали | По клику |
+| Масштаб | Колесико/кнопки |
+
+### 📚 Glossary / Глоссарий
+- **77+ terms** (updated from about.html)
+- Searchable
+- 60+ терминов
+
+### 🎓 Learning Materials / Учебные материалы
+- **60+ articles** in `articles/` (TIB, pentesting, malware, phishing, etc.)
+- Quizzes/tests (2+)
+- 60+ статей
+
+### 📊 Statistics / Статистика
+- Live counters (attacks/sec)
+- Top sources/targets
 
 ---
 
-## 🛠 Технологический стек
+## 📱 Pages / Страницы
 
-### Frontend
+| Page / Страница | File / Файл | Description / Описание |
+|-----------------|-------------|-----------------------|
+| Home (News) | `index.html` | News + stats from SecurityLab.ru |
+| Attack Map | `cyberattackmap.html` | Interactive D3.js map |
+| About | `about.html` | Project info |
+| Glossary | `glossary.html` | Terms dictionary |
+| Learn | `learn.html` | Lessons + tests |
+| Article | `article.html` | MD article viewer |
+| Главная | `index.html` | Новости + статистика |
+| Карта | `cyberattackmap.html` | Интерактивная карта |
 
-```
-HTML5          → Семантическая разметка
-CSS3           → Стилизация и адаптивность
-JavaScript ES6+→ Логика приложения
-D3.js v7       → Визуализация карты
-TopoJSON       → Географические данные
-```
+---
 
-### Внешние библиотеки
-
-| Библиотека | Версия | Назначение |
-|------------|--------|------------|
-| D3.js | v7 | 3D/2D визуализация карты |
-| Font Awesome | v6.4 | Иконки |
-| Google Fonts | — | Шрифт Roboto |
-
-### Структура проекта
+## 🛠 Tech Stack / Технологии
 
 ```
-CyberThreat Explorer/
-├── 📄 index.html              # Главная страница
-├── 📄 glossary.html           # Глоссарий терминов
-├── 📄 learn.html              # Учебник
-├── 📄 about.html              # О проекте
-├── 📄 article.html            # Шаблон статьи
-├── 📄 robots.txt              # Robots.txt
-├── 📄 sitemap.xml             # Карта сайта
-├── 📄 README.md               # Документация
-├── 📁 articles/               # Статьи учебника
-│   ├── tib-*.md              # ТИБ (триада ИИК)
-│   ├── advanced-*.md         # Продвинутые темы
-│   ├── security-*.md         # Безопасность
-│   └── *.md                  # Остальные статьи
-├── 📁 assets/
-│   ├── 📁 css/
-│   │   ├── main.css          # Основные стили
-│   │   └── map.css           # Стили карты
-│   ├── 📁 js/
-│   │   ├── app.js            # Главный модуль
-│   │   ├── mapRenderer.js    # Рендеринг карты
-│   │   ├── globeRenderer.js  # 3D глобус
-│   │   ├── dataHandler.js    # Обработка данных
-│   │   ├── uiManager.js      # UI компоненты
-│   │   ├── glossary.js       # Глоссарий
-│   │   ├── header.js         # Навигация
-│   │   ├── progressManager.js# Прогресс обучения
-│   │   ├── testModal.js      # Модальное окно теста
-│   │   └── chapter-tests.js  # Тесты по главам
-│   ├── 📁 data/
-│   │   ├── glossary.json     # Данные глоссария
-│   │   └── world-map.json    # Географические данные
-│   ├── 📁 img/
-│   │   ├── icons/            # Иконки
-│   │   ├── logos/            # Логотипы
-│   │   └── textures/         # Текстуры
-│   └── 📁 fonts/             # Локальные шрифты
-└── 📁 .git/                  # Git репозиторий
+HTML5 • CSS3 • JavaScript ES6+
+D3.js v7 • TopoJSON
+Font Awesome 6 • Roboto (Google Fonts)
+```
+
+**Full structure / Полная структура**:
+```
+.
+├── index.html              # Главная (новости)
+├── cyberattackmap.html     # Карта атак
+├── about.html              # О проекте
+├── glossary.html           # Глоссарий
+├── learn.html              # Учебник
+├── article.html            # Шаблон статьи
+├── README.md               # Документация (обновлено)
+├── TODO.md                 # Прогресс задач
+├── articles/ (60+)         # Статьи: tib-*.md, advanced-*.md, etc.
+├── assets/
+│   ├── css/ (main.css, map-custom.css, news.css...)
+│   ├── js/ (mapRenderer_fixed.js, uiManager.js, app.js...)
+│   ├── data/ (glossary.json, world-map.json)
+│   └── img/
+└── sitemap.xml, robots.txt
 ```
 
 ---
 
-## 🎨 Типы кибератак
+## 🚀 Quick Start / Быстрый запуск (Windows)
 
-Проект визуализирует следующие типы атак:
+```cmd
+# Открыть главную страницу
+start index.html
 
-| Тип атаки | Цвет | Описание |
-|-----------|------|----------|
-| **DDoS** | 🔴 Красный | Распределённая атака на отказ в обслуживании |
-| **Фишинг** | 🟠 Оранжевый | Кража данных через поддельные сайты/письма |
-| **Вредоносное ПО** | 🟣 Фиолетовый | Вирусы, трояны, шпионское ПО |
-| **SQL-инъекция** | 🔵 Голубой | Внедрение SQL-кода в запросы |
-| **XSS** | 🟠 Рыжий | Межсайтовый скриптинг |
-| **MITM** | 🟢 Зелёный | Атака "человек посередине" |
-| **Bruteforce** | 🩷 Розовый | Подбор паролей |
-
----
-
-## 📚 Темы учебника
-
-### Основы безопасности
-
-- 🔒 Введение в кибербезопасность
-- 🔐 Криптография и шифрование
-- 🔑 Пароли и аутентификация
-- 📱 Мобильная безопасность
-- 🌐 Безопасность Wi-Fi сетей
-
-### ТИБ (Триада ИИК)
-
-- 🔒 ТИБ — Конфиденциальность
-- 🔒 ТИБ — Целостность
-- 🔒 ТИБ — Доступность
-- 🔒 Модель нарушителя
-- 🔒 Политики безопасности
-- 🔒 Угрозы и уязвимости
-
-### Сетевая безопасность
-
-- 🌐 Сетевая безопасность
-- 📡 Мониторинг сетевой активности
-- 🛡️ Обнаружение и реагирование (EDR)
-- 🏢 Корпоративная безопасность (SOC)
-
-### Атаки и защита
-
-- 🎣 Фишинг и социальная инженерия
-- 🦠 Вредоносное ПО
-- 💉 SQL-инъекции
-- 🔓 Тестирование на проникновение
-- 🔍 Разведка и сбор информации
-- 💥 Эксплуатация уязвимостей
-- 🎯 Продвинутые угрозы (APT)
-
-### Специализированные темы
-
-- 🏭 Безопасность промышленных систем (ICS)
-- ☁️ Облачная безопасность
-- 📡 Безопасность IoT
-- 🎮 Безопасность игр
-- 👶 Безопасность детей в интернете
-- 📧 Безопасность электронной почты
-- 🔐 Криптовалютная безопасность
-
----
-
-## 🚀 Установка и запуск
-
-### Требования
-
-- Любой современный веб-браузер (Chrome, Firefox, Safari, Edge)
-- Локальный веб-сервер (рекомендуется) или直接 открыть файл
-
-### Запуск
-
-#### Вариант 1: Прямое открытие
-
-```bash
-# Откройте файл index.html в браузере
-xdg-open index.html  # Linux
-open index.html      # macOS
-start index.html     # Windows
+# Или через Live Server (VSCode extension)
+# Нажать Go Live
 ```
 
-#### Вариант 2: Локальный сервер (рекомендуется)
-
-```bash
-# Python 3
+**Python server** (if needed):
+```cmd
+cd "c:/Users/Admin/Desktop/нормальня версия сайта"
 python -m http.server 8000
-
-# Node.js (с npx)
-npx serve .
-
-# PHP
-php -S localhost:8000
+start http://localhost:8000
 ```
 
-#### Вариант 3: VS Code Live Server
-
-1. Установите расширение "Live Server"
-2. Нажмите "Go Live" в правом нижнем углу
+**No dependencies / Без зависимостей** - pure frontend.
 
 ---
 
-## 📱 Адаптивность
+## 🎨 Attack Types / Типы атак
 
-Проект полностью адаптивен и работает на всех устройствах:
-
-| Устройство | Размер экрана | Особенности |
-|------------|---------------|-------------|
-| Десктоп | >1024px | Полная функциональность |
-| Планшет | 768-1024px | Оптимизированная карта |
-| Мобильный | 480-768px | Мобильное меню |
-| Маленький мобильный | <480px | Упрощённый интерфейс |
-
----
-
-## 🎨 Дизайн и UI/UX
-
-### Цветовая палитра
-
-```css
---bg-primary:    #0f172a  /* Тёмно-синий фон */
---bg-secondary:  #1e293b  /* Вторичный фон */
---text-primary:  #f8fafc  /* Основной текст */
---text-secondary:#94a3b8  /* Вторичный текст */
---accent:        #3b82f6  /* Акцентный цвет */
---success:       #10b981  /* Успех */
---warning:       #f59e0b  /* Предупреждение */
---danger:        #ef4444  /* Опасность */
-```
-
-### Особенности UI
-
-- ✨ Тёмная тема для комфортного просмотра
-- 🌙 Плавные анимации и переходы
-- 📱 Мобильное меню свайп-типа
-- 🎯 Интерактивные подсказки
-- 📊 Анимированная статистика
-- 🎨 Glassmorphism элементы
+| Type / Тип | Color / Цвет | Description / Описание |
+|------------|--------------|-----------------------|
+| DDoS | 🔴 Red | Denial of Service |
+| Phishing | 🟠 Orange | Social engineering |
+| Malware | 🟣 Purple | Viruses/trojans |
+| DDoS | 🔴 Красный | Отказ в обслуживании |
+| Фишинг | 🟠 Оранжевый | Соц. инженерия |
 
 ---
 
-## 🔒 SEO и метаданные
+## 📚 Topics / Темы (60+ articles)
 
-Проект включает полную SEO-оптимизацию:
-
-- ✅ Семантическая разметка HTML5
-- ✅ Meta-теги для поисковых систем
-- ✅ Open Graph для социальных сетей
-- ✅ Twitter Cards
-- ✅ Schema.org JSON-LD
-- ✅ Канонические URL
-- ✅ Sitemap.xml
-- ✅ Robots.txt
+- TIB (Триада ИИК): Confidentiality, Integrity, Availability
+- Pentesting, OSINT, Phishing, Ransomware
+- Cloud/IoT/ICS Security
+- ТИБ, пентестинг, фишинг, ransomware
 
 ---
 
-## 📄 Лицензия
+## 📱 Responsive / Адаптивность
 
-Этот проект распространяется под лицензией MIT.
-
----
-
-## 🤝 Вклад в проект
-
-Мы приветствуем вклад в развитие проекта! Вы можете:
-
-1. 📝 Добавить новые статьи
-2. 🐛 Сообщить об ошибках
-3. 💡 Предложить новые функции
-4. 🌐 Перевести на другие языки
-5. 🎨 Улучшить дизайн
+Works on Desktop/Tablet/Mobile (tested).
 
 ---
 
-## 📞 Контакты
+## 🔒 SEO
 
-- **GitHub**: [CyberThreat Explorer](https://github.com)
-- **Email**: info@cyberexplorer.example
-
----
-
-## 🙏 Благодарности
-
-- [D3.js](https://d3js.org/) — замечательная библиотека визуализации
-- [Font Awesome](https://fontawesome.com/) — иконки
-- [Google Fonts](https://fonts.google.com/) — шрифт Roboto
-- [TopoJSON](https://github.com/topojson/topojson) — формат географических данных
+- Meta tags, Open Graph, Schema.org
+- sitemap.xml, robots.txt
 
 ---
 
-## 📈 Планы развития
+## 📄 License
 
-- [ ] Добавить 3D-глобус на WebGL
-- [ ] Реализовать режим реального времени
-- [ ] Добавить больше интерактивных тестов
-- [ ] Создать мобильное приложение
-- [ ] Добавить поддержку WebRTC для онлайн-статуса
+MIT License.
 
 ---
 
-**© 2026 CyberThreat Explorer** — Образовательный проект для начинающих 🛡️
+## 🤝 Contributing / Вклад
+
+1. Add articles to `articles/`
+2. Report issues
+3. Translate/enhance
+
+**Roadmap / Дорожная карта** (from about.html):
+- [x] Interactive map + glossary (77 terms)
+- [x] 60+ articles + 2 tests
+- [ ] Full course/tests expansion
+- [ ] New features (secret)
+
+---
+
+## 🙏 Thanks / Благодарности
+
+D3.js, Font Awesome, SecurityLab.ru (news source).
+
+**© 2026 CyberThreat Explorer** 🛡️
+
+*Updated: Accurate stats/structure for current version.*
 
