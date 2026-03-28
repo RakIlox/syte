@@ -154,6 +154,3 @@ MIT.
 D3.js, Font Awesome, SecurityLab.ru (новости).
 
 **© 2026 CyberThreat Explorer** 🛡️
-
-*Обновлено полностью на русском по запросу.*
-
