@@ -13,9 +13,9 @@ Disallow: /.git/
 Disallow: /README.md
 
 # Карта сайта
-Sitemap: https://ваш-сайт.ru/sitemap.xml
+Sitemap: https://rakilox.github.io/syte/sitemap.xml
 
 # дополнительные директивы
-Host: https://ваш-сайт.ru
+Host: https://rakilox.github.io/syte/
 Crawl-delay: 10
 
