@@ -11,12 +11,24 @@ body {
     color: #f8fafc;
     line-height: 1.6;
     min-height: 100vh;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+}
+
+:root {
+  --container-max-width: 1920px;
+  --container-padding: clamp(12px, 5vw, 24px);
+  --border-radius: clamp(8px, 2vw, 20px);
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --primary-blue: #3b82f6;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
 }
 
 .container {
-    max-width: 1920px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--container-padding);
 }
 
 /* ===== ШАПКА - ИСПРАВЛЕНО для мобильного меню ===== */
@@ -56,7 +68,7 @@ body {
 }
 
 .logo h1 {
-    font-size: 1.8rem;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
     font-weight: 700;
 }
 
@@ -2786,8 +2798,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    font-size: 2rem;
+    gap: clamp(10px, 2vw, 16px);
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
     color: #f8fafc;
     margin-bottom: 12px;
 }
