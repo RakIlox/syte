@@ -75,7 +75,6 @@ Font Awesome 6 • Roboto
 ├── learn.html              # Учебник
 ├── article.html            # Статья
 ├── README.md               # Документация (RU)
-├── TODO.md                 # Задачи
 ├── articles/ (60+)         # Статьи: tib-*.md, advanced-*.md
 ├── assets/
 │   ├── css/ (main.css, map-custom.css...)

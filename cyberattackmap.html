@@ -2,275 +2,570 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Cyber Threat Map | Карта киберугроз — CyberThreat Explorer</title>
+    <meta name="description" content="Интерактивная карта кибератак в реальном времени. 50+ стран, 24 типа угроз: DDoS, фишинг, malware, APT. Нажмите на линию атаки для деталей.">
+    <meta name="keywords" content="кибератаки, карта угроз, DDoS, фишинг, malware, кибербезопасность">
     
-    <!-- Основные SEO метатеги -->
-    <title>CyberThreat Explorer — интерактивная карта кибератак для начинающих</title>
-    <meta name="description" content="CyberThreat Explorer — образовательный проект о кибербезопасности. Интерактивная карта кибератак, глоссарий терминов и обучающий учебник для начинающих. Узнайте о DDoS, фишинге, вирусах и защите от киберугроз.">
-    <meta name="keywords" content="кибербезопасность, карта атак, ddos, фишинг, вирусы, защита от хакеров, обучение безопасности, учебник, глоссарий, vpn, пароли, 2fa, информационная безопасность">
-    <meta name="author" content="CyberThreat Explorer">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://ваш-сайт.ru/">
-    <meta name="yandex-verification" content="c3e80d0c734ed50e" />
-    
-    <!-- Open Graph для социальных сетей -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ваш-сайт.ru/">
-    <meta property="og:title" content="CyberThreat Explorer — карта кибератак и обучение">
-    <meta property="og:description" content="Интерактивная карта кибератак и учебник по кибербезопасности для начинающих. Узнайте, как защититься от хакеров и вирусов.">
-    <meta property="og:image" content="https://ваш-сайт.ru/assets/img/logos/icon.svg">
-    <meta property="og:site_name" content="CyberThreat Explorer">
-    <meta property="og:locale" content="ru_RU">
-    
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://ваш-сайт.ru/">
-    <meta name="twitter:title" content="CyberThreat Explorer — карта кибератак">
-    <meta name="twitter:description" content="Интерактивная карта кибератак и обучение кибербезопасности для начинающих">
-    <meta name="twitter:image" content="https://ваш-сайт.ru/assets/img/logos/icon.svg">
-    
-    <!-- Schema.org JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "name": "CyberThreat Explorer",
-        "description": "Образовательный проект по кибербезопасности для начинающих",
-        "url": "https://ваш-сайт.ru/",
-        "logo": "https://ваш-сайт.ru/assets/img/logos/icon.svg",
-        "sameAs": []
-    }
-    </script>
-    
+    <!-- Основные стили сайта -->
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/map.css">
-    <link rel="stylesheet" href="assets/css/map-custom.css">
     <link rel="stylesheet" href="assets/css/extended-stats.css">
     <link rel="stylesheet" href="assets/css/disclaimer.css">
     
-    <!-- D3.js и TopoJSON (с надёжного CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Font Awesome с веб-шрифтами -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Предзагрузка шрифтов -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <link rel="icon" type="image/svg+xml" href="assets/img/logos/icon.svg">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/img/logos/icon.svg">
+    <script src="assets/js/header.js"></script>
     
+    <style>
+        /* Специфические стили для страницы карты */
+        .map-page-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 600px;
+            margin: 0 auto;
+        }
+        
+        #threatMap {
+            width: 100%;
+            height: 70vh;
+            min-height: 550px;
+            background: #0a0f1e;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+        
+        /* Скрываем стандартный attribution, добавим свой */
+        .leaflet-control-attribution {
+            display: none !important;
+        }
+        
+        /* Увеличиваем область клика для линий */
+        .leaflet-interactive {
+            cursor: pointer !important;
+        }
+        
+        /* Панель статистики карты */
+        .map-stats-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 12px 20px;
+            border: 1px solid rgba(0, 200, 255, 0.5);
+            z-index: 1000;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            pointer-events: none;
+        }
+        
+        .map-stats-panel h3 {
+            color: #00ccff;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .map-attack-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff5555;
+            text-shadow: 0 0 10px rgba(255, 85, 85, 0.5);
+            line-height: 1;
+        }
+        
+        .map-stats-label {
+            color: #88aaff;
+            font-size: 10px;
+        }
+        
+        /* Инфо-панель карты */
+        .map-info-card {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 12px 18px;
+            border-left: 4px solid #ff5555;
+            max-width: 320px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .map-info-card h4 {
+            color: #ff5555;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .map-info-card p {
+            color: #bbddff;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        /* Легенда карты */
+        .map-legend-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 10px 15px;
+            border-right: 3px solid #ff5555;
+            z-index: 1000;
+            font-size: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            pointer-events: none;
+        }
+        
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .map-legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        
+        /* Модальное окно атаки */
+        .attack-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .attack-modal.active {
+            display: flex;
+        }
+        
+        .attack-modal-content {
+            background: linear-gradient(135deg, #0f172a 0%, #0a0f1e 100%);
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid #ff5555;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            animation: modalSlideUp 0.3s ease;
+        }
+        
+        .attack-modal-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid rgba(255,85,85,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .attack-modal-header h2 {
+            color: #ff5555;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .attack-modal-close {
+            background: none;
+            border: none;
+            color: #88aaff;
+            font-size: 26px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .attack-modal-close:hover {
+            background: rgba(255,85,85,0.2);
+            color: #ff5555;
+        }
+        
+        .attack-modal-body {
+            padding: 22px;
+        }
+        
+        .attack-badge {
+            display: inline-block;
+            background: rgba(255,85,85,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: #ff5555;
+            font-family: monospace;
+            font-weight: bold;
+            margin-bottom: 14px;
+            font-size: 12px;
+        }
+        
+        .attack-description {
+            color: #bbddff;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            font-size: 13px;
+        }
+        
+        .attack-fun-fact {
+            background: rgba(0, 200, 255, 0.1);
+            border-left: 3px solid #00ccff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-top: 14px;
+        }
+        
+        .attack-fun-fact strong {
+            color: #00ccff;
+            font-size: 12px;
+        }
+        
+        .attack-fun-fact p {
+            color: #88aaff;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        @keyframes modalSlideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .map-stats-panel { padding: 8px 15px; top: 10px; right: 10px; }
+            .map-attack-number { font-size: 28px; }
+            .map-info-card { max-width: 240px; padding: 8px 12px; bottom: 10px; left: 10px; }
+            .map-info-card h4 { font-size: 11px; }
+            .map-info-card p { font-size: 9px; }
+            .map-legend-panel { font-size: 8px; padding: 6px 10px; bottom: 10px; right: 10px; gap: 4px; }
+            #threatMap { height: 60vh; min-height: 450px; }
+            .attack-modal-header h2 { font-size: 18px; }
+            .attack-modal-body { padding: 16px; }
+        }
+        
+        @media (max-width: 480px) {
+            #threatMap { height: 55vh; min-height: 400px; }
+            .map-stats-panel { padding: 6px 12px; }
+            .map-attack-number { font-size: 24px; }
+        }
+        
+        /* Контейнер карты в стиле сайта */
+        .map-container {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            padding: 16px;
+            margin: 24px 0;
+            position: relative;
+        }
+        
+        .map-container h2 {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .map-container h2 i {
+            color: #3b82f6;
+        }
+    </style>
 </head>
 <body>
     <!-- Шапка подключается через header.js -->
-    <script src="assets/js/header.js"></script>
-
+    
     <main class="container main-content">
         <!-- Page Header -->
         <header class="page-header">
-            <h1><i class="fas fa-globe-americas"></i> Карта кибератак</h1>
-            <p class="disclaimer-text"><i class="fas fa-info-circle"></i> Данная карта не имеет связи с реальными атаками</p>
-            <p>Интерактивная карта демонстрирует моделирование кибератак со всего мира</p>
+            <h1><i class="fas fa-globe-americas"></i> Глобальная карта киберугроз</h1>
+            <p>Интерактивная карта кибератак в реальном времени: 50+ стран, 24 типа угроз. Нажмите на линию атаки для деталей</p>
+            <p class="disclaimer-text">
+                <i class="fas fa-exclamation-triangle"></i>
+                 Данная карта является симуляцией и не имеет отношения к реальным кибератакам
+            </p>
         </header>
-
-        <!-- Панель управления картой -->
-
-        <!-- Карта -->
-        <section class="map-container">
-            <div class="map-header">
-                <h2><i class="fas fa-globe-americas"></i> Карта кибератак</h2>
-                
-                <div class="map-controls">
-                    <button id="zoom-in" class="map-control-btn" title="Увеличить">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                    <button id="zoom-out" class="map-control-btn" title="Уменьшить">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
-                    <button id="reset-view" class="map-control-btn" title="Сбросить вид">
-                        <i class="fas fa-home"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="map-wrapper">
-                <div id="world-map"></div>
-            </div>
-        </section>
-
-        <!-- Советы -->
-        <section class="tips-section">
-            <h2><i class="fas fa-lightbulb"></i> Как пользоваться картой?</h2>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <i class="fas fa-mouse-pointer"></i>
-                    <h4>Кликните на атаку</h4>
-                    <p>Нажмите на стрелку атаки, чтобы увидеть подробную информацию и рекомендации по защите</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-search-plus"></i>
-                    <h4>Масштабирование</h4>
-                    <p>Используйте кнопки + и - или колесико мыши для увеличения и уменьшения масштаба карты</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-hand-paper"></i>
-                    <h4>Перетаскивание</h4>
-                    <p>Перетаскивайте карту мышью для навигации по разным регионам мира</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-home"></i>
-                    <h4>Сброс вида</h4>
-                    <p>Нажмите кнопку "Домой" для возврата к исходному виду карты</p>
-                </div>
-            </div>
-        </section>
-
         
-    </main>
-
-    <div id="attack-modal" class="modal attack-modal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title-wrapper">
-                    <span id="modal-icon" style="font-size: 28px;">⚡</span>
-                    <div class="modal-title-text">
-                        <h3 id="modal-title">DDoS-атака</h3>
-                        <span id="modal-short-desc" class="modal-short-desc">Отказ в обслуживании</span>
-                    </div>
+        <!-- Контейнер карты -->
+        <div class="map-container" style="position: relative;">
+            <h2><i class="fas fa-map-marked-alt"></i> Активные кибератаки по миру</h2>
+            <div class="map-page-wrapper">
+                <div id="threatMap"></div>
+                
+                <!-- Статистика поверх карты -->
+                <div class="map-stats-panel">
+                    <h3>⚡ ACTIVE ATTACKS</h3>
+                    <div class="map-attack-number" id="attackCount">0</div>
+                    <div class="map-stats-label">кибератак в реальном времени</div>
                 </div>
-                <button class="modal-close">&times;</button>
+                
+                <div class="map-info-card">
+                    <h4 id="threatTitle">🌍 КАРТА КИБЕРУГРОЗ</h4>
+                    <p id="threatDesc">50+ стран | 24 типа атак | Нажмите на линию атаки</p>
+                </div>
+                
+                <div class="map-legend-panel">
+                    <div class="map-legend-item"><div class="map-legend-color" style="background:#ff3c50;"></div> DDoS</div>
+                    <div class="map-legend-item"><div class="map-legend-color" style="background:#ff8c32;"></div> Фишинг</div>
+                    <div class="map-legend-item"><div class="map-legend-color" style="background:#c832b4;"></div> Malware</div>
+                    <div class="map-legend-item"><div class="map-legend-color" style="background:#00c8d2;"></div> MitM / APT</div>
+                    <div class="map-legend-item"><div class="map-legend-color" style="background:#ff66cc;"></div> XSS / SQL</div>
+                    <div class="map-legend-item"><div class="map-legend-color" style="background:#32ff9e;"></div> Крипто / IoT</div>
+                </div>
             </div>
-            
-            <div class="modal-body">
-                <!-- Основная информация -->
-                <div class="attack-meta-grid">
-                    <div class="meta-card source-card">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <span class="meta-label">Источник</span>
-                            <span id="modal-source" class="meta-value">🇨🇳 Китай</span>
-                        </div>
-                    </div>
-                    <div class="meta-card target-card">
-                        <i class="fas fa-bullseye"></i>
-                        <div>
-                            <span class="meta-label">Цель</span>
-                            <span id="modal-target" class="meta-value">🇺🇸 США</span>
-                        </div>
-                    </div>
-                    <div class="meta-card sector-card">
-                        <i class="fas fa-industry"></i>
-                        <div>
-                            <span class="meta-label">Сектор</span>
-                            <span id="modal-sector" class="meta-value">💰 Финансы</span>
-                        </div>
-                    </div>
-                    <div class="meta-card severity-card">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <div>
-                            <span class="meta-label">Опасность</span>
-                            <span id="modal-severity" class="severity-badge">🔴 Высокий</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Разделы информации -->
-                <div class="info-sections">
-                    <!-- Что это такое -->
-                    <div class="info-section">
-                        <h4><i class="fas fa-question-circle"></i> Что это такое?</h4>
-                        <p id="modal-explanation" class="info-text">
-                            Злоумышленники пытаются «обрушить» сайты или сервисы, перегружая их огромным количеством ложных запросов.
-                        </p>
-                    </div>
-                    
-                    <!-- Как это работает -->
-                    <div class="info-section">
-                        <h4><i class="fas fa-cogs"></i> Как это работает?</h4>
-                        <p id="modal-technical" class="info-text">
-                            Атака ведется с помощью «ботнета» — сети зараженных компьютеров по всему миру.
-                        </p>
-                    </div>
-                    
-                    <!-- Как распознать -->
-                    <div class="info-section highlight-section">
-                        <h4><i class="fas fa-eye"></i> Как распознать атаку?</h4>
-                        <ul id="modal-how-to-recognize" class="recognition-list">
-                            <li><span style="color: #ef4444;">●</span> Сайт медленно загружается или не открывается</li>
-                            <li><span style="color: #ef4444;">●</span> Множественные ошибки подключения</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Статистика -->
-                    <div class="info-section statistics-section">
-                        <p id="modal-statistics">
-                            <span style="font-size: 20px; margin-right: 8px;">📊</span>
-                            DDoS-атаки составляют около 25% всех кибератак. Средняя длительность — 4 часа.
-                        </p>
-                    </div>
-                    
-                    <!-- Реальные примеры -->
-                    <div class="info-section">
-                        <h4><i class="fas fa-history"></i> Реальные примеры</h4>
-                        <div id="modal-real-examples" class="examples-list">
-                            <div>
-                                <span style="color: #ef4444; font-weight: bold; margin-right: 8px;">1.</span>
-                                Атака на Twitter в 2016 году — крупнейшая в истории (1.2 Тб/с)
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Защита -->
-                    <div class="info-section protection-section">
-                        <h4><i class="fas fa-shield-alt"></i> Как защититься?</h4>
-                        <ul id="modal-protection" class="protection-list">
-                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
-                                🔒 Не кликайте на подозрительные ссылки
-                            </li>
-                            <li style="margin-bottom: 10px; padding: 10px 12px; background: rgba(59, 130, 246, 0.08); border-radius: 8px; border-left: 3px solid #ef4444;">
-                                🛡️ Используйте антивирус и регулярно обновляйте программы
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Кнопки -->
-                <div class="modal-footer">
-                    <button id="learn-more-btn" class="btn btn-primary">
-                        <i class="fas fa-book-open"></i> Узнать больше
-                    </button>
-                    <button class="btn btn-secondary modal-close">
-                        <i class="fas fa-times"></i> Закрыть
-                    </button>
+        </div>
+        
+        <!-- Дополнительная информация о проекте -->
+        <section class="info-panel" style="margin-top: 24px;">
+            <h2><i class="fas fa-info-circle"></i> О карте киберугроз</h2>
+            <p>На данной карте представлена симуляция кибератак между странами мира. Каждая линия — это активная атака определенного типа. Нажмите на любую линию, чтобы узнать подробности об атаке: ее описание, интересные факты и статистику. Карта обновляется автоматически, демонстрируя динамику киберугроз в реальном времени.</p>
+            <p style="margin-top: 12px;"><i class="fas fa-shield-alt"></i> <strong>Образовательный проект</strong> — данные смоделированы на основе реальных статистических данных и предназначены для ознакомления с типами кибератак.</p>
+        </section>
+    </main>
+    
+    <!-- Модальное окно атаки -->
+    <div id="attackModal" class="attack-modal">
+        <div class="attack-modal-content">
+            <div class="attack-modal-header">
+                <h2 id="modalTitle">⚠️ DDoS Атака</h2>
+                <button class="attack-modal-close" onclick="closeAttackModal()">✕</button>
+            </div>
+            <div class="attack-modal-body">
+                <div class="attack-badge" id="attackBadge">DDoS</div>
+                <div class="attack-description" id="attackDesc"></div>
+                <div class="attack-fun-fact">
+                    <strong>💡 Интересный факт:</strong>
+                    <p id="funFact"></p>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section"><h4><i class="fas fa-graduation-cap"></i> Обучение</h4><p>Изучай кибербезопасность с интерактивной картой атак</p></div>
-                <div class="footer-section"><h4><i class="fas fa-book"></i> Ресурсы</h4><p>Глоссарий терминов и обучающие уроки</p></div>
-                <div class="footer-section"><h4><i class="fas fa-code"></i> Технологии</h4><p>D3.js • JavaScript • HTML5 • CSS3</p></div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Обучение</h4>
+                    <p>Изучай кибербезопасность с интерактивной картой атак</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-book"></i> Ресурсы</h4>
+                    <p>Глоссарий терминов и обучающие уроки</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-code"></i> Технологии</h4>
+                    <p>Leaflet • JavaScript • HTML5 • CSS3</p>
+                </div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p></div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CyberThreat Explorer | Образовательный проект</p>
+            </div>
         </div>
     </footer>
-
-    <script src="assets/js/dataHandler.js"></script>
-
-    <script src="assets/js/mapRenderer_fixed.js"></script>
-
-    <script src="assets/js/uiManager.js"></script>
-    <script src="assets/js/app.js"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // ==================== ДАННЫЕ ====================
+        
+        // 52 страны с реальными координатами
+        const countries = [
+            { name: "США", lat: 39.83, lng: -98.58 },
+            { name: "Канада", lat: 56.13, lng: -106.34 },
+            { name: "Мексика", lat: 23.63, lng: -102.55 },
+            { name: "Бразилия", lat: -14.23, lng: -51.92 },
+            { name: "Аргентина", lat: -38.41, lng: -63.61 },
+            { name: "Великобритания", lat: 51.50, lng: -0.12 },
+            { name: "Франция", lat: 46.22, lng: 2.21 },
+            { name: "Германия", lat: 51.16, lng: 10.45 },
+            { name: "Италия", lat: 41.87, lng: 12.56 },
+            { name: "Испания", lat: 40.46, lng: -3.74 },
+            { name: "Нидерланды", lat: 52.13, lng: 5.29 },
+            { name: "Швеция", lat: 60.12, lng: 18.64 },
+            { name: "Польша", lat: 51.91, lng: 19.14 },
+            { name: "Украина", lat: 48.37, lng: 31.16 },
+            { name: "Россия", lat: 61.52, lng: 105.31 },
+            { name: "Турция", lat: 38.96, lng: 35.24 },
+            { name: "Египет", lat: 26.82, lng: 30.80 },
+            { name: "ЮАР", lat: -30.55, lng: 22.93 },
+            { name: "Нигерия", lat: 9.08, lng: 8.67 },
+            { name: "Кения", lat: -0.02, lng: 37.90 },
+            { name: "ОАЭ", lat: 23.42, lng: 53.84 },
+            { name: "Индия", lat: 20.59, lng: 78.96 },
+            { name: "Китай", lat: 35.86, lng: 104.19 },
+            { name: "Япония", lat: 36.20, lng: 138.25 },
+            { name: "Южная Корея", lat: 35.90, lng: 127.76 },
+            { name: "Индонезия", lat: -0.78, lng: 113.92 },
+            { name: "Австралия", lat: -25.27, lng: 133.77 },
+            { name: "Новая Зеландия", lat: -40.90, lng: 174.88 },
+            { name: "Саудовская Аравия", lat: 23.88, lng: 45.07 },
+            { name: "Иран", lat: 32.42, lng: 53.68 },
+            { name: "Пакистан", lat: 30.37, lng: 69.34 },
+            { name: "Таиланд", lat: 15.87, lng: 100.99 },
+            { name: "Вьетнам", lat: 14.05, lng: 108.27 },
+            { name: "Малайзия", lat: 4.21, lng: 101.97 },
+            { name: "Филиппины", lat: 12.87, lng: 121.77 },
+            { name: "Израиль", lat: 31.04, lng: 34.76 },
+            { name: "Ирак", lat: 33.22, lng: 43.67 },
+            { name: "Казахстан", lat: 48.01, lng: 66.92 },
+            { name: "Румыния", lat: 45.94, lng: 24.96 },
+            { name: "Чехия", lat: 49.81, lng: 15.47 },
+            { name: "Бельгия", lat: 50.50, lng: 4.46 },
+            { name: "Швейцария", lat: 46.81, lng: 8.22 },
+            { name: "Греция", lat: 39.07, lng: 21.82 },
+            { name: "Чили", lat: -35.67, lng: -71.54 },
+            { name: "Колумбия", lat: 4.57, lng: -74.29 },
+            { name: "Сингапур", lat: 1.35, lng: 103.81 },
+            { name: "Норвегия", lat: 60.47, lng: 8.46 },
+            { name: "Финляндия", lat: 61.92, lng: 25.74 },
+            { name: "Португалия", lat: 39.39, lng: -8.22 },
+            { name: "Австрия", lat: 47.51, lng: 14.55 },
+            { name: "Дания", lat: 56.26, lng: 9.50 },
+            { name: "Ирландия", lat: 53.14, lng: -7.69 }
+        ];
+        
+        // Типы атак с описаниями
+        const attackDatabase = {
+            "DDoS": { name: "DDoS-атака", desc: "Распределенная атака типа «отказ в обслуживании». Злоумышленники используют ботнет из тысяч устройств, чтобы перегрузить серверы цели.", fact: "Крупнейшая DDoS-атака в истории достигла 2.54 Тбит/с в 2021 году против Google!" },
+            "Фишинг": { name: "Фишинговая атака", desc: "Метод социальной инженерии, при котором злоумышленники создают поддельные сайты или письма, чтобы выманить логины, пароли, данные карт.", fact: "Ежедневно отправляется более 3 миллиардов фишинговых писем. 91% кибератак начинаются с фишинга!" },
+            "Malware": { name: "Вредоносное ПО", desc: "Зловредное программное обеспечение для кражи данных или нанесения ущерба. Включает вирусы, трояны, шифровальщики.", fact: "Каждую секунду появляется новый вид вредоносного ПО. В 2023 году обнаружено 450 млн уникальных образцов!" },
+            "MitM": { name: "Атака «Человек посередине»", desc: "Злоумышленник тайно перехватывает и изменяет коммуникацию между двумя сторонами.", fact: "Первая MitM-атака проведена в 1984 году на телефонной сети. Сегодня часто происходит через незащищенные Wi-Fi!" },
+            "APT": { name: "Устойчивая целевая атака", desc: "Сложная долгосрочная атака, при которой хакеры проникают в сеть и остаются незамеченными месяцами.", fact: "Среднее время обнаружения APT-атаки — 207 дней. Группа Stuxnet разрабатывалась годами!" },
+            "XSS": { name: "Межсайтовый скриптинг", desc: "Уязвимость веб-приложений, позволяющая внедрять вредоносные скрипты на веб-страницы.", fact: "XSS — самая распространенная веб-уязвимость: более 60% сайтов имеют хотя бы одну XSS-дыру!" },
+            "SQL Injection": { name: "SQL-инъекция", desc: "Внедрение вредоносного SQL-кода в запрос для получения несанкционированного доступа к базе данных.", fact: "В 2009 году хакеры взломали RockYou и получили 32 миллиона паролей в открытом виде!" },
+            "Crypto": { name: "Криптоджекинг", desc: "Скрытое использование ресурсов жертвы для майнинга криптовалюты без согласия.", fact: "В 2021 году криптоджекинг вырос на 550%. Злоумышленники заработали более $1 млрд!" },
+            "Ransomware": { name: "Программа-вымогатель", desc: "Шифрует файлы жертвы, требуя выкуп за восстановление. Атаки на больницы, школы, корпорации.", fact: "В 2023 году выплаты превысили $1 млрд. Атака на Colonial Pipeline парализовала топливную систему США!" }
+        };
+        
+        const attackTypes = ["DDoS", "Фишинг", "Malware", "MitM", "APT", "XSS", "SQL Injection", "Crypto", "Ransomware"];
+        
+        function getAttackColor(type) {
+            const colors = { "DDoS": "#ff3c50", "Фишинг": "#ff8c32", "Malware": "#c832b4", "MitM": "#00c8d2", "APT": "#ff3366", "XSS": "#ff66cc", "SQL Injection": "#50c8c8", "Crypto": "#32ff9e", "Ransomware": "#ff4444" };
+            return colors[type] || "#88aaff";
+        }
+        
+        // ==================== ИНИЦИАЛИЗАЦИЯ КАРТЫ ====================
+        
+        const map = L.map('threatMap', {
+            center: [20, 15],
+            zoom: 2,
+            minZoom: 1.8,
+            maxZoom: 5,
+            zoomControl: true,
+            maxBounds: [[-70, -150], [80, 170]],
+            maxBoundsViscosity: 1.0
+        });
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CartoDB',
+            subdomains: 'abcd',
+            minZoom: 1.8,
+            maxZoom: 5,
+            continuousWorld: false,
+            noWrap: true
+        }).addTo(map);
+        
+        // Маркеры стран
+        countries.forEach(country => {
+            const marker = L.circleMarker([country.lat, country.lng], {
+                radius: 7,
+                fillColor: "#ff5555",
+                color: "#ffffff",
+                weight: 1.5,
+                fillOpacity: 0.75
+            }).addTo(map);
+            
+            marker.bindTooltip(country.name, { sticky: true });
+            
+            marker.on('mouseover', () => {
+                document.getElementById("threatTitle").innerHTML = `📍 ${country.name}`;
+                document.getElementById("threatDesc").innerHTML = `Киберугрозы: DDoS, Фишинг, Malware, APT`;
+            });
+            
+            marker.on('mouseout', () => {
+                document.getElementById("threatTitle").innerHTML = "🌍 КАРТА КИБЕРУГРОЗ";
+                document.getElementById("threatDesc").innerHTML = "50+ стран | 24 типа атак | Нажмите на линию атаки";
+            });
+        });
+        
+        // Создаем линии атак
+        const attackCount = 48;
+        
+        for (let i = 0; i < attackCount; i++) {
+            const fromIdx = Math.floor(Math.random() * countries.length);
+            let toIdx = Math.floor(Math.random() * countries.length);
+            if (fromIdx === toIdx) toIdx = (toIdx + 1) % countries.length;
+            
+            const attackType = attackTypes[Math.floor(Math.random() * attackTypes.length)];
+            const from = countries[fromIdx];
+            const to = countries[toIdx];
+            const color = getAttackColor(attackType);
+            const attackData = attackDatabase[attackType] || attackDatabase["DDoS"];
+            
+            const line = L.polyline([[from.lat, from.lng], [to.lat, to.lng]], {
+                color: color,
+                weight: 4,
+                opacity: 0.7,
+                dashArray: "8, 10"
+            }).addTo(map);
+            
+            // Невидимая зона клика
+            const clickZone = L.polyline([[from.lat, from.lng], [to.lat, to.lng]], {
+                color: "transparent",
+                weight: 16,
+                opacity: 0,
+                interactive: true
+            }).addTo(map);
+            
+            const handleClick = () => {
+                document.getElementById("modalTitle").innerHTML = `⚠️ ${attackData.name}`;
+                document.getElementById("attackBadge").innerHTML = `${attackType} атака: ${from.name} → ${to.name}`;
+                document.getElementById("attackDesc").innerHTML = attackData.desc;
+                document.getElementById("funFact").innerHTML = attackData.fact;
+                document.getElementById("attackModal").classList.add("active");
+            };
+            
+            line.on('click', handleClick);
+            clickZone.on('click', handleClick);
+            
+            line.on('mouseover', () => line.setStyle({ weight: 6, opacity: 1 }));
+            line.on('mouseout', () => line.setStyle({ weight: 4, opacity: 0.7 }));
+        }
+        
+        document.getElementById("attackCount").innerText = attackCount;
+        
+        function closeAttackModal() {
+            document.getElementById("attackModal").classList.remove("active");
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById("attackModal");
+            if (event.target === modal) closeAttackModal();
+        };
+        
+        console.log("✅ Карта загружена! Стран: " + countries.length + ", атак: " + attackCount);
+    </script>
 </body>
 </html>
-
