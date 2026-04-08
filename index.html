@@ -84,124 +84,67 @@
             </div>
         </section>
 
-        <!-- Последние новости -->
-        <section class="news-section info-panel">
-            <h2><i class="fas fa-newspaper"></i> Новости от SecurityLab</h2>
-            <p class="news-source">Источник: <a href="https://www.securitylab.ru/news/" target="_blank" rel="noopener">securitylab.ru</a></p>
+<section class="info-panel">
+    <h2><i class="fas fa-newspaper"></i> Новости кибербезопасности (Xakep)</h2>
+    <div id="news-container">
+        <div id="news-list">Загрузка новостей...</div>
+    </div>
+</section>
+
+<script>
+    // Только Xakep
+    const rssUrl = 'https://xakep.ru/feed/';
+    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+    function loadNews() {
+        fetch(proxyUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    displayNews(data.items);
+                } else {
+                    document.getElementById('news-list').innerHTML = 
+                        '<p style="color: #d32f2f;">❌ Не удалось загрузить новости. Попробуйте обновить страницу позже.</p>';
+                }
+            })
+            .catch(() => {
+                document.getElementById('news-list').innerHTML = 
+                    '<p style="color: #d32f2f;">❌ Ошибка соединения. Пожалуйста, обновите страницу.</p>';
+            });
+    }
+
+    function displayNews(items) {
+        const container = document.getElementById('news-list');
+        container.innerHTML = '<div class="news-grid">'; 
+        
+        items.slice(0, 6).forEach(item => {
+            let date = new Date(item.pubDate);
+            let formattedDate = date.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
             
-            <div class="news-grid">
-                <!-- Реальная новость 1: Cisco ASA vulnerability (based on real SecurityLab articles) -->
-                <article class="news-card" data-news-id="cisco-asa-cve">
+            let description = item.description ? item.description.replace(/<[^>]*>/g, '') : '';
+            description = description.length > 200 ? description.substring(0, 200) + '...' : description;
+            
+            container.innerHTML += `
+                <article class="news-card">
                     <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 22 октября 2024
+                        <i class="fas fa-calendar-alt"></i> ${formattedDate}
                     </div>
-                    <h3>Критическая уязвимость в Cisco ASA позволяет выполнить код удалённо</h3>
-                    <p>Cisco выпустила патчи для ASA/FTD с CVE-2024-20401 (CVSS 10.0). Атака без аутентификации через HTTP.</p>
-                    <div class="news-tags">
-                        <span class="news-tag vulnerability"><i class="fas fa-bug"></i> Уязвимость</span>
-                        <span class="news-tag critical"><i class="fas fa-exclamation-triangle"></i> Критическая</span>
-                        <span class="news-tag cisco"><i class="fas fa-server"></i> Cisco</span>
-                    </div>
-                </article>
+                    <h3><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h3>
+                    <p>${description}</p>
 
-                <!-- Реальная новость 2: LockBit ransomware -->
-                <article class="news-card" data-news-id="lockbit-ransomware">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 21 октября 2024
-                    </div>
-                    <h3>LockBit 3.0 атакует крупные компании через уязвимости в VPN</h3>
-                    <p>LockBit использует CVE в Pulse Secure VPN для начального доступа. Зафиксированы атаки на банки и энергетику.</p>
-                    <div class="news-tags">
-                        <span class="news-tag ransomware"><i class="fas fa-lock"></i> Ransomware</span>
-                        <span class="news-tag apt"><i class="fas fa-user-secret"></i> APT</span>
-                        <span class="news-tag vpn"><i class="fas fa-shield-alt"></i> VPN</span>
-                    </div>
                 </article>
+            `;
+        });
+        container.innerHTML += '</div><p class="news-source"><a href="https://xakep.ru/" target="_blank" rel="noopener">Xakep.ru</a></p>';
+    }
 
-                <!-- Реальная новость 3: Google Chrome zero-day -->
-                <article class="news-card" data-news-id="chrome-zero-day">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 20 октября 2024
-                    </div>
-                    <h3>Google устраняет zero-day в Chrome (CVE-2024-9852), используемую в атаках</h3>
-                    <p>V8 engine use-after-free. Активно эксплуатируется в диктата-серверах. Рекомендуется обновление.</p>
-                    <div class="news-tags">
-                        <span class="news-tag zeroday"><i class="fas fa-bolt"></i> 0-day</span>
-                        <span class="news-tag browser"><i class="fas fa-chrome"></i> Chrome</span>
-                        <span class="news-tag patch"><i class="fas fa-download"></i> Патч</span>
-                    </div>
-                </article>
-
-                <!-- Реальная новость 4: Microsoft Patch Tuesday -->
-                <article class="news-card" data-news-id="ms-patch-tuesday">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 8 октября 2024
-                    </div>
-                    <h3>Microsoft Patch Tuesday: 63 уязвимости, включая 5 критических</h3>
-                    <p>В т.ч. RCE в Office, SMB, .NET. Активно эксплуатируемые CVE в Windows Server.</p>
-                    <div class="news-tags">
-                        <span class="news-tag microsoft"><i class="fab fa-microsoft"></i> Microsoft</span>
-                        <span class="news-tag vulnerability"><i class="fas fa-bug"></i> Уязвимости</span>
-                        <span class="news-tag patch"><i class="fas fa-download"></i> Патчи</span>
-                    </div>
-                </article>
-
-                <!-- Реальная новость 5: APT28 attacks -->
-                <article class="news-card" data-news-id="apt28-attacks">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 18 октября 2024
-                    </div>
-                    <h3>APT28 (Fancy Bear) атакует через фишинг украинские организации</h3>
-                    <p>Российская группировка использует PowerShell-импланты. Цель - правительственные сети.</p>
-                    <div class="news-tags">
-                        <span class="news-tag apt"><i class="fas fa-user-secret"></i> APT</span>
-                        <span class="news-tag phishing"><i class="fas fa-fish"></i> Фишинг</span>
-                        <span class="news-tag russia"><i class="fas fa-flag"></i> Россия</span>
-                    </div>
-                </article>
-
-                <!-- Реальная новость 6: Ivanti zero-day -->
-                <article class="news-card" data-news-id="ivanti-zero-day">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 16 октября 2024
-                    </div>
-                    <h3>Ivanti подтвердила zero-day в EPMM, используемый китайскими хакерами</h3>
-                    <p>CVE-2024-21979 (SQL injection). Атакованы американские и европейские компании.</p>
-                    <div class="news-tag critical"><i class="fas fa-exclamation-triangle"></i> Critical</span>
-                        <span class="news-tag china"><i class="fas fa-dragon"></i> Китай</span>
-                        <span class="news-tag ivanti"><i class="fas fa-server"></i> Ivanti</span>
-                    </div>
-                </article>
-
-                <!-- Реальная новость 7: Data breach -->
-                <article class="news-card" data-news-id="national-public-data-breach">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 15 октября 2024
-                    </div>
-                    <h3>Утечка 2.9 млрд записей из National Public Data</h3>
-                    <p>Кража SSN, адресов, телефонов US граждан. База продана на хакерских форумах.</p>
-                    <div class="news-tags">
-                        <span class="news-tag databreach"><i class="fas fa-database"></i> Утечка</span>
-                        <span class="news-tag usa"><i class="fas fa-landmark"></i> США</span>
-                        <span class="news-tag massive"><i class="fas fa-users"></i> Масштабная</span>
-                    </div>
-                </article>
-
-                <!-- Реальная новость 8: Android malware -->
-                <article class="news-card" data-news-id="android-spyware">
-                    <div class="news-date">
-                        <i class="fas fa-calendar-alt"></i> 14 октября 2024
-                    </div>
-                    <h3>Google удалил 15 шпионских приложений из Play Store</h3>
-                    <p>Приложения с RAT крадут SMS, контакты. Более 200k установок.</p>
-                    <div class="news-tags">
-                        <span class="news-tag android"><i class="fab fa-android"></i> Android</span>
-                        <span class="news-tag spyware"><i class="fas fa-eye"></i> Spyware</span>
-                        <span class="news-tag googleplay"><i class="fab fa-google-play"></i> Play Store</span>
-                    </div>
-                </article>
-            </div>
-        </section>
+    // Запускаем загрузку
+    loadNews();
+</script>
 
         <!-- Полезные ресурсы -->
         <section class="resources-section">
@@ -230,33 +173,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Модальное окно для подробностей новостей (Шаг 2 TODO.md) -->
-    <div id="news-detail-modal" class="news-modal">
-        <div class="news-modal-overlay">
-            <div class="news-modal-content">
-                <div class="news-modal-header">
-                    <h3 id="news-detail-title"><i class="fas fa-newspaper"></i> Подробности новости</h3>
-                    <button class="news-modal-close" onclick="closeNewsDetail()" aria-label="Закрыть">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="news-modal-body">
-                    <div id="news-detail-meta" class="news-meta">
-                        <div id="news-detail-date"></div>
-                        <div id="news-detail-source"></div>
-                    </div>
-                    <div id="news-detail-tags" class="news-tags"></div>
-                    <div id="news-detail-content" class="news-content"></div>
-                </div>
-                <div class="news-modal-footer">
-                    <a href="https://www.securitylab.ru/news/" target="_blank" class="btn btn-primary" rel="noopener">
-                        <i class="fas fa-external-link-alt"></i> Все новости SecurityLab
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <footer class="main-footer">
         <div class="container">

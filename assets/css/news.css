@@ -48,8 +48,9 @@
     gap: 8px;
 }
 
-.news-card h3 {
-    color: #f8fafc;
+.news-card h3,
+.news-card h3 a {
+    color: #e2e8f0;
     font-size: 1.15rem;
     line-height: 1.4;
     margin-bottom: 12px;
