@@ -833,19 +833,26 @@ class Glossary {
     initModal() {
         if (!this.modal) return;
 
-        const closeBtn = this.modal.querySelector('.modal-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => this.closeModal());
-        }
+        // Обработчики для ВСЕХ кнопок .modal-close (× и "Закрыть")
+        this.modal.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.closeModal();
+            });
+        });
 
+        // Закрытие по клику на фон модалки
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) {
                 this.closeModal();
             }
         });
 
+        // Закрытие по Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+                e.preventDefault();
                 this.closeModal();
             }
         });
@@ -892,9 +899,11 @@ class Glossary {
     }
 
     closeModal() {
-        this.modal.classList.remove('active');
-        document.body.style.overflow = '';
-        this.currentTerm = null;
+        if (this.modal && this.modal.classList.contains('active')) {
+            this.modal.classList.remove('active');
+            document.body.style.overflow = '';
+            this.currentTerm = null;
+        }
     }
 
     filterGlossary(searchTerm) {
