@@ -49,8 +49,13 @@
 }
 
 .news-card h3,
-.news-card h3 a {
-    color: #e2e8f0;
+.news-card h3,
+.news-card h3 a,
+.news-card h3 a:link,
+.news-card h3 a:visited,
+.news-card h3 a:hover,
+.news-card h3 a:active {
+    color: #cbd5e1 !important;
     font-size: 1.15rem;
     line-height: 1.4;
     margin-bottom: 12px;
