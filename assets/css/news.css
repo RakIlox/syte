@@ -4,29 +4,30 @@
 .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 24px;
+    gap: 40px;
 }
 
 @media (max-width: 900px) {
     .news-grid {
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 20px;
+        gap: 32px;
     }
 }
 
 @media (max-width: 700px) {
     .news-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 28px;
     }
 }
 
-/* Карточка новости */
+ /* Карточка новости */
 .news-card {
     background: rgba(30, 41, 59, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 24px;
+    margin-bottom: 1rem;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
