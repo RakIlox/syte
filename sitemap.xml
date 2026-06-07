@@ -10,7 +10,7 @@
         <priority>1.0</priority>
     </url>
 
-    <!-- карта атак-->
+    <!-- Карта атак -->
      <url>
         <loc>https://rakilox.github.io/syte/cyberattackmap.html</loc>
         <lastmod>2025-01-19</lastmod>
@@ -37,6 +37,14 @@
     <!-- О проекте -->
     <url>
         <loc>https://rakilox.github.io/syte/about.html</loc>
+        <lastmod>2025-01-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Крупные группировки -->
+    <url>
+        <loc>https://rakilox.github.io/syte/major-attacks.html</loc>
         <lastmod>2025-01-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
